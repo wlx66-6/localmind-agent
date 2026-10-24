@@ -1,0 +1,14 @@
+# Normalize text files to LF in the repo; the app also runs in Linux containers.
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.gguf binary
+*.safetensors binary
+*.onnx binary
+*.pt binary
+*.pth binary

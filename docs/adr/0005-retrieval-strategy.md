@@ -10,7 +10,7 @@
 
 ## 决策
 
-1. **召回**：Qdrant 中同时存 dense（bge-m3）与 sparse（BM25）向量。
+1. **召回**：Qdrant 中同时存 dense（bge-m3）与 sparse（中文 BM25）向量。
 2. **融合**：两路各取 top-N（N 可配，默认 20），用 RRF（Reciprocal Rank Fusion）融合。
 3. **重排**：对融合后的 top-20 用 `bge-reranker-v2-m3` 重排，取 top-5 作为上下文。
 4. **拒答**：同时看 rerank 分数与上下文覆盖度；低于阈值时不调用生成模型，直接返回"资料中未找到"，并提示可补充的方向。
@@ -25,6 +25,21 @@
 | **混合 + RRF + rerank（选择）** | 兼顾精确与语义；有明确的工程叙事与可调参数；代价是多一个 rerank 模型与延迟。 |
 | Elasticsearch/OpenSearch 混合 | 成熟、可扩展；但对 1k～5k 单机规模过重，运维成本高。 |
 | 不做 rerank | 省显存与延迟；引用准确率与"检索深度"亮点明显变弱。 |
+
+## 阶段 0 验证发现：中文 BM25 不能用 FastEmbed
+
+FastEmbed 的 `Qdrant/bm25` 分词器不具备中文分词能力。实测：
+
+| 输入 | 产出 token 数 |
+| --- | --- |
+| `混合检索结合向量与关键词` | **1** |
+| `hybrid retrieval combines dense and sparse` | 5 |
+
+中文整句会退化成单个 `[UNK]` 项，BM25 的精确匹配优势在中文语料上完全失效。
+
+因此稀疏向量改为**自建**：`jieba` 分词 → 去停用词与标点 → 词频作 value → CRC32 哈希为 uint32 index；写入 Qdrant 时开启 `Modifier.IDF`，由服务端按集合统计计算 IDF。既不引入额外模型或服务，也保留了"精确词命中"的能力。
+
+代价：分词质量依赖 jieba 词典；哈希有极低碰撞概率；停用词表需自己维护。阶段 2 用评测集对比"jieba 词级"与"字符 bigram"两种切分。
 
 ## 后果
 

@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-- **当前阶段**：阶段 0 · 技术验证（待技术选型确认）
+- **当前阶段**：阶段 0 · 技术验证（已完成，待确认收尾）
 - **最近更新**：2026-10-24
 - **仓库**：`git@github.com:wlx66-6/localmind-agent.git`（私有）
 
@@ -16,6 +16,20 @@
 - 第 3 步 · 阶段规划（方案 A · 价值前置，已选定）
 - 仓库初始化：`git init`、`.gitignore`、`CLAUDE.md`、`docs/agents/*`
 - GitHub：`gh` 登录、五个 triage 标签、`origin` SSH、首次 commit 已推送
+
+## 阶段 0 进展
+
+- [x] 技术选型确认（后端 / 前端 / 向量库 / 本地推理 / 模型 / 云端 / 解析）
+- [x] `docs/adr/0001`～`0005`
+- [x] Python 3.12 安装、项目 `.venv`
+- [x] Ollama 指向 `D:\dev\models`，`qwen3.5:4b` 下载完成
+- [x] Qdrant 容器启动（`127.0.0.1:6333`）
+- [x] `bge-m3` 下载完成（首个 blob 损坏，已按 SHA256 重新下载并校验通过；语义相似度自检正常）
+- [x] CUDA torch 2.11.0+cu128（sm_120 可用）+ sentence-transformers / qdrant-client / jieba
+- [x] `BAAI/bge-reranker-v2-m3` 下载并 SHA256 校验
+- [x] 运行 `scripts/spike_stage0.py`，生成报告（`docs/spikes/stage0-report.json`）
+- [x] 阶段 0 验收记录（`docs/spikes/stage0-acceptance.md`）
+- [x] 发现并修正：FastEmbed BM25 不支持中文 → jieba + Qdrant IDF（ADR-0005）
 
 ## 正式阶段计划（方案 A · 价值前置）
 
@@ -86,18 +100,24 @@
 | 拒答 | 严格：无依据不答 |
 | 验收指标 | Recall@5 ≥ 0.8、引用准确率 ≥ 90%、云端首 token < 2s、本地 < 5s、断网可答、CI 全绿 |
 | Issue tracker | GitHub Issues（`wlx66-6/localmind-agent`） |
+| 后端 | Python 3.12 + FastAPI |
+| 前端 | React + Vite + TypeScript |
+| 向量库 | Qdrant（Docker，仅 localhost） |
+| 本地推理 | Ollama + `qwen3.5:4b`（Q4_K_M，关闭 thinking） |
+| 嵌入 / 稀疏 | `bge-m3`（dense）+ FastEmbed BM25（sparse） |
+| Rerank | `BAAI/bge-reranker-v2-m3` |
+| 云端 | DeepSeek（OpenAI 兼容，薄抽象可插拔） |
+| 解析 | PyMuPDF + python-docx；OCR 不纳入首版 |
+| 模型目录 | `D:\dev\models`（Ollama）、`D:\dev\models\huggingface`（HF） |
 
 ## 未决问题
 
-1. 后端语言/框架。
-2. 前端框架与 UI 方案。
-3. 向量库/存储。
-4. 本地推理服务（Ollama / llama.cpp）。
-5. 嵌入模型与 rerank 模型。
-6. 云端模型供应商与密钥（需单独授权）。
-7. 文档解析方案；是否支持扫描版 PDF 的 OCR。
-8. 演示语料：公开示例 vs 仅本地资料。
+1. DeepSeek API 密钥（云端模式需要；需单独授权并写入 `.env`）。
+2. 演示语料：公开示例 vs 仅本地资料。
+3. 扫描版 PDF 的 OCR 是否在阶段 5 纳入（首版不纳入）。
+4. ~~阶段 0 spike 的显存共存策略~~ → 实测三模型可共存（7.6 / 8.15 GB），默认常驻；阶段 2 压测最坏情况后再决定 rerank 是否按需卸载。
 
 ## 更新日志
 
 - **2026-10-24**：完成第 0～3 步；初始化仓库并推送首次 commit；选定方案 A；创建 `PROGRESS.md`。
+- **2026-10-24**：阶段 0 spike 通过。本地三模型跑通（首 token 0.26～0.38s、79 tok/s、显存 7.6/8.15GB）；Qdrant 混合检索可用；发现 FastEmbed BM25 中文失效并改为 jieba + IDF；验收记录见 `docs/spikes/stage0-acceptance.md`。

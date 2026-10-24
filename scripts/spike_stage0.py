@@ -15,10 +15,19 @@ import json
 import os
 import subprocess
 import time
+import zlib
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
 import httpx
+
+# FastEmbed 自带的 Qdrant/bm25 对中文几乎不分词（整段中文会退化成 1 个 token），
+# 因此这里用 jieba 分词 + 哈希索引自建稀疏向量，IDF 交给 Qdrant 服务端计算。
+STOPWORDS = {
+    "的", "了", "和", "与", "及", "或", "是", "在", "对", "为", "把", "被", "就",
+    "都", "而", "等", "这", "那", "有", "也", "一个", "一种", "我们", "你", "我",
+}
 
 OLLAMA = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
 QDRANT = os.getenv("QDRANT_URL", "http://127.0.0.1:6333").rstrip("/")
@@ -47,6 +56,22 @@ def ollama_tags() -> list[str]:
         response = client.get(f"{OLLAMA}/api/tags")
         response.raise_for_status()
         return [m["name"] for m in response.json().get("models", [])]
+
+
+def ollama_ps() -> list[dict[str, Any]]:
+    """查看当前已加载模型及其显存占用（判断是否真的跑在 GPU 上）。"""
+    with httpx.Client(timeout=10) as client:
+        response = client.get(f"{OLLAMA}/api/ps")
+        response.raise_for_status()
+        return [
+            {
+                "name": m["name"],
+                "size": m.get("size"),
+                "size_vram": m.get("size_vram"),
+                "gpu_ratio": round((m.get("size_vram") or 0) / (m.get("size") or 1), 3),
+            }
+            for m in response.json().get("models", [])
+        ]
 
 
 def generate(prompt: str) -> dict[str, Any]:
@@ -82,6 +107,7 @@ def generate(prompt: str) -> dict[str, Any]:
     return {
         "model": GEN_MODEL,
         "think": False,
+        "load_s": round((final.get("load_duration") or 0) / 1e9, 3),
         "first_token_s": round(first_token_s, 3) if first_token_s is not None else None,
         "total_s": round(total_s, 3),
         "eval_count": eval_count,
@@ -92,20 +118,30 @@ def generate(prompt: str) -> dict[str, Any]:
 
 
 def embed(texts: list[str]) -> dict[str, Any]:
-    start = time.perf_counter()
     with httpx.Client(timeout=180) as client:
+        # 首次调用包含模型加载，单独计时；稳态延迟才是检索链路上的真实开销。
+        load_start = time.perf_counter()
+        client.post(
+            f"{OLLAMA}/api/embed", json={"model": EMBED_MODEL, "input": [texts[0]]}
+        ).raise_for_status()
+        cold_load_s = time.perf_counter() - load_start
+
+        start = time.perf_counter()
         response = client.post(
             f"{OLLAMA}/api/embed", json={"model": EMBED_MODEL, "input": texts}
         )
         response.raise_for_status()
         data = response.json()
-    elapsed_s = time.perf_counter() - start
+        elapsed_s = time.perf_counter() - start
     vectors = data.get("embeddings", [])
     return {
         "model": EMBED_MODEL,
         "count": len(vectors),
         "dim": len(vectors[0]) if vectors else 0,
+        "cold_load_s": round(cold_load_s, 3),
         "total_s": round(elapsed_s, 3),
+        "per_text_ms": round(elapsed_s * 1000 / max(len(vectors), 1), 1),
+        "loaded": ollama_ps(),
         "vectors": vectors,
     }
 
@@ -115,7 +151,11 @@ def rerank(query: str, docs: list[str]) -> dict[str, Any]:
     from sentence_transformers import CrossEncoder
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = CrossEncoder(RERANK_MODEL, device=device)
+    load_start = time.perf_counter()
+    # local_files_only=True：验证阶段就要求零出站，模型必须已缓存到本地。
+    model = CrossEncoder(RERANK_MODEL, device=device, local_files_only=True)
+    load_s = time.perf_counter() - load_start
+    model.predict([(query, docs[0])])  # 预热 CUDA kernel，不计入稳态延迟
     start = time.perf_counter()
     scores = model.predict([(query, doc) for doc in docs])
     elapsed_s = time.perf_counter() - start
@@ -125,14 +165,38 @@ def rerank(query: str, docs: list[str]) -> dict[str, Any]:
         "device": device,
         "cuda_available": torch.cuda.is_available(),
         "count": len(docs),
+        "load_s": round(load_s, 3),
         "total_s": round(elapsed_s, 3),
+        "per_pair_ms": round(elapsed_s * 1000 / len(docs), 1),
         "vram_after": vram(),
         "top": [{"score": round(score, 4), "text": doc[:100]} for doc, score in ranked[:5]],
     }
 
 
+def tokenize(text: str) -> list[str]:
+    import jieba
+
+    return [
+        token
+        for raw in jieba.cut(text)
+        if (token := raw.strip().lower())
+        and token not in STOPWORDS
+        and any(ch.isalnum() for ch in token)
+    ]
+
+
+def sparse_vector(text: str) -> tuple[list[int], list[float]]:
+    """jieba 分词 -> 词频 -> 稳定的 uint32 哈希索引。"""
+    counts = Counter(tokenize(text))
+    merged: dict[int, float] = {}
+    for token, tf in counts.items():
+        index = zlib.crc32(token.encode("utf-8"))
+        merged[index] = merged.get(index, 0.0) + float(tf)
+    items = sorted(merged.items())
+    return [index for index, _ in items], [value for _, value in items]
+
+
 def qdrant_hybrid(vectors: list[list[float]]) -> dict[str, Any]:
-    from fastembed import SparseTextEmbedding
     from qdrant_client import QdrantClient, models
 
     docs = [
@@ -154,37 +218,33 @@ def qdrant_hybrid(vectors: list[list[float]]) -> dict[str, Any]:
         vectors_config={
             "dense": models.VectorParams(size=len(vectors[0]), distance=models.Distance.COSINE)
         },
-        sparse_vectors_config={"sparse": models.SparseVectorParams()},
+        sparse_vectors_config={
+            "sparse": models.SparseVectorParams(modifier=models.Modifier.IDF)
+        },
     )
-    sparse_model = SparseTextEmbedding(model_name="Qdrant/bm25")
-    sparse_vectors = list(sparse_model.embed(docs))
+    sparse_vectors = [sparse_vector(doc) for doc in docs]
     points = [
         models.PointStruct(
             id=index,
             vector={
                 "dense": vectors[index],
-                "sparse": models.SparseVector(
-                    indices=sparse.indices.tolist(), values=sparse.values.tolist()
-                ),
+                "sparse": models.SparseVector(indices=indices, values=values),
             },
             payload={"text": docs[index]},
         )
-        for index, sparse in enumerate(sparse_vectors)
+        for index, (indices, values) in enumerate(sparse_vectors)
     ]
     client.upsert(collection_name=collection, points=points)
 
     query = "混合检索怎么融合多路结果？"
     query_dense = embed([query])["vectors"][0]
-    query_sparse = list(sparse_model.query_embed(query))[0]
+    q_indices, q_values = sparse_vector(query)
     result = client.query_points(
         collection_name=collection,
         prefetch=[
             models.Prefetch(query=query_dense, using="dense", limit=5),
             models.Prefetch(
-                query=models.SparseVector(
-                    indices=query_sparse.indices.tolist(),
-                    values=query_sparse.values.tolist(),
-                ),
+                query=models.SparseVector(indices=q_indices, values=q_values),
                 using="sparse",
                 limit=5,
             ),
@@ -198,17 +258,27 @@ def qdrant_hybrid(vectors: list[list[float]]) -> dict[str, Any]:
         for point in result.points
     ]
     client.delete_collection(collection)
-    return {"collection": collection, "docs": len(docs), "query": query, "top": top}
+    return {
+        "collection": collection,
+        "docs": len(docs),
+        "query": query,
+        "query_tokens": tokenize(query),
+        "top": top,
+    }
 
 
 def main() -> None:
     report: dict[str, Any] = {"started_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "vram_start": vram()}
     print(f"[spike] VRAM before: {report['vram_start']}")
-    print(f"[spike] Ollama models: {ollama_tags()}")
+    print(f"[spike] Ollama models: {ollama_tags()} loaded: {ollama_ps()}")
 
-    print("[spike] generating...")
-    report["generation"] = generate("用两句话解释什么是混合检索，并说明它为什么适合本地知识库。")
+    print("[spike] generating (first call / warm)...")
+    prompt = "用两句话解释什么是混合检索，并说明它为什么适合本地知识库。"
+    report["generation"] = generate(prompt)
+    report["generation_warm"] = generate(prompt)
+    report["ollama_ps_after_generation"] = ollama_ps()
     print(json.dumps(report["generation"], ensure_ascii=False, indent=2))
+    print(json.dumps(report["generation_warm"], ensure_ascii=False, indent=2))
 
     print("[spike] embedding...")
     texts = [
