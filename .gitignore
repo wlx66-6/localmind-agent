@@ -1,0 +1,67 @@
+# ---- Secrets & environment ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+.secrets/
+
+# ---- Local models & caches ----
+models/
+.cache/huggingface/
+.cache/torch/
+*.gguf
+*.safetensors
+*.onnx
+*.pt
+*.pth
+
+# ---- Vector indexes & local databases ----
+data/index/
+data/vector_store/
+data/local/
+volumes/
+*.sqlite3
+*.db
+
+# ---- Corpora (large / private) ----
+corpus/
+corpora/
+testdata/large/
+testdata/private/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# ---- Node / frontend ----
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# ---- Logs & runtime ----
+logs/
+*.log
+.pids/
+
+# ---- Editor / OS ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
