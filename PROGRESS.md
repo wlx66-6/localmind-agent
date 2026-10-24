@@ -231,6 +231,20 @@
 - **交付物**：`docker compose up` 可运行；CI 全绿；README + ADR + 验收记录；简历描述与面试故事线素材。
 - **验收标准**：新机器按 README 可启动；CI（lint + test + build）全绿；全部 ADR 完成。
 
+#### 阶段 5 已确认决策（2026-10-25）
+
+1. **解析范围**：PDF（PyMuPDF）+ docx（python-docx）+ 代码扩展名白名单（不做 AST，按符号/空行分块）；OCR 不做，扫描版 PDF 明确提示"无可提取文本"。
+2. **PDF 引用**：Citation 增加可空 `page` 与块序号，前端显示"第 N 页 · 第 K 块"；文本类文档继续用行号。
+3. **容器化**：后端 + 前端 + Qdrant 进 `docker compose`（CPU 版 torch），Ollama 留宿主机；README 写清两步启动。
+4. **CI**：后端 ruff / mypy / pytest + 前端 tsc / vite build；不构建镜像、不跑需要 GPU 的评测。
+5. **评测**：同一 40 题跑云端与本地两条轨道出对比报告，另加 5 道记忆场景题（跨会话召回、同 key 覆盖、无关不召回）。
+6. **指标**：新增 `scripts/metrics_report.py`，从 SQLite 汇总双轨首 token、拒答、出站、记忆抽取状态，输出 Markdown；不引入 Prometheus。
+7. **迁移**：引入 Alembic，先建基线（收敛阶段 1～4 的 schema），再以 revision 形式加阶段 5 字段。
+
+#### 阶段 5 实现顺序（已开工）
+
+Alembic 基线 + 新字段 → 解析器（PDF/docx/代码）→ 引用字段与前端展示 → 摄取接入（扩展名白名单、增量）→ `metrics_report.py` → 双轨 + 记忆评测 → Docker Compose + CI → 文档（ADR-0012/0013、验收记录、简历素材）。
+
 ## 关键决策
 
 | 维度 | 结论 |
