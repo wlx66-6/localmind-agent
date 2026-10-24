@@ -1,4 +1,12 @@
-import type { Citation, Health, ScanResult, Source } from './types'
+import type {
+  Citation,
+  Egress,
+  Health,
+  RetrievalInfo,
+  ScanResult,
+  Source,
+  Track,
+} from './types'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
@@ -42,10 +50,37 @@ export async function deleteSource(id: number): Promise<void> {
 export const scanSource = (id: number) =>
   request<ScanResult>(`/api/sources/${id}/scan`, { method: 'POST' })
 
+/** Egress policy per source directory; enforced server-side on the next turn. */
+export const updateSourceEgress = (id: number, egressAllowed: boolean) =>
+  request<Source>(`/api/sources/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ egress_allowed: egressAllowed }),
+  })
+
+export type CitationsPayload = {
+  conversationId: number
+  track: Track
+  items: Citation[]
+  retrieval: RetrievalInfo
+  egress: Egress
+  refused: boolean
+}
+
+export type DonePayload = {
+  conversationId: number
+  cited: number[]
+  refused: boolean
+  track: Track
+  skipped: boolean
+  blocked: boolean
+  ttftMs: number | null
+  totalMs: number | null
+}
+
 export type ChatHandlers = {
-  onCitations: (conversationId: number, items: Citation[]) => void
+  onCitations: (payload: CitationsPayload) => void
   onToken: (text: string) => void
-  onDone: (result: { conversationId: number; cited: number[]; refused: boolean }) => void
+  onDone: (result: DonePayload) => void
   onError: (message: string) => void
 }
 
@@ -64,7 +99,12 @@ function parseFrame(frame: string): Frame | null {
 
 /** 读取 POST + SSE 的流式响应；EventSource 只支持 GET，所以这里手写解析。 */
 export async function streamChat(
-  body: { message: string; conversation_id: number | null },
+  body: {
+    message: string
+    conversation_id: number | null
+    track?: Track
+    skip_egress?: boolean
+  },
   handlers: ChatHandlers,
   signal?: AbortSignal,
 ): Promise<void> {
@@ -108,8 +148,22 @@ export async function streamChat(
 function dispatch(frame: Frame, handlers: ChatHandlers): void {
   switch (frame.event) {
     case 'citations': {
-      const data = frame.data as { conversation_id: number; items: Citation[] }
-      handlers.onCitations(data.conversation_id, data.items)
+      const data = frame.data as {
+        conversation_id: number
+        track: Track
+        items: Citation[]
+        retrieval: RetrievalInfo
+        egress: Egress
+        refused: boolean
+      }
+      handlers.onCitations({
+        conversationId: data.conversation_id,
+        track: data.track,
+        items: data.items,
+        retrieval: data.retrieval,
+        egress: data.egress,
+        refused: data.refused,
+      })
       break
     }
     case 'token':
@@ -120,11 +174,21 @@ function dispatch(frame: Frame, handlers: ChatHandlers): void {
         conversation_id: number
         cited: number[]
         refused: boolean
+        track: Track
+        skipped: boolean
+        blocked: boolean
+        ttft_ms: number | null
+        total_ms: number | null
       }
       handlers.onDone({
         conversationId: data.conversation_id,
         cited: data.cited,
         refused: data.refused,
+        track: data.track,
+        skipped: data.skipped,
+        blocked: data.blocked,
+        ttftMs: data.ttft_ms,
+        totalMs: data.total_ms,
       })
       break
     }

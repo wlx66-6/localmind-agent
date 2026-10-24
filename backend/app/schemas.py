@@ -1,18 +1,26 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
 from pydantic import BaseModel, Field
+
+from app.config import Track
 
 
 class SourceCreate(BaseModel):
     path: str = Field(min_length=1, max_length=1024)
 
 
+class SourceUpdate(BaseModel):
+    egress_allowed: bool
+
+
 class SourceOut(BaseModel):
     id: int
     path: str
     enabled: bool
+    egress_allowed: bool
     document_count: int
     chunk_count: int
     last_scan_at: datetime | None
@@ -37,6 +45,11 @@ class ScanResult(BaseModel):
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=4000)
     conversation_id: int | None = None
+    # Per-request override; when omitted the conversation's track is used, and
+    # for a new conversation the env default (DEFAULT_TRACK).
+    track: Track | None = None
+    # Composer switch: run retrieval only, call no generation model at all.
+    skip_egress: bool = False
 
 
 class CitationOut(BaseModel):
@@ -48,6 +61,7 @@ class CitationOut(BaseModel):
     end_line: int
     score: float
     text: str
+    document_id: int | None = None
 
 
 class HealthOut(BaseModel):
@@ -55,6 +69,8 @@ class HealthOut(BaseModel):
     ollama: bool
     qdrant: bool
     deepseek_configured: bool
+    local_model: bool
+    default_track: str
 
 
 class MessageOut(BaseModel):
@@ -62,11 +78,14 @@ class MessageOut(BaseModel):
     role: str
     content: str
     citations: list[CitationOut]
+    track: str | None = None
+    metrics: dict[str, Any] = Field(default_factory=dict)
     created_at: datetime
 
 
 class ConversationOut(BaseModel):
     id: int
     title: str
+    track: str | None = None
     created_at: datetime
     messages: list[MessageOut]

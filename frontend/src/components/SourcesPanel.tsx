@@ -10,6 +10,7 @@ type Props = {
   onAdd: (path: string) => Promise<boolean>
   onScan: (id: number) => Promise<void>
   onDelete: (id: number) => Promise<void>
+  onToggleEgress: (id: number, allowed: boolean) => void
 }
 
 function formatTime(value: string | null): string {
@@ -26,6 +27,7 @@ export default function SourcesPanel({
   onAdd,
   onScan,
   onDelete,
+  onToggleEgress,
 }: Props) {
   const [path, setPath] = useState('')
   const [adding, setAdding] = useState(false)
@@ -45,7 +47,9 @@ export default function SourcesPanel({
     <aside className="flex w-72 shrink-0 flex-col border-r border-stone-200 bg-white/60">
       <div className="border-b border-stone-200 px-4 py-3">
         <h2 className="text-sm font-semibold text-stone-800">资料源</h2>
-        <p className="mt-0.5 text-xs text-stone-500">只读取白名单目录内的 md / txt 文件</p>
+        <p className="mt-0.5 text-xs text-stone-500">
+          只读取白名单目录内的 md / txt 文件；关掉「出站」后，该目录的片段不会进入云端请求
+        </p>
       </div>
 
       <div className="space-y-2 border-b border-stone-200 px-4 py-3">
@@ -83,6 +87,21 @@ export default function SourcesPanel({
                 {source.document_count} 个文档 · {source.chunk_count} 个分块
               </p>
               <p className="mt-0.5 text-[11px] text-stone-400">{formatTime(source.last_scan_at)}</p>
+              <label
+                className={`mt-2 flex items-center gap-1.5 text-[11px] ${
+                  source.egress_allowed ? 'text-stone-500' : 'font-medium text-amber-700'
+                }`}
+                title="关闭后，云端模式检索到该目录的片段会被服务端剔除，本地模式不受影响"
+              >
+                <input
+                  type="checkbox"
+                  checked={source.egress_allowed}
+                  disabled={busyId === source.id}
+                  onChange={(event) => onToggleEgress(source.id, event.target.checked)}
+                  className="h-3 w-3 accent-stone-800"
+                />
+                {source.egress_allowed ? '允许片段出站' : '禁止出站（仅本地可用）'}
+              </label>
               <div className="mt-2 flex gap-2">
                 <button
                   type="button"

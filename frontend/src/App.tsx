@@ -1,13 +1,32 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as api from './api'
 import ChatView from './components/ChatView'
 import CitationPanel from './components/CitationPanel'
 import Header from './components/Header'
 import SourcesPanel from './components/SourcesPanel'
-import type { ChatMessage, Health, Source } from './types'
+import type { ChatMessage, Health, Source, Track } from './types'
 
 function errorText(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
+}
+
+function blankAssistant(id: string, track: Track): ChatMessage {
+  return {
+    id,
+    role: 'assistant',
+    content: '',
+    citations: [],
+    cited: [],
+    refused: false,
+    track,
+    egress: null,
+    retrieval: null,
+    ttftMs: null,
+    totalMs: null,
+    skipped: false,
+    blocked: false,
+    streaming: true,
+  }
 }
 
 export default function App() {
@@ -25,6 +44,11 @@ export default function App() {
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [track, setTrack] = useState<Track>('cloud')
+  // The composer switch is deliberately per-send: it resets after each turn so
+  // "upload nothing" can never become a silently sticky setting.
+  const [skipEgress, setSkipEgress] = useState(false)
+  const trackTouched = useRef(false)
 
   const refreshSources = useCallback(async () => {
     try {
@@ -49,6 +73,7 @@ export default function App() {
         if (cancelled) return
         setHealth(result)
         setHealthError(null)
+        if (!trackTouched.current) setTrack(result.default_track)
       } catch (error) {
         if (cancelled) return
         setHealth(null)
@@ -67,6 +92,11 @@ export default function App() {
     () => messages.find((message) => message.id === activeId) ?? null,
     [messages, activeId],
   )
+
+  function handleTrackChange(next: Track) {
+    trackTouched.current = true
+    setTrack(next)
+  }
 
   async function handleAdd(path: string): Promise<boolean> {
     setSourceError(null)
@@ -115,6 +145,23 @@ export default function App() {
     }
   }
 
+  async function handleToggleEgress(id: number, allowed: boolean) {
+    setBusyId(id)
+    setSourceError(null)
+    setSourceNotice(null)
+    try {
+      await api.updateSourceEgress(id, allowed)
+      setSourceNotice(
+        allowed ? '已允许该目录的片段出站' : '已禁止该目录出站：此后云端模式不会再发送它的片段',
+      )
+      await refreshSources()
+    } catch (error) {
+      setSourceError(errorText(error))
+    } finally {
+      setBusyId(null)
+    }
+  }
+
   async function handleSend() {
     const question = input.trim()
     if (!question || streaming) return
@@ -129,21 +176,21 @@ export default function App() {
         citations: [],
         cited: [],
         refused: false,
+        track,
+        egress: null,
+        retrieval: null,
+        ttftMs: null,
+        totalMs: null,
+        skipped: false,
+        blocked: false,
         streaming: false,
       },
-      {
-        id: assistantId,
-        role: 'assistant',
-        content: '',
-        citations: [],
-        cited: [],
-        refused: false,
-        streaming: true,
-      },
+      blankAssistant(assistantId, track),
     ])
     setInput('')
     setStreaming(true)
     setActiveId(assistantId)
+    setSkipEgress(false)
 
     let nextConversationId = conversationId
     const patch = (value: Partial<ChatMessage>) =>
@@ -155,11 +202,21 @@ export default function App() {
 
     try {
       await api.streamChat(
-        { message: question, conversation_id: conversationId },
         {
-          onCitations: (id, items) => {
-            nextConversationId = id
-            patch({ citations: items })
+          message: question,
+          conversation_id: conversationId,
+          track,
+          skip_egress: skipEgress,
+        },
+        {
+          onCitations: (payload) => {
+            nextConversationId = payload.conversationId
+            patch({
+              track: payload.track,
+              citations: payload.items,
+              egress: payload.egress,
+              retrieval: payload.retrieval,
+            })
           },
           onToken: (text) =>
             setMessages((prev) =>
@@ -169,9 +226,18 @@ export default function App() {
                   : message,
               ),
             ),
-          onDone: ({ conversationId: id, cited, refused }) => {
-            nextConversationId = id
-            patch({ cited, refused, streaming: false })
+          onDone: (result) => {
+            nextConversationId = result.conversationId
+            patch({
+              cited: result.cited,
+              refused: result.refused,
+              streaming: false,
+              track: result.track,
+              skipped: result.skipped,
+              blocked: result.blocked,
+              ttftMs: result.ttftMs,
+              totalMs: result.totalMs,
+            })
           },
           onError: (message) => patch({ error: message, streaming: false }),
         },
@@ -191,18 +257,24 @@ export default function App() {
     setConversationId(null)
     setActiveId(null)
     setInput('')
+    setSkipEgress(false)
   }
 
-  const cloudNotice =
-    health && !health.deepseek_configured
+  const notice =
+    track === 'cloud' && health && !health.deepseek_configured
       ? '云端密钥未配置：检索和引用可用，生成回答前请在 .env 中填写 DEEPSEEK_API_KEY 并重启后端。'
-      : null
+      : track === 'local' && health && !health.local_model
+        ? '本地模型未就绪：请先 ollama pull qwen3.5:4b，再重试本地模式。'
+        : null
 
   return (
     <div className="flex h-full flex-col">
       <Header
         health={health}
         healthError={healthError}
+        track={track}
+        onTrackChange={handleTrackChange}
+        trackLocked={streaming}
         onNewChat={handleNewChat}
         canNewChat={messages.length > 0}
       />
@@ -217,6 +289,7 @@ export default function App() {
             onAdd={handleAdd}
             onScan={handleScan}
             onDelete={handleDelete}
+            onToggleEgress={(id, allowed) => void handleToggleEgress(id, allowed)}
           />
         </div>
         <ChatView
@@ -227,7 +300,10 @@ export default function App() {
           streaming={streaming}
           activeId={activeId}
           onSelectMessage={setActiveId}
-          notice={cloudNotice}
+          notice={notice}
+          track={track}
+          skipEgress={skipEgress}
+          onSkipEgressChange={setSkipEgress}
         />
         {activeMessage && activeMessage.citations.length > 0 && (
           <div className="hidden lg:flex">

@@ -1,8 +1,11 @@
-import type { Health } from '../types'
+import type { Health, Track } from '../types'
 
 type Props = {
   health: Health | null
   healthError: string | null
+  track: Track
+  onTrackChange: (track: Track) => void
+  trackLocked: boolean
   onNewChat: () => void
   canNewChat: boolean
 }
@@ -23,7 +26,21 @@ function Pill({ label, ok, warnOnly = false }: { label: string; ok: boolean; war
   )
 }
 
-export default function Header({ health, healthError, onNewChat, canNewChat }: Props) {
+const TRACKS: { value: Track; label: string; title: string }[] = [
+  { value: 'cloud', label: '云端', title: '问题与命中的片段发往 DeepSeek，质量高' },
+  { value: 'local', label: '本地 · 零出站', title: 'Ollama 在本机生成，断网可用，数据不出本机' },
+]
+
+export default function Header({
+  health,
+  healthError,
+  track,
+  onTrackChange,
+  trackLocked,
+  onNewChat,
+  canNewChat,
+}: Props) {
+  const localReady = health?.local_model ?? false
   return (
     <header className="flex items-center justify-between border-b border-stone-200 bg-white/80 px-5 py-3 backdrop-blur">
       <div className="flex items-baseline gap-3">
@@ -42,9 +59,37 @@ export default function Header({ health, healthError, onNewChat, canNewChat }: P
               ok={health.deepseek_configured}
               warnOnly
             />
+            <Pill
+              label={localReady ? '本地模型 · 就绪' : '本地模型 · 未就绪'}
+              ok={localReady}
+              warnOnly
+            />
           </>
         )}
         <span className="mx-1 h-5 w-px bg-stone-200" />
+        <div
+          className="flex rounded-lg border border-stone-300 bg-white p-0.5 text-xs"
+          role="group"
+          aria-label="生成轨道"
+        >
+          {TRACKS.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              title={option.title}
+              aria-pressed={track === option.value}
+              onClick={() => onTrackChange(option.value)}
+              disabled={trackLocked}
+              className={`rounded-md px-2.5 py-1 font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${
+                track === option.value
+                  ? 'bg-stone-900 text-white'
+                  : 'text-stone-600 hover:bg-stone-100'
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
         <button
           type="button"
           onClick={onNewChat}

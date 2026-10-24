@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import AsyncIterator
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -15,9 +16,10 @@ from app.config import Settings
 from app.db import Database
 from app.generation.base import ChatMessage
 from app.generation.prompt import REFUSAL_TEXT
-from app.models import Conversation, Message
+from app.models import Conversation, Document, Message, Source
 from app.retrieval.pipeline import RetrievalResult, RetrievalTimings
 from app.retrieval.types import RetrievalHit
+from app.services.egress import BLOCKED_TEXT, SKIPPED_TEXT
 
 HIT = RetrievalHit(
     index=1,
@@ -46,9 +48,15 @@ class FakeEmbedder:
 
 
 class FakeProvider:
+    name = "fake"
+    model = "fake-model"
+
     def __init__(self, answer: str = "混合检索 [1] 能兼顾语义与关键词。") -> None:
         self.answer = answer
         self.calls: list[list[ChatMessage]] = []
+
+    async def available(self) -> bool:
+        return True
 
     async def stream_chat(self, messages: list[ChatMessage]) -> AsyncIterator[str]:
         self.calls.append(messages)
@@ -56,7 +64,12 @@ class FakeProvider:
             yield char
 
 
-def build_app(tmp_path: Path, provider: FakeProvider | None) -> tuple[FastAPI, Database]:
+def build_app(
+    tmp_path: Path,
+    provider: FakeProvider | None,
+    *,
+    local_provider: FakeProvider | None = None,
+) -> tuple[FastAPI, Database]:
     db = Database(tmp_path / "chat.db")
     db.create_all()
     settings = Settings(sqlite_path=tmp_path / "chat.db")
@@ -65,8 +78,8 @@ def build_app(tmp_path: Path, provider: FakeProvider | None) -> tuple[FastAPI, D
     app.state.db = db
     app.state.embedder = FakeEmbedder()
     app.state.store = object()
-    app.state.reranker = object()
-    app.state.provider = provider
+    app.state.rerankers = {"cloud": object(), "local": object()}
+    app.state.providers = {"cloud": provider, "local": local_provider}
     app.include_router(chat.router)
     return app, db
 
@@ -89,9 +102,9 @@ def use_hits(monkeypatch: pytest.MonkeyPatch, hits: list[RetrievalHit]) -> None:
 
 
 async def collect(
-    app: FastAPI, message: str, conversation_id: int | None = None
+    app: FastAPI, message: str, conversation_id: int | None = None, **extra: Any
 ) -> list[tuple[str, dict[str, Any]]]:
-    body: dict[str, Any] = {"message": message}
+    body: dict[str, Any] = {"message": message, **extra}
     if conversation_id is not None:
         body["conversation_id"] = conversation_id
     events: list[tuple[str, dict[str, Any]]] = []
@@ -148,6 +161,8 @@ async def test_chat_streams_citations_and_persists(
     # 同一会话继续提问时，历史消息应进入 provider 的上下文。
     second = await collect(app, "RRF 是什么？", conversation_id=1)
     assert second[-1][1]["conversation_id"] == 1
+    # History also leaves the machine, so the receipt must count it.
+    assert second[0][1]["egress"]["history_messages"] == 2
     sent = provider.calls[-1]
     assert any(m.content == "为什么要混合检索？" for m in sent)
     assert any(m.content == provider.answer for m in sent)
@@ -201,4 +216,184 @@ async def test_generation_refusal_is_reported(
     done = events[-1][1]
     assert done["refused"] is True
     assert done["cited"] == []
+    db.dispose()
+
+
+# --- Stage 3: dual track and egress policy ---------------------------------
+
+
+class ExplodingProvider(FakeProvider):
+    """Cloud provider that fails the test if it is ever called."""
+
+    async def stream_chat(self, messages: list[ChatMessage]) -> AsyncIterator[str]:
+        self.calls.append(messages)
+        raise AssertionError("cloud provider must not be called on the local track")
+        yield ""  # pragma: no cover - keeps this an async generator
+
+
+def add_document(db: Database, *, egress_allowed: bool, rel_path: str) -> int:
+    with db.session_factory() as session:
+        source = Source(path=f"D:/sources/{rel_path}", egress_allowed=egress_allowed)
+        session.add(source)
+        session.flush()
+        document = Document(
+            source_id=source.id,
+            rel_path=rel_path,
+            abs_path=f"D:/sources/{rel_path}",
+            content_hash="h",
+            size=1,
+            mtime=1.0,
+        )
+        session.add(document)
+        session.commit()
+        return document.id
+
+
+async def test_local_track_never_calls_cloud_provider(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cloud = ExplodingProvider()
+    local = FakeProvider(answer="本地回答 [1]")
+    app, db = build_app(tmp_path, cloud, local_provider=local)
+    use_hits(monkeypatch, [HIT])
+
+    events = await collect(app, "为什么要混合检索？", track="local")
+
+    citations = events[0][1]
+    assert citations["track"] == "local"
+    assert citations["egress"]["enabled"] is False
+    assert citations["egress"]["chunks"] == 1
+    assert cloud.calls == []
+    assert len(local.calls) == 1
+    assert events[-1][1]["track"] == "local"
+    with db.session_factory() as session:
+        assert session.get(Conversation, 1).track == "local"  # type: ignore[union-attr]
+    db.dispose()
+
+
+async def test_skip_egress_retrieves_without_generation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider()
+    app, db = build_app(tmp_path, provider)
+    use_hits(monkeypatch, [HIT])
+
+    events = await collect(app, "为什么要混合检索？", track="cloud", skip_egress=True)
+
+    assert provider.calls == []
+    assert "".join(data["text"] for name, data in events if name == "token") == SKIPPED_TEXT
+    citations = events[0][1]
+    assert citations["egress"]["skipped"] is True
+    assert citations["egress"]["enabled"] is False
+    assert citations["items"][0]["path"] == "notes/hybrid.md"
+    done = events[-1][1]
+    assert done["skipped"] is True
+    assert done["refused"] is False
+    db.dispose()
+
+
+async def test_blocked_source_is_removed_from_cloud_context(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider()
+    app, db = build_app(tmp_path, provider)
+    blocked_id = add_document(db, egress_allowed=False, rel_path="secret/plan.md")
+    allowed_id = add_document(db, egress_allowed=True, rel_path="notes/public.md")
+    use_hits(
+        monkeypatch,
+        [
+            HIT,
+            replace(
+                HIT,
+                index=2,
+                chunk_id="c2",
+                document_id=blocked_id,
+                path="secret/plan.md",
+            ),
+            replace(
+                HIT,
+                index=3,
+                chunk_id="c3",
+                document_id=allowed_id,
+                path="notes/public.md",
+            ),
+        ],
+    )
+
+    events = await collect(app, "为什么要混合检索？")
+
+    items = events[0][1]["items"]
+    assert [item["path"] for item in items] == ["notes/hybrid.md", "notes/public.md"]
+    # Indices are renumbered so the model never cites a gap like [1] [3].
+    assert [item["index"] for item in items] == [1, 2]
+    egress = events[0][1]["egress"]
+    assert egress["chunks"] == 2
+    assert egress["blocked_chunks"] == 1
+    assert egress["blocked_files"] == 1
+    sent = " ".join(message.content for message in provider.calls[0])
+    assert "secret/plan.md" not in sent
+    assert "notes/public.md" in sent
+    db.dispose()
+
+
+async def test_all_hits_blocked_refuses_without_calling_cloud(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider()
+    app, db = build_app(tmp_path, provider)
+    blocked_id = add_document(db, egress_allowed=False, rel_path="secret/plan.md")
+    use_hits(monkeypatch, [replace(HIT, document_id=blocked_id, path="secret/plan.md")])
+
+    events = await collect(app, "为什么要混合检索？")
+
+    assert provider.calls == []
+    assert "".join(data["text"] for name, data in events if name == "token") == BLOCKED_TEXT
+    assert events[-1][1]["blocked"] is True
+    assert events[-1][1]["refused"] is True
+    db.dispose()
+
+
+async def test_track_switch_is_remembered_per_conversation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cloud = FakeProvider(answer="云端回答 [1]")
+    local = FakeProvider(answer="本地回答 [1]")
+    app, db = build_app(tmp_path, cloud, local_provider=local)
+    use_hits(monkeypatch, [HIT])
+
+    first = await collect(app, "问题一", track="local")
+    conversation_id = first[-1][1]["conversation_id"]
+    # No track in the body -> the conversation's stored track wins.
+    second = await collect(app, "问题二", conversation_id=conversation_id)
+    assert second[0][1]["track"] == "local"
+    third = await collect(app, "问题三", conversation_id=conversation_id, track="cloud")
+    assert third[0][1]["track"] == "cloud"
+    assert len(local.calls) == 2
+    assert len(cloud.calls) == 1
+    with db.session_factory() as session:
+        assert session.get(Conversation, conversation_id).track == "cloud"  # type: ignore[union-attr]
+    db.dispose()
+
+
+async def test_message_metrics_are_persisted(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider()
+    app, db = build_app(tmp_path, provider)
+    use_hits(monkeypatch, [HIT])
+
+    events = await collect(app, "为什么要混合检索？")
+    done = events[-1][1]
+    assert done["ttft_ms"] is not None
+    assert done["total_ms"] >= done["ttft_ms"]
+
+    with db.session_factory() as session:
+        assistant = session.scalars(select(Message).where(Message.role == "assistant")).one()
+        metrics = json.loads(assistant.metrics_json)
+        assert assistant.track == "cloud"
+        assert metrics["track"] == "cloud"
+        assert metrics["model"] == provider.model
+        assert metrics["ttft_ms"] is not None
+        assert metrics["egress"]["chunks"] == 1
+        assert metrics["retrieval"]["mode"] == "hybrid_rerank"
     db.dispose()

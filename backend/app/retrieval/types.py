@@ -18,3 +18,6 @@ class RetrievalHit:
     fused_rank: int | None = None
     dense_score: float | None = None
     rerank_score: float | None = None
+    # Qdrant payload carries the SQLite document id, which is how the egress
+    # policy maps a hit back to the source directory it came from.
+    document_id: int | None = None

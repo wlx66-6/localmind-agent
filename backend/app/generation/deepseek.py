@@ -27,6 +27,15 @@ class DeepSeekProvider:
         self._model = model
         self._timeout = httpx.Timeout(timeout, connect=10.0)
 
+    @property
+    def model(self) -> str:
+        return self._model
+
+    async def available(self) -> bool:
+        # The provider is only constructed when a key is configured, so its
+        # existence already answers "is the cloud track usable".
+        return bool(self._api_key.strip())
+
     async def stream_chat(
         self, messages: list[ChatMessage], *, temperature: float = 0.2
     ) -> AsyncIterator[str]:

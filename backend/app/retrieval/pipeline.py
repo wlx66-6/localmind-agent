@@ -108,9 +108,11 @@ def _to_hit(
     dense_score: float | None = None,
     rerank_score: float | None = None,
 ) -> RetrievalHit:
+    raw_document_id = payload.get("document_id")
     return RetrievalHit(
         index=index,
         chunk_id=chunk_id,
+        document_id=int(raw_document_id) if raw_document_id is not None else None,
         path=str(payload.get("path", "")),
         heading=str(payload.get("heading", "")),
         start_line=int(payload.get("start_line", 0)),

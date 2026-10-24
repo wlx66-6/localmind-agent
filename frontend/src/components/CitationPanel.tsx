@@ -1,4 +1,4 @@
-import type { ChatMessage, Citation } from '../types'
+import type { ChatMessage, Citation, Egress } from '../types'
 
 function traceLabel(citation: Citation): string {
   const parts: string[] = []
@@ -11,6 +11,33 @@ function traceLabel(citation: Citation): string {
     parts.push(`相似度 ${citation.dense_score.toFixed(3)}`)
   }
   return parts.join(' · ')
+}
+
+type Receipt = { title: string; detail: string; tone: string }
+
+/** Turns the server-provided manifest into an honest one-line receipt. */
+function receipt(egress: Egress): Receipt {
+  if (egress.track === 'local') {
+    return {
+      title: '本地生成 · 零出站',
+      detail: `本机处理 ${egress.chunks} 段 / ${egress.files} 个文件，未向任何外部服务发送内容`,
+      tone: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    }
+  }
+  if (egress.skipped) {
+    return {
+      title: '本次未上传',
+      detail: `检索到 ${egress.chunks} 段，已按你的选择拦下，没有调用任何生成模型`,
+      tone: 'border-stone-200 bg-stone-50 text-stone-700',
+    }
+  }
+  const history =
+    egress.history_messages > 0 ? `，含 ${egress.history_messages} 条历史消息` : ''
+  return {
+    title: '已发送到云端',
+    detail: `${egress.chunks} 段 / ${egress.files} 个文件 / ${egress.chars} 字符${history}`,
+    tone: 'border-sky-200 bg-sky-50 text-sky-800',
+  }
 }
 
 type Props = {
@@ -36,6 +63,17 @@ export default function CitationPanel({ message, onClose }: Props) {
       </div>
 
       <div className="flex-1 overflow-y-auto px-3 py-3">
+        {message?.egress && (
+          <div className={`mb-3 rounded-xl border px-3 py-2 ${receipt(message.egress).tone}`}>
+            <p className="text-[11px] font-semibold">{receipt(message.egress).title}</p>
+            <p className="mt-0.5 text-[10px] leading-relaxed">{receipt(message.egress).detail}</p>
+            {message.egress.blocked_chunks > 0 && (
+              <p className="mt-1 text-[10px] font-medium">
+                另有 {message.egress.blocked_chunks} 段来自「禁止出站」的资料源，已剔除
+              </p>
+            )}
+          </div>
+        )}
         {!message && <p className="px-1 text-xs text-stone-500">点击回答中的编号可查看对应片段。</p>}
         {message && message.citations.length === 0 && (
           <p className="px-1 text-xs text-stone-500">这次回答没有召回任何片段。</p>

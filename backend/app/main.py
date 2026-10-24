@@ -11,7 +11,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import chat, health, sources
 from app.config import get_settings
 from app.db import Database
+from app.generation.base import ChatProvider
 from app.generation.deepseek import DeepSeekProvider
+from app.generation.ollama import OllamaProvider
 from app.logging import setup_logging
 from app.retrieval import sparse
 from app.retrieval.embedder import OllamaEmbedder
@@ -22,10 +24,11 @@ from app.services.ingest import IngestService
 logger = logging.getLogger("localmind.main")
 
 
-async def _warmup(reranker: CrossEncoderReranker) -> None:
+async def _warmup(*rerankers: CrossEncoderReranker) -> None:
     try:
         await asyncio.to_thread(sparse.warmup)
-        await reranker.warmup()
+        for reranker in rerankers:
+            await reranker.warmup()
     except Exception:
         logger.exception("warmup_failed", extra={"event": "warmup_failed"})
 
@@ -45,14 +48,27 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     except VectorStoreError as exc:
         logger.error("qdrant_init_failed", extra={"event": "qdrant_init_failed", "error": str(exc)})
 
-    reranker = CrossEncoderReranker(
-        settings.rerank_model,
-        device=settings.rerank_device,
-        batch_size=settings.rerank_batch_size,
-        cache_folder=settings.rerank_cache_folder,
-    )
+    # One reranker per track, because they run on different devices: the cloud
+    # track keeps the GPU copy (snippets are sent out, so the local model is
+    # not resident), the local track uses the CPU copy so it never competes
+    # with the local generation model for VRAM. Both load lazily; the local
+    # copy is only resident once someone actually asks something locally.
+    rerankers: dict[str, CrossEncoderReranker] = {
+        "cloud": CrossEncoderReranker(
+            settings.rerank_model,
+            device=settings.rerank_device,
+            batch_size=settings.rerank_batch_size,
+            cache_folder=settings.rerank_cache_folder,
+        ),
+        "local": CrossEncoderReranker(
+            settings.rerank_model,
+            device=settings.rerank_device_local,
+            batch_size=settings.rerank_batch_size,
+            cache_folder=settings.rerank_cache_folder,
+        ),
+    }
 
-    provider = (
+    cloud_provider: ChatProvider | None = (
         DeepSeekProvider(
             settings.deepseek_api_key,
             settings.deepseek_base_url,
@@ -61,23 +77,32 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         if settings.has_cloud_key
         else None
     )
-    if provider is None:
+    if cloud_provider is None:
         logger.warning(
             "cloud_provider_not_configured",
             extra={"event": "cloud_provider_not_configured"},
         )
+    local_provider: ChatProvider = OllamaProvider(
+        settings.ollama_host,
+        settings.ollama_chat_model,
+        timeout=settings.ollama_chat_timeout,
+    )
+    providers: dict[str, ChatProvider | None] = {
+        "cloud": cloud_provider,
+        "local": local_provider,
+    }
 
     app.state.settings = settings
     app.state.db = db
     app.state.embedder = embedder
     app.state.store = store
-    app.state.reranker = reranker
-    app.state.provider = provider
+    app.state.rerankers = rerankers
+    app.state.providers = providers
     app.state.ingest = IngestService(db.session_factory, settings, embedder, store)
 
-    # Warm up lazily-loaded locals in the background: jieba takes ~0.5s and the
-    # reranker several seconds, neither should land on the first user question.
-    app.state.warmup_task = asyncio.create_task(_warmup(reranker))
+    # Warm up lazily-loaded locals in the background: jieba takes ~0.5s and each
+    # reranker several seconds, none of it should land on the first question.
+    app.state.warmup_task = asyncio.create_task(_warmup(*rerankers.values()))
 
     logger.info(
         "server_started",
@@ -87,6 +112,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             "port": settings.port,
             "collection": settings.qdrant_collection,
             "cloud_configured": settings.has_cloud_key,
+            "default_track": settings.default_track,
+            "local_model": settings.ollama_chat_model,
         },
     )
     yield

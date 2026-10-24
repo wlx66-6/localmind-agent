@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-import type { ChatMessage, Citation } from '../types'
+import type { ChatMessage, Citation, Track } from '../types'
 
 type Props = {
   messages: ChatMessage[]
@@ -11,6 +11,9 @@ type Props = {
   activeId: string | null
   onSelectMessage: (id: string) => void
   notice: string | null
+  track: Track
+  skipEgress: boolean
+  onSkipEgressChange: (value: boolean) => void
 }
 
 const EXAMPLES = [
@@ -18,6 +21,18 @@ const EXAMPLES = [
   '分块策略有哪些取舍？',
   '我们公司明年的预算是多少？',
 ]
+
+function seconds(ms: number): string {
+  return `${(ms / 1000).toFixed(ms < 1000 ? 2 : 1)}s`
+}
+
+function latencyLabel(message: ChatMessage): string | null {
+  if (message.totalMs === null) return null
+  const parts: string[] = []
+  if (message.ttftMs !== null) parts.push(`首 token ${seconds(message.ttftMs)}`)
+  parts.push(`总 ${seconds(message.totalMs)}`)
+  return parts.join(' · ')
+}
 
 function renderContent(
   content: string,
@@ -53,6 +68,9 @@ export default function ChatView({
   activeId,
   onSelectMessage,
   notice,
+  track,
+  skipEgress,
+  onSkipEgressChange,
 }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -60,6 +78,13 @@ export default function ChatView({
     const node = scrollRef.current
     if (node) node.scrollTop = node.scrollHeight
   }, [messages])
+
+  const hint =
+    track === 'local'
+      ? '本地模式：生成、检索与索引都在本机完成，零出站；重排在 CPU 上运行，不与本地模型抢显存。'
+      : skipEgress
+        ? '本次只做检索：命中的片段会显示在右侧，但不会发送给任何外部服务。'
+        : '云端模式：只发送问题与命中的片段；原始文档不出本机，可在左侧按资料源禁止出站。'
 
   return (
     <section className="flex min-w-0 flex-1 flex-col">
@@ -94,6 +119,7 @@ export default function ChatView({
           {messages.map((message) => {
             const isUser = message.role === 'user'
             const hasCitations = message.citations.length > 0
+            const timing = isUser ? null : latencyLabel(message)
             return (
               <div key={message.id} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
                 <div
@@ -104,10 +130,28 @@ export default function ChatView({
                   }`}
                 >
                   {!isUser && (
-                    <div className="mb-1.5 flex items-center gap-2 text-[11px] font-medium text-stone-400">
+                    <div className="mb-1.5 flex flex-wrap items-center gap-2 text-[11px] font-medium text-stone-400">
                       <span>LocalMind</span>
+                      {message.track && (
+                        <span
+                          className={`rounded px-1.5 py-0.5 ${
+                            message.track === 'local'
+                              ? 'bg-emerald-50 text-emerald-700'
+                              : 'bg-sky-50 text-sky-700'
+                          }`}
+                        >
+                          {message.track === 'local' ? '本地 · 零出站' : '云端'}
+                        </span>
+                      )}
                       {message.refused && (
-                        <span className="rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">拒答</span>
+                        <span className="rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">
+                          {message.blocked ? '出站拦截' : '拒答'}
+                        </span>
+                      )}
+                      {message.skipped && (
+                        <span className="rounded bg-stone-100 px-1.5 py-0.5 text-stone-600">
+                          仅检索
+                        </span>
                       )}
                       {hasCitations && (
                         <button
@@ -121,6 +165,11 @@ export default function ChatView({
                         >
                           引用 {message.citations.length}
                         </button>
+                      )}
+                      {timing && (
+                        <span className="ml-auto text-[10px] tabular-nums text-stone-400">
+                          {timing}
+                        </span>
                       )}
                     </div>
                   )}
@@ -150,32 +199,49 @@ export default function ChatView({
 
       <div className="border-t border-stone-200 bg-white/70 px-6 py-4">
         <div className="mx-auto max-w-3xl">
-          <div className="flex items-end gap-2 rounded-2xl border border-stone-300 bg-white p-2 shadow-sm focus-within:border-stone-500">
-            <textarea
-              value={input}
-              onChange={(event) => onInputChange(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                  event.preventDefault()
-                  onSend()
-                }
-              }}
-              rows={2}
-              placeholder="用日常语言提问，Enter 发送，Shift+Enter 换行"
-              className="max-h-40 min-h-[44px] flex-1 resize-none bg-transparent px-2 py-1.5 text-sm outline-none placeholder:text-stone-400"
-            />
-            <button
-              type="button"
-              onClick={onSend}
-              disabled={streaming || !input.trim()}
-              className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {streaming ? '生成中…' : '发送'}
-            </button>
+          <div className="rounded-2xl border border-stone-300 bg-white p-2 shadow-sm focus-within:border-stone-500">
+            <div className="flex items-end gap-2">
+              <textarea
+                value={input}
+                onChange={(event) => onInputChange(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault()
+                    onSend()
+                  }
+                }}
+                rows={2}
+                placeholder="用日常语言提问，Enter 发送，Shift+Enter 换行"
+                className="max-h-40 min-h-[44px] flex-1 resize-none bg-transparent px-2 py-1.5 text-sm outline-none placeholder:text-stone-400"
+              />
+              <button
+                type="button"
+                onClick={onSend}
+                disabled={streaming || !input.trim()}
+                className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {streaming ? '生成中…' : '发送'}
+              </button>
+            </div>
+            <div className="flex items-center gap-2 border-t border-stone-100 px-2 pt-1.5">
+              <label
+                className={`flex items-center gap-1.5 text-[11px] ${
+                  track === 'local' ? 'text-stone-300' : 'cursor-pointer text-stone-600'
+                }`}
+                title="勾选后本次只检索，不调用任何生成模型；每轮都会重置"
+              >
+                <input
+                  type="checkbox"
+                  checked={track === 'local' ? true : skipEgress}
+                  disabled={track === 'local'}
+                  onChange={(event) => onSkipEgressChange(event.target.checked)}
+                  className="h-3 w-3 accent-stone-800"
+                />
+                本次不上传（仅检索）
+              </label>
+            </div>
           </div>
-          <p className="mt-1.5 text-center text-[11px] text-stone-400">
-            检索与索引在本机完成；云端模式只发送问题与命中的片段
-          </p>
+          <p className="mt-1.5 text-center text-[11px] text-stone-400">{hint}</p>
         </div>
       </div>
     </section>

@@ -8,7 +8,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.models import Chunk, Document, Source
-from app.schemas import DocumentOut, ScanResult, SourceCreate, SourceOut
+from app.schemas import DocumentOut, ScanResult, SourceCreate, SourceOut, SourceUpdate
 from app.services.ingest import SourceNotFoundError
 
 router = APIRouter(prefix="/api/sources", tags=["sources"])
@@ -33,6 +33,7 @@ def _source_out(session: Session, source: Source) -> SourceOut:
         id=source.id,
         path=source.path,
         enabled=source.enabled,
+        egress_allowed=source.egress_allowed,
         document_count=document_count or 0,
         chunk_count=chunk_count or 0,
         last_scan_at=source.last_scan_at,
@@ -61,6 +62,24 @@ def add_source(payload: SourceCreate, request: Request) -> SourceOut:
             raise HTTPException(status_code=409, detail="该资料源已存在")
         source = Source(path=str(path))
         session.add(source)
+        session.commit()
+        session.refresh(source)
+        return _source_out(session, source)
+
+
+@router.patch("/{source_id}", response_model=SourceOut)
+def update_source(source_id: int, payload: SourceUpdate, request: Request) -> SourceOut:
+    """Toggle the egress policy of a source directory.
+
+    Enforced at chat time by filtering hits whose document belongs to a
+    disallowed source, so turning it off takes effect on the next question
+    without a reindex.
+    """
+    with _session_factory(request)() as session:
+        source = session.get(Source, source_id)
+        if source is None:
+            raise HTTPException(status_code=404, detail="资料源不存在")
+        source.egress_allowed = payload.egress_allowed
         session.commit()
         session.refresh(source)
         return _source_out(session, source)

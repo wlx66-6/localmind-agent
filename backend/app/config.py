@@ -9,6 +9,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 RetrievalMode = Literal["vector", "hybrid", "hybrid_rerank"]
+Track = Literal["cloud", "local"]
 
 
 class Settings(BaseSettings):
@@ -26,7 +27,15 @@ class Settings(BaseSettings):
 
     ollama_host: str = "http://127.0.0.1:11434"
     ollama_embed_model: str = "bge-m3"
+    ollama_chat_model: str = "qwen3.5:4b"
+    # Local generation is slower than cloud; the timeout only guards against a
+    # hung process, it is not a quality/performance target.
+    ollama_chat_timeout: float = 300.0
     embed_dim: int = 1024
+
+    # 生成轨道的全局默认值。单个会话可以在创建时或提问时覆盖它；
+    # env 只决定"新会话从哪条轨道起步"，不锁定任何东西。
+    default_track: Track = "cloud"
 
     qdrant_url: str = "http://127.0.0.1:6333"
     qdrant_collection: str = "localmind_chunks_v2"
@@ -50,6 +59,9 @@ class Settings(BaseSettings):
 
     rerank_model: str = "BAAI/bge-reranker-v2-m3"
     rerank_device: str = "auto"
+    # 本地轨道把重排放到 CPU：显存留给本地生成模型，两条轨道互不抢卡。
+    # 代价是重排延迟上升，实测数据见 docs/spikes/stage3-acceptance.md。
+    rerank_device_local: str = "cpu"
     rerank_batch_size: int = 8
     # Hugging Face cache root (models live under <hf_home>/hub, outside the repo).
     hf_home: Path | None = None

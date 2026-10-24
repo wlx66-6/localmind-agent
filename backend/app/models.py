@@ -20,6 +20,9 @@ class Source(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     path: Mapped[str] = mapped_column(String(1024), unique=True)
     enabled: Mapped[bool] = mapped_column(default=True)
+    # 出站策略：False 表示该目录下的文档永远不进入云端请求的上下文。
+    # 只在服务端过滤，前端开关只是入口。
+    egress_allowed: Mapped[bool] = mapped_column(default=True)
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
     last_scan_at: Mapped[datetime | None] = mapped_column(default=None)
 
@@ -69,6 +72,8 @@ class Conversation(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(200), default="新会话")
+    # NULL 表示"跟随当前 env 默认值"，用于兼容阶段 2 之前创建的会话。
+    track: Mapped[str | None] = mapped_column(String(16), default=None)
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
     messages: Mapped[list[Message]] = relationship(
@@ -86,6 +91,9 @@ class Message(Base):
     role: Mapped[str] = mapped_column(String(16))
     content: Mapped[str] = mapped_column(Text)
     citations_json: Mapped[str] = mapped_column(Text, default="[]")
+    # 每条回答记录实际使用的轨道与延迟/出站指标，便于事后核对"这句话是谁生成的"。
+    track: Mapped[str | None] = mapped_column(String(16), default=None)
+    metrics_json: Mapped[str] = mapped_column(Text, default="{}")
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
     conversation: Mapped[Conversation] = relationship(back_populates="messages")
