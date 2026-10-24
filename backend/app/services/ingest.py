@@ -15,7 +15,8 @@ from app.ingestion.parser import parse_document
 from app.ingestion.scanner import MAX_FILE_BYTES, iter_source_files, sha256_file
 from app.models import Chunk, Document, Source, utcnow
 from app.retrieval.embedder import Embedder
-from app.retrieval.vector_store import QdrantStore, point_id_for
+from app.retrieval.sparse import sparse_vector
+from app.retrieval.vector_store import DENSE_VECTOR, SPARSE_VECTOR, QdrantStore, point_id_for
 
 logger = logging.getLogger("localmind.ingest")
 
@@ -52,7 +53,13 @@ class IngestService:
         self._embedder = embedder
         self._store = store
 
-    async def scan_source(self, source_id: int) -> ScanStats:
+    async def scan_source(self, source_id: int, *, force: bool = False) -> ScanStats:
+        """Index a source directory.
+
+        ``force`` ignores the content-hash skip and re-embeds every file. It is
+        needed after a retrieval-layer change (e.g. adding sparse vectors),
+        because unchanged files would otherwise keep old points.
+        """
         stats = ScanStats()
         with self._session_factory() as session:
             source = session.get(Source, source_id)
@@ -68,7 +75,7 @@ class IngestService:
                 # A file that exists but fails to index must not be treated as deleted.
                 seen.add(str(path.resolve()))
                 try:
-                    await self._index_file(session, source, root, path, stats)
+                    await self._index_file(session, source, root, path, stats, force=force)
                 except Exception as exc:
                     session.rollback()
                     stats.failed += 1
@@ -105,6 +112,8 @@ class IngestService:
         root: Path,
         path: Path,
         stats: ScanStats,
+        *,
+        force: bool = False,
     ) -> None:
         rel_path = path.relative_to(root).as_posix()
         abs_path = str(path.resolve())
@@ -115,7 +124,8 @@ class IngestService:
         document = session.scalar(select(Document).where(Document.abs_path == abs_path))
         content_hash = sha256_file(path)
         if (
-            document is not None
+            not force
+            and document is not None
             and document.content_hash == content_hash
             and session.scalar(select(Chunk.id).where(Chunk.document_id == document.id))
         ):
@@ -169,7 +179,12 @@ class IngestService:
             points.append(
                 models.PointStruct(
                     id=qdrant_id,
-                    vector=vector,
+                    # Dense and sparse come from the same embedding_text so both
+                    # routes see the same heading context.
+                    vector={
+                        DENSE_VECTOR: vector,
+                        SPARSE_VECTOR: sparse_vector(chunk.embedding_text),
+                    },
                     payload={
                         "document_id": document.id,
                         "chunk_id": chunk_id,

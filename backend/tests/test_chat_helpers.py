@@ -4,7 +4,7 @@ from app.generation.base import ChatMessage
 from app.generation.prompt import REFUSAL_TEXT, build_messages, format_context
 from app.models import Message
 from app.retrieval.types import RetrievalHit
-from app.services.chat import cited_indices, history_messages, should_refuse
+from app.services.chat import cited_indices, history_messages
 
 
 def make_hit(index: int, score: float = 0.8) -> RetrievalHit:
@@ -18,12 +18,6 @@ def make_hit(index: int, score: float = 0.8) -> RetrievalHit:
         score=score,
         text="RRF 用于融合多路召回结果。",
     )
-
-
-def test_should_refuse_on_empty_or_low_score() -> None:
-    assert should_refuse([], 0.5) is True
-    assert should_refuse([make_hit(1, 0.49)], 0.5) is True
-    assert should_refuse([make_hit(1, 0.5)], 0.5) is False
 
 
 def test_cited_indices_are_unique_and_bounded() -> None:

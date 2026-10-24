@@ -3,6 +3,7 @@
 Usage:
     .venv/Scripts/python.exe scripts/ingest_cli.py add "D:\\notes"
     .venv/Scripts/python.exe scripts/ingest_cli.py scan 1
+    .venv/Scripts/python.exe scripts/ingest_cli.py scan 1 --force
     .venv/Scripts/python.exe scripts/ingest_cli.py list
 """
 
@@ -58,7 +59,7 @@ async def run(args: argparse.Namespace) -> int:
             return 0
 
         if args.command == "scan":
-            stats = await service.scan_source(args.source_id)
+            stats = await service.scan_source(args.source_id, force=args.force)
             print(
                 f"scanned={stats.scanned} indexed={stats.indexed} "
                 f"skipped={stats.skipped} removed={stats.removed} failed={stats.failed}"
@@ -80,6 +81,11 @@ def main() -> int:
     add.add_argument("path")
     scan = sub.add_parser("scan")
     scan.add_argument("source_id", type=int)
+    scan.add_argument(
+        "--force",
+        action="store_true",
+        help="re-embed unchanged files (needed after a retrieval-layer change)",
+    )
     sub.add_parser("list")
     args = parser.parse_args()
     return asyncio.run(run(args))

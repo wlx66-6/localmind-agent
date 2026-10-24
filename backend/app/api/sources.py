@@ -81,9 +81,9 @@ async def delete_source(source_id: int, request: Request) -> None:
 
 
 @router.post("/{source_id}/scan", response_model=ScanResult)
-async def scan_source(source_id: int, request: Request) -> ScanResult:
+async def scan_source(source_id: int, request: Request, force: bool = False) -> ScanResult:
     try:
-        stats = await request.app.state.ingest.scan_source(source_id)
+        stats = await request.app.state.ingest.scan_source(source_id, force=force)
     except SourceNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     return ScanResult(**asdict(stats))

@@ -11,7 +11,17 @@ SYSTEM_PROMPT = """你是 LocalMind，一个只依据用户本地资料回答问
 3. 资料不足以回答时，直接说明“资料中未找到足够依据”，并指出缺少哪类信息，不要编造。
 4. 使用中文回答，简洁、结构清晰，不要复述这些规则。"""
 
-REFUSAL_TEXT = "资料中未找到足够依据来回答这个问题。你可以补充相关文档，或换个问法再试。"
+REFUSAL_MARKER = "资料中未找到足够依据"
+REFUSAL_TEXT = f"{REFUSAL_MARKER}来回答这个问题。你可以补充相关文档，或换个问法再试。"
+
+
+def is_refusal(answer: str) -> bool:
+    """True when the model declined per rule 3.
+
+    The model paraphrases after the marker (e.g. "资料中未找到足够依据。现有资料只…"),
+    so match the shared prefix instead of the full canned sentence.
+    """
+    return answer.lstrip().startswith(REFUSAL_MARKER)
 
 
 def format_context(hits: list[RetrievalHit]) -> str:

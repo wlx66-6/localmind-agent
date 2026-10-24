@@ -13,13 +13,14 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.api.sse import sse_event
 from app.generation.base import ChatMessage, ProviderError
-from app.generation.prompt import REFUSAL_TEXT, build_messages
+from app.generation.prompt import REFUSAL_TEXT, build_messages, is_refusal
 from app.models import Conversation, Message
 from app.retrieval.embedder import EmbeddingError
+from app.retrieval.pipeline import retrieve, should_refuse
 from app.retrieval.types import RetrievalHit
 from app.retrieval.vector_store import VectorStoreError
 from app.schemas import ChatRequest, ConversationOut, MessageOut
-from app.services.chat import cited_indices, history_messages, retrieve, should_refuse
+from app.services.chat import cited_indices, history_messages
 
 logger = logging.getLogger("localmind.chat")
 router = APIRouter(prefix="/api", tags=["chat"])
@@ -58,6 +59,7 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
     settings = request.app.state.settings
     embedder = request.app.state.embedder
     store = request.app.state.store
+    reranker = request.app.state.reranker
     provider = request.app.state.provider
     session_factory = _session_factory(request)
     question = payload.message.strip()
@@ -78,16 +80,20 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
             history = history_messages(prior, settings.chat_history_turns)
 
     try:
-        hits = await retrieve(
+        result = await retrieve(
             embedder,
             store,
+            reranker,
             question,
+            mode=settings.retrieval_mode,
             top_k=settings.retrieval_top_k,
-            min_score=settings.retrieval_min_score,
+            top_n=settings.retrieval_top_n,
+            rrf_k=settings.rrf_k,
         )
     except (EmbeddingError, VectorStoreError) as exc:
         logger.warning("retrieval_failed", extra={"event": "retrieval_failed", "error": str(exc)})
         raise HTTPException(status_code=503, detail=str(exc)) from exc
+    hits = result.hits
 
     # 检索成功后再落库：避免检索失败留下空会话；会话与首条消息同事务提交，满足外键约束。
     with session_factory() as session:
@@ -99,7 +105,11 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
         session.add(Message(conversation_id=conversation_id, role="user", content=question))
         session.commit()
 
-    refusal = should_refuse(hits, settings.retrieval_min_score)
+    refusal = should_refuse(
+        hits,
+        min_rerank_score=settings.retrieval_gate_rerank_score,
+        min_dense_score=settings.retrieval_min_score,
+    )
 
     async def event_stream() -> AsyncIterator[str]:
         yield sse_event(
@@ -107,6 +117,14 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
             {
                 "conversation_id": conversation_id,
                 "items": _citation_payload(hits),
+                # The trace makes retrieval debuggable from the UI and from
+                # recorded stages; it never leaves the machine.
+                "retrieval": {
+                    "mode": result.mode,
+                    "rerank_failed": result.rerank_failed,
+                    "timings": asdict(result.timings),
+                },
+                "refused": refusal,
             },
         )
         if refusal:
@@ -157,6 +175,18 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
         answer = "".join(parts)
         cited = cited_indices(answer, len(hits))
         citations = [asdict(hit) for hit in hits if hit.index in cited]
+        # Second refusal layer: retrieval passed the gate but the model found the
+        # snippets insufficient (topically related, missing the actual fact).
+        refused_by_model = is_refusal(answer)
+        if refused_by_model:
+            logger.info(
+                "generation_refused",
+                extra={
+                    "event": "generation_refused",
+                    "conversation_id": conversation_id,
+                    "top_rerank_score": hits[0].rerank_score if hits else None,
+                },
+            )
         message_id = _save_assistant(session_factory, conversation_id, answer, citations)
         yield sse_event(
             "done",
@@ -164,7 +194,7 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
                 "message_id": message_id,
                 "conversation_id": conversation_id,
                 "cited": cited,
-                "refused": False,
+                "refused": refused_by_model,
             },
         )
 

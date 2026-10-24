@@ -1,4 +1,17 @@
-import type { ChatMessage } from '../types'
+import type { ChatMessage, Citation } from '../types'
+
+function traceLabel(citation: Citation): string {
+  const parts: string[] = []
+  if (citation.dense_rank !== null) parts.push(`稠密 #${citation.dense_rank}`)
+  if (citation.sparse_rank !== null) parts.push(`稀疏 #${citation.sparse_rank}`)
+  if (citation.fused_rank !== null) parts.push(`融合 #${citation.fused_rank}`)
+  if (citation.rerank_score !== null) {
+    parts.push(`重排 ${citation.rerank_score.toFixed(3)}`)
+  } else if (citation.dense_score !== null) {
+    parts.push(`相似度 ${citation.dense_score.toFixed(3)}`)
+  }
+  return parts.join(' · ')
+}
 
 type Props = {
   message: ChatMessage | null
@@ -45,9 +58,12 @@ export default function CitationPanel({ message, onClose }: Props) {
                   <span
                     className={`text-[10px] ${cited ? 'text-emerald-600' : 'text-stone-400'}`}
                   >
-                    {cited ? '已引用' : '仅召回'} · 相似度 {citation.score.toFixed(3)}
+                    {cited ? '已引用' : '仅召回'}
                   </span>
                 </div>
+                <p className="mt-1 text-[10px] tabular-nums text-stone-400">
+                  {traceLabel(citation)}
+                </p>
                 <p className="mt-2 break-all text-[11px] font-medium text-stone-700">
                   {citation.path}
                   {citation.heading && <span className="text-stone-400"> › {citation.heading}</span>}
