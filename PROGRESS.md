@@ -4,8 +4,8 @@
 
 ## 当前状态
 
-- **当前阶段**：阶段 1 · 端到端基线（需求确认中）
-- **最近更新**：2026-10-24
+- **当前阶段**：阶段 1 · 端到端基线（实现完成，验收中）
+- **最近更新**：2026-10-25
 - **仓库**：`git@github.com:wlx66-6/localmind-agent.git`（私有）
 
 ## 已完成
@@ -31,6 +31,21 @@
 - [x] 运行 `scripts/spike_stage0.py`，生成报告（`docs/spikes/stage0-report.json`）
 - [x] 阶段 0 验收记录（`docs/spikes/stage0-acceptance.md`）
 - [x] 发现并修正：FastEmbed BM25 不支持中文 → jieba + Qdrant IDF（ADR-0005）
+
+## 阶段 1 进展
+
+- [x] 需求确认：密钥自填 `.env`、SQLite + Qdrant、Tailwind、标题感知分块、保留 6 轮对话、引用到文件+小节+行号
+- [x] 后端骨架：FastAPI + Pydantic Settings + SQLAlchemy 2.0 + JSON 结构化日志
+- [x] 摄取：白名单目录扫描（md/txt）、哈希增量跳过、标题感知分块、批量嵌入
+- [x] 检索：Ollama `bge-m3` + Qdrant dense 检索，阈值 0.5（实测：相关 0.62～0.71，无关 0.40～0.47）
+- [x] 生成：DeepSeek provider + SSE 流式（citations → token → done / error）
+- [x] 拒答：低于阈值不调用模型，直接返回固定文案并落库
+- [x] 前端：React + Vite + TS + Tailwind 单页；对话流式渲染、`[n]` 引用定位、引用侧栏、资料源管理、健康状态
+- [x] 测试：17 个用例通过（分块、摄取增量、会话持久化、拒答、云端未配置）
+- [x] ADR-0006（存储分工）、ADR-0007（分块与引用）、ADR-0008（SSE 协议）
+- [x] README 快速启动与架构说明
+- [ ] 待用户验收：填写 `DEEPSEEK_API_KEY` 后测一次真实云端回答的引用准确率
+- [ ] 阶段 1 commit（验收通过后）
 
 ## 正式阶段计划（方案 A · 价值前置）
 
@@ -105,7 +120,7 @@
 | 前端 | React + Vite + TypeScript |
 | 向量库 | Qdrant（Docker，仅 localhost） |
 | 本地推理 | Ollama + `qwen3.5:4b`（Q4_K_M，关闭 thinking） |
-| 嵌入 / 稀疏 | `bge-m3`（dense）+ FastEmbed BM25（sparse） |
+| 嵌入 / 稀疏 | `bge-m3`（dense）+ jieba 分词 BM25（sparse，阶段 2 接入） |
 | Rerank | `BAAI/bge-reranker-v2-m3` |
 | 云端 | DeepSeek（OpenAI 兼容，薄抽象可插拔） |
 | 解析 | PyMuPDF + python-docx；OCR 不纳入首版 |
@@ -113,8 +128,8 @@
 
 ## 未决问题
 
-1. DeepSeek API 密钥（云端模式需要；需单独授权并写入 `.env`）。
-2. 演示语料：公开示例 vs 仅本地资料。
+1. DeepSeek API 密钥（云端模式需要；由项目作者自行填入 `.env`）。
+2. ~~演示语料：公开示例 vs 仅本地资料~~ → 由协作代理编写 8～10 篇公开技术笔记，已提交到 `examples/corpus/`。
 3. 扫描版 PDF 的 OCR 是否在阶段 5 纳入（首版不纳入）。
 4. ~~阶段 0 spike 的显存共存策略~~ → 实测三模型可共存（7.6 / 8.15 GB），默认常驻；阶段 2 压测最坏情况后再决定 rerank 是否按需卸载。
 
@@ -123,3 +138,4 @@
 - **2026-10-24**：完成第 0～3 步；初始化仓库并推送首次 commit；选定方案 A；创建 `PROGRESS.md`。
 - **2026-10-24**：阶段 0 验收通过（项目作者确认），进入阶段 1 需求确认。
 - **2026-10-24**：阶段 0 spike 通过。本地三模型跑通（首 token 0.26～0.38s、79 tok/s、显存 7.6/8.15GB）；Qdrant 混合检索可用；发现 FastEmbed BM25 中文失效并改为 jieba + IDF；验收记录见 `docs/spikes/stage0-acceptance.md`。
+- **2026-10-25**：阶段 1 实现完成：后端闭环 + 前端单页 + 17 个测试 + ADR-0006～0008 + README；修复"会话未提交导致消息外键失败"的 bug；等待作者验收。

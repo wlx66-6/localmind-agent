@@ -29,8 +29,9 @@ volumes/
 *.db
 
 # ---- Corpora (large / private) ----
-corpus/
-corpora/
+# 只忽略仓库根目录下的私有大语料；examples/corpus 是公开演示语料，需要入库。
+/corpus/
+/corpora/
 testdata/large/
 testdata/private/
 

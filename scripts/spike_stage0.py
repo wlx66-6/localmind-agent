@@ -25,8 +25,31 @@ import httpx
 # FastEmbed 自带的 Qdrant/bm25 对中文几乎不分词（整段中文会退化成 1 个 token），
 # 因此这里用 jieba 分词 + 哈希索引自建稀疏向量，IDF 交给 Qdrant 服务端计算。
 STOPWORDS = {
-    "的", "了", "和", "与", "及", "或", "是", "在", "对", "为", "把", "被", "就",
-    "都", "而", "等", "这", "那", "有", "也", "一个", "一种", "我们", "你", "我",
+    "的",
+    "了",
+    "和",
+    "与",
+    "及",
+    "或",
+    "是",
+    "在",
+    "对",
+    "为",
+    "把",
+    "被",
+    "就",
+    "都",
+    "而",
+    "等",
+    "这",
+    "那",
+    "有",
+    "也",
+    "一个",
+    "一种",
+    "我们",
+    "你",
+    "我",
 }
 
 OLLAMA = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
@@ -47,7 +70,7 @@ def vram() -> str:
             check=True,
         ).stdout.strip()
         return out
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         return f"unavailable: {exc}"
 
 
@@ -87,19 +110,21 @@ def generate(prompt: str) -> dict[str, Any]:
     first_token_s: float | None = None
     chunks: list[str] = []
     final: dict[str, Any] = {}
-    with httpx.Client(timeout=180) as client:
-        with client.stream("POST", f"{OLLAMA}/api/chat", json=payload) as response:
-            response.raise_for_status()
-            for line in response.iter_lines():
-                if not line:
-                    continue
-                obj = json.loads(line)
-                content = (obj.get("message") or {}).get("content") or ""
-                if content and first_token_s is None:
-                    first_token_s = time.perf_counter() - start
-                chunks.append(content)
-                if obj.get("done"):
-                    final = obj
+    with (
+        httpx.Client(timeout=180) as client,
+        client.stream("POST", f"{OLLAMA}/api/chat", json=payload) as response,
+    ):
+        response.raise_for_status()
+        for line in response.iter_lines():
+            if not line:
+                continue
+            obj = json.loads(line)
+            content = (obj.get("message") or {}).get("content") or ""
+            if content and first_token_s is None:
+                first_token_s = time.perf_counter() - start
+            chunks.append(content)
+            if obj.get("done"):
+                final = obj
     total_s = time.perf_counter() - start
     text = "".join(chunks)
     eval_count = final.get("eval_count") or 0
@@ -127,9 +152,7 @@ def embed(texts: list[str]) -> dict[str, Any]:
         cold_load_s = time.perf_counter() - load_start
 
         start = time.perf_counter()
-        response = client.post(
-            f"{OLLAMA}/api/embed", json={"model": EMBED_MODEL, "input": texts}
-        )
+        response = client.post(f"{OLLAMA}/api/embed", json={"model": EMBED_MODEL, "input": texts})
         response.raise_for_status()
         data = response.json()
         elapsed_s = time.perf_counter() - start
@@ -159,7 +182,9 @@ def rerank(query: str, docs: list[str]) -> dict[str, Any]:
     start = time.perf_counter()
     scores = model.predict([(query, doc) for doc in docs])
     elapsed_s = time.perf_counter() - start
-    ranked = sorted(zip(docs, scores.tolist()), key=lambda pair: pair[1], reverse=True)
+    ranked = sorted(
+        zip(docs, scores.tolist(), strict=False), key=lambda pair: pair[1], reverse=True
+    )
     return {
         "model": RERANK_MODEL,
         "device": device,
@@ -218,9 +243,7 @@ def qdrant_hybrid(vectors: list[list[float]]) -> dict[str, Any]:
         vectors_config={
             "dense": models.VectorParams(size=len(vectors[0]), distance=models.Distance.COSINE)
         },
-        sparse_vectors_config={
-            "sparse": models.SparseVectorParams(modifier=models.Modifier.IDF)
-        },
+        sparse_vectors_config={"sparse": models.SparseVectorParams(modifier=models.Modifier.IDF)},
     )
     sparse_vectors = [sparse_vector(doc) for doc in docs]
     points = [
@@ -268,7 +291,10 @@ def qdrant_hybrid(vectors: list[list[float]]) -> dict[str, Any]:
 
 
 def main() -> None:
-    report: dict[str, Any] = {"started_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "vram_start": vram()}
+    report: dict[str, Any] = {
+        "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "vram_start": vram(),
+    }
     print(f"[spike] VRAM before: {report['vram_start']}")
     print(f"[spike] Ollama models: {ollama_tags()} loaded: {ollama_ps()}")
 
