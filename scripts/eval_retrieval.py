@@ -4,6 +4,15 @@ The gold set stores a verbatim quote from the corpus, not a chunk id, so the
 dataset survives re-chunking. Quotes are resolved to chunks at runtime by
 re-parsing the corpus with the same chunker the ingester uses.
 
+Each answerable question has two annotations:
+
+* ``gold`` — the minimal passage(s) that contain the answer. Drives retrieval
+  metrics (Hit/Recall/MRR) and citation recall.
+* ``acceptable`` — additional passages that also support a correct answer.
+  Only used to judge citation precision, so a multi-part question is not
+  penalised for citing a second relevant snippet. Deliberately annotated from
+  the corpus content alone, not from model output.
+
 Usage:
     .venv/Scripts/python.exe scripts/eval_retrieval.py
     .venv/Scripts/python.exe scripts/eval_retrieval.py --full   # adds cloud generation
@@ -52,6 +61,7 @@ class EvalQuestion:
     category: str
     question: str
     gold: list[dict[str, str]]
+    acceptable: list[dict[str, str]]
 
     @property
     def answerable(self) -> bool:
@@ -80,6 +90,7 @@ def load_questions(path: Path) -> list[EvalQuestion]:
                 category=raw["category"],
                 question=raw["question"],
                 gold=raw.get("gold", []),
+                acceptable=raw.get("acceptable", []),
             )
         )
     return questions
@@ -101,12 +112,16 @@ def chunk_corpus(corpus_root: Path, settings: Settings) -> dict[str, list[ChunkD
     return cache
 
 
-def resolve_gold(
-    question: EvalQuestion, chunks: dict[str, list[ChunkData]]
+def resolve_items(
+    question_id: str,
+    items: list[dict[str, str]],
+    chunks: dict[str, list[ChunkData]],
+    *,
+    label: str,
 ) -> tuple[list[ResolvedGold], list[str]]:
     resolved: list[ResolvedGold] = []
     problems: list[str] = []
-    for item in question.gold:
+    for item in items:
         path = item["path"]
         quote = normalize(item["quote"])
         candidates = [
@@ -116,7 +131,7 @@ def resolve_gold(
         ]
         if len(candidates) != 1:
             problems.append(
-                f"{question.id}: expected 1 chunk for {path} / {item['heading']}, "
+                f"{question_id} ({label}): expected 1 chunk for {path} / {item['heading']}, "
                 f"found {len(candidates)}"
             )
             continue
@@ -329,6 +344,7 @@ def calibrate_threshold(records: list[dict[str, Any]]) -> dict[str, Any]:
 async def run_generation(
     questions: list[EvalQuestion],
     resolved: dict[str, list[ResolvedGold]],
+    accepted: dict[str, list[ResolvedGold]],
     embedder: OllamaEmbedder,
     store: QdrantStore,
     reranker: CrossEncoderReranker,
@@ -361,13 +377,29 @@ async def run_generation(
             rrf_k=settings.rrf_k,
         )
         gold_keys = {item.key for item in resolved.get(question.id, [])}
+        accepted_keys = {item.key for item in accepted.get(question.id, [])}
         gold_indices = {hit.index for hit in result.hits if hit_key(hit) in gold_keys}
+        accepted_indices = {hit.index for hit in result.hits if hit_key(hit) in accepted_keys}
         record: dict[str, Any] = {
             "id": question.id,
             "category": question.category,
             "answerable": question.answerable,
             "top_score": top_score(result.hits[0] if result.hits else None, "hybrid_rerank"),
             "gold_indices": sorted(gold_indices),
+            "accepted_indices": sorted(accepted_indices),
+            # Keep the retrieved chunks so a saved report can be re-scored
+            # against updated annotations without another cloud call.
+            "hits": [
+                {
+                    "index": hit.index,
+                    "path": hit.path,
+                    "heading": hit.heading,
+                    "lines": [hit.start_line, hit.end_line],
+                    "gold": hit_key(hit) in gold_keys,
+                    "accepted": hit_key(hit) in accepted_keys,
+                }
+                for hit in result.hits
+            ],
         }
 
         if should_refuse(
@@ -401,6 +433,7 @@ async def run_generation(
         answer = "".join(parts)
         cited = cited_indices(answer, len(result.hits))
         cited_gold = set(cited) & gold_indices
+        cited_accepted = set(cited) & accepted_indices
         ttft = (first_token_at - started) * 1000 if first_token_at else None
         if ttft is not None:
             ttfts.append(ttft)
@@ -419,7 +452,10 @@ async def run_generation(
             total_ms=round(total, 2),
         )
         if question.answerable and not model_refused and not error:
-            record["citation_precision"] = len(cited_gold) / len(cited) if cited else 0.0
+            # Precision is judged against gold + acceptable passages; the
+            # gold-only figure is kept as a conservative lower bound.
+            record["citation_precision"] = len(cited_accepted) / len(cited) if cited else 0.0
+            record["citation_precision_strict"] = len(cited_gold) / len(cited) if cited else 0.0
             record["citation_recall"] = len(cited_gold) / len(gold_indices) if gold_indices else 0.0
         records.append(record)
 
@@ -441,6 +477,11 @@ async def run_generation(
         "false_answers": sum(1 for item in records if item["false_answer"]),
         "citation_precision": _mean(
             item["citation_precision"] for item in answered if "citation_precision" in item
+        ),
+        "citation_precision_strict": _mean(
+            item["citation_precision_strict"]
+            for item in answered
+            if "citation_precision_strict" in item
         ),
         "citation_recall": _mean(
             item["citation_recall"] for item in answered if "citation_recall" in item
@@ -519,7 +560,9 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"- true answers falsely refused: {generation['false_refusals']}"
             f"/{generation['answerable']}",
             f"- unanswerable falsely answered: {generation['false_answers']}",
-            f"- citation precision (gold-based, strict): {_pct(generation['citation_precision'])}",
+            f"- citation precision (gold + acceptable): {_pct(generation['citation_precision'])}",
+            f"- citation precision (gold only, strict): "
+            f"{_pct(generation['citation_precision_strict'])}",
             f"- citation recall (gold-based): {_pct(generation['citation_recall'])}",
             f"- first token p50 / p95: "
             f"{generation['ttft_ms']['p50']:.0f} / {generation['ttft_ms']['p95']:.0f} ms",
@@ -563,16 +606,23 @@ async def run(args: argparse.Namespace) -> int:
     chunks = chunk_corpus(corpus_root, settings)
 
     resolved: dict[str, list[ResolvedGold]] = {}
+    accepted: dict[str, list[ResolvedGold]] = {}
     problems: list[str] = []
     for question in questions:
         if not question.answerable:
             continue
-        items, issue = resolve_gold(question, chunks)
+        items, issue = resolve_items(question.id, question.gold, chunks, label="gold")
+        extras, extra_issue = resolve_items(
+            question.id, question.acceptable, chunks, label="acceptable"
+        )
         resolved[question.id] = items
+        by_key = {item.key: item for item in [*items, *extras]}
+        accepted[question.id] = list(by_key.values())
         problems.extend(issue)
+        problems.extend(extra_issue)
     if problems:
         for problem in problems:
-            print(f"gold resolution failed: {problem}", file=sys.stderr)
+            print(f"annotation resolution failed: {problem}", file=sys.stderr)
         return 2
 
     answerable = sum(1 for question in questions if question.answerable)
@@ -642,6 +692,7 @@ async def run(args: argparse.Namespace) -> int:
             report["generation"] = await run_generation(
                 questions,
                 resolved,
+                accepted,
                 embedder,
                 store,
                 reranker,
