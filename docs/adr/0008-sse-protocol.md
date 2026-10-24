@@ -21,7 +21,8 @@
 
 规则：
 
-- **拒答不进生成**：检索分数低于阈值时不调用云端，直接 `token` 输出固定拒答文案 + `done(refused=true)`，从机制上保证"没依据就不编"。
+- **拒答分两层**：检索闸门（top1 rerank 分数低于 `retrieval_gate_rerank_score`）触发时，不调用云端，直接 `token` 输出固定拒答文案 + `done(refused=true)`；灰区问题会进入生成，模型按 prompt 输出“资料中未找到足够依据”时，`done(refused=true)` 且 `cited` 保留实际引用，前端展示“资料不足”标记。
+- **检索明细随 `citations` 返回**：`retrieval` 字段包含模式、重排是否降级、各阶段耗时；每个片段带 `dense_rank / sparse_rank / fused_rank / dense_score / rerank_score`，前端引用卡片据此显示“稠密 #2 · 稀疏 #5 · 融合 #3 · 重排 0.82”。
 - **引用先于回答**：前端先拿到候选片段，用户可在等待生成时查看依据；生成结束后 `cited` 标记哪些真的被引用。
 - **前端不用 EventSource**：用 `fetch` + `ReadableStream` 手工解析 SSE 帧（按 `\n\n` 分帧，`event:` / `data:` 行）。
 - **错误也是 SSE 事件**：流一旦开始，HTTP 状态码已发出，后续错误只能通过 `error` 事件表达；非流式错误（参数非法、会话不存在、检索服务不可用）仍用普通 4xx/5xx + JSON `detail`。
