@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T16:54:33+00:00",
+  "generated_at": "2026-10-24T17:16:16+00:00",
   "collection": "localmind_chunks_v2",
   "corpus_root": "D:\\code\\LocalMind\\examples\\corpus",
   "top_k": 5,
@@ -22,9 +22,9 @@
       "refusal_accuracy_unanswerable": 0.2,
       "false_refusal_rate": 0.0,
       "latency_ms": {
-        "p50": 19.26,
-        "p95": 22.14,
-        "mean": 20.4
+        "p50": 22.11,
+        "p95": 26.98,
+        "mean": 23.5
       },
       "per_question": [
         {
@@ -111,11 +111,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 45.63,
-            "dense_ms": 12.02,
+            "embed_ms": 62.8,
+            "dense_ms": 14.25,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 57.65
+            "total_ms": 77.05
           },
           "rerank_failed": false,
           "hit": true,
@@ -207,11 +207,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.52,
-            "dense_ms": 7.57,
+            "embed_ms": 14.67,
+            "dense_ms": 5.68,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 22.09
+            "total_ms": 20.35
           },
           "rerank_failed": false,
           "hit": true,
@@ -303,11 +303,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.69,
-            "dense_ms": 5.66,
+            "embed_ms": 16.63,
+            "dense_ms": 5.47,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 21.35
+            "total_ms": 22.1
           },
           "rerank_failed": false,
           "hit": true,
@@ -399,11 +399,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.1,
-            "dense_ms": 5.13,
+            "embed_ms": 15.88,
+            "dense_ms": 6.14,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.23
+            "total_ms": 22.02
           },
           "rerank_failed": false,
           "hit": true,
@@ -495,11 +495,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.73,
-            "dense_ms": 5.18,
+            "embed_ms": 15.87,
+            "dense_ms": 6.45,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.91
+            "total_ms": 22.33
           },
           "rerank_failed": false,
           "hit": true,
@@ -591,11 +591,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.12,
-            "dense_ms": 5.6,
+            "embed_ms": 18.2,
+            "dense_ms": 5.65,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.72
+            "total_ms": 23.85
           },
           "rerank_failed": false,
           "hit": true,
@@ -687,11 +687,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.38,
-            "dense_ms": 5.89,
+            "embed_ms": 18.75,
+            "dense_ms": 5.46,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 21.27
+            "total_ms": 24.21
           },
           "rerank_failed": false,
           "hit": true,
@@ -783,11 +783,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.99,
-            "dense_ms": 5.28,
+            "embed_ms": 16.25,
+            "dense_ms": 6.35,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.28
+            "total_ms": 22.6
           },
           "rerank_failed": false,
           "hit": true,
@@ -879,11 +879,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.12,
-            "dense_ms": 5.09,
+            "embed_ms": 16.07,
+            "dense_ms": 5.25,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 19.21
+            "total_ms": 21.32
           },
           "rerank_failed": false,
           "hit": true,
@@ -975,11 +975,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.0,
-            "dense_ms": 5.62,
+            "embed_ms": 14.99,
+            "dense_ms": 5.53,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.62
+            "total_ms": 20.51
           },
           "rerank_failed": false,
           "hit": true,
@@ -1071,11 +1071,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.15,
-            "dense_ms": 5.65,
+            "embed_ms": 18.32,
+            "dense_ms": 5.1,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 21.8
+            "total_ms": 23.42
           },
           "rerank_failed": false,
           "hit": true,
@@ -1167,11 +1167,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.47,
-            "dense_ms": 6.02,
+            "embed_ms": 16.78,
+            "dense_ms": 6.14,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 21.49
+            "total_ms": 22.92
           },
           "rerank_failed": false,
           "hit": true,
@@ -1263,11 +1263,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.9,
-            "dense_ms": 5.24,
+            "embed_ms": 16.09,
+            "dense_ms": 5.72,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.14
+            "total_ms": 21.81
           },
           "rerank_failed": false,
           "hit": true,
@@ -1359,11 +1359,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.95,
-            "dense_ms": 5.27,
+            "embed_ms": 14.27,
+            "dense_ms": 5.04,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 19.21
+            "total_ms": 19.3
           },
           "rerank_failed": false,
           "hit": true,
@@ -1455,11 +1455,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.32,
-            "dense_ms": 5.23,
+            "embed_ms": 19.04,
+            "dense_ms": 4.62,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.55
+            "total_ms": 23.66
           },
           "rerank_failed": false,
           "hit": false,
@@ -1551,11 +1551,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.19,
-            "dense_ms": 5.03,
+            "embed_ms": 21.76,
+            "dense_ms": 5.17,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 19.22
+            "total_ms": 26.93
           },
           "rerank_failed": false,
           "hit": true,
@@ -1647,11 +1647,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.12,
-            "dense_ms": 6.15,
+            "embed_ms": 20.09,
+            "dense_ms": 6.34,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 22.27
+            "total_ms": 26.44
           },
           "rerank_failed": false,
           "hit": true,
@@ -1743,11 +1743,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.22,
-            "dense_ms": 5.19,
+            "embed_ms": 17.77,
+            "dense_ms": 5.48,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 19.41
+            "total_ms": 23.25
           },
           "rerank_failed": false,
           "hit": true,
@@ -1839,11 +1839,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.21,
-            "dense_ms": 5.81,
+            "embed_ms": 16.42,
+            "dense_ms": 8.18,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.02
+            "total_ms": 24.59
           },
           "rerank_failed": false,
           "hit": true,
@@ -1935,11 +1935,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.77,
-            "dense_ms": 4.77,
+            "embed_ms": 17.14,
+            "dense_ms": 5.28,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.53
+            "total_ms": 22.42
           },
           "rerank_failed": false,
           "hit": false,
@@ -2031,11 +2031,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.96,
-            "dense_ms": 4.76,
+            "embed_ms": 18.09,
+            "dense_ms": 5.29,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.72
+            "total_ms": 23.38
           },
           "rerank_failed": false,
           "hit": true,
@@ -2127,11 +2127,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.99,
-            "dense_ms": 4.48,
+            "embed_ms": 15.87,
+            "dense_ms": 5.15,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.47
+            "total_ms": 21.02
           },
           "rerank_failed": false,
           "hit": true,
@@ -2223,11 +2223,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.33,
-            "dense_ms": 4.38,
+            "embed_ms": 22.57,
+            "dense_ms": 5.24,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 19.7
+            "total_ms": 27.81
           },
           "rerank_failed": false,
           "hit": true,
@@ -2319,11 +2319,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.04,
-            "dense_ms": 4.27,
+            "embed_ms": 14.17,
+            "dense_ms": 3.99,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.32
+            "total_ms": 18.17
           },
           "rerank_failed": false,
           "hit": true,
@@ -2415,11 +2415,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.81,
-            "dense_ms": 5.33,
+            "embed_ms": 17.4,
+            "dense_ms": 5.88,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.14
+            "total_ms": 23.29
           },
           "rerank_failed": false,
           "hit": true,
@@ -2511,11 +2511,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.16,
-            "dense_ms": 4.74,
+            "embed_ms": 17.44,
+            "dense_ms": 4.67,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.9
+            "total_ms": 22.12
           },
           "rerank_failed": false,
           "hit": true,
@@ -2607,11 +2607,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.25,
-            "dense_ms": 4.43,
+            "embed_ms": 20.61,
+            "dense_ms": 4.95,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.69
+            "total_ms": 25.56
           },
           "rerank_failed": false,
           "hit": true,
@@ -2703,11 +2703,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.38,
-            "dense_ms": 4.33,
+            "embed_ms": 15.11,
+            "dense_ms": 6.19,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.71
+            "total_ms": 21.3
           },
           "rerank_failed": false,
           "hit": true,
@@ -2799,11 +2799,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.34,
-            "dense_ms": 4.75,
+            "embed_ms": 14.89,
+            "dense_ms": 5.0,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 20.08
+            "total_ms": 19.89
           },
           "rerank_failed": false,
           "hit": true,
@@ -2895,11 +2895,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.46,
-            "dense_ms": 4.42,
+            "embed_ms": 16.56,
+            "dense_ms": 4.7,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.88
+            "total_ms": 21.26
           },
           "rerank_failed": false,
           "hit": true,
@@ -2991,11 +2991,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.79,
-            "dense_ms": 4.4,
+            "embed_ms": 13.56,
+            "dense_ms": 4.7,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.2
+            "total_ms": 18.26
           },
           "rerank_failed": false
         },
@@ -3083,11 +3083,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.91,
-            "dense_ms": 5.6,
+            "embed_ms": 14.63,
+            "dense_ms": 5.42,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.51
+            "total_ms": 20.05
           },
           "rerank_failed": false
         },
@@ -3175,11 +3175,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.58,
-            "dense_ms": 4.58,
+            "embed_ms": 19.61,
+            "dense_ms": 4.67,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.16
+            "total_ms": 24.28
           },
           "rerank_failed": false
         },
@@ -3267,11 +3267,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.77,
-            "dense_ms": 4.8,
+            "embed_ms": 14.96,
+            "dense_ms": 4.6,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.57
+            "total_ms": 19.56
           },
           "rerank_failed": false
         },
@@ -3359,11 +3359,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.21,
-            "dense_ms": 4.34,
+            "embed_ms": 14.97,
+            "dense_ms": 4.85,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 18.55
+            "total_ms": 19.82
           },
           "rerank_failed": false
         },
@@ -3451,11 +3451,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.94,
-            "dense_ms": 4.93,
+            "embed_ms": 15.07,
+            "dense_ms": 4.63,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.87
+            "total_ms": 19.7
           },
           "rerank_failed": false
         },
@@ -3543,11 +3543,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.51,
-            "dense_ms": 4.7,
+            "embed_ms": 16.25,
+            "dense_ms": 5.39,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 19.2
+            "total_ms": 21.64
           },
           "rerank_failed": false
         },
@@ -3635,11 +3635,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.34,
-            "dense_ms": 4.52,
+            "embed_ms": 15.66,
+            "dense_ms": 4.62,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.85
+            "total_ms": 20.28
           },
           "rerank_failed": false
         },
@@ -3727,11 +3727,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.88,
-            "dense_ms": 4.69,
+            "embed_ms": 13.9,
+            "dense_ms": 5.39,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.57
+            "total_ms": 19.29
           },
           "rerank_failed": false
         },
@@ -3819,11 +3819,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.1,
-            "dense_ms": 4.31,
+            "embed_ms": 14.74,
+            "dense_ms": 5.17,
             "sparse_ms": 0.0,
             "rerank_ms": 0.0,
-            "total_ms": 17.41
+            "total_ms": 19.92
           },
           "rerank_failed": false
         }
@@ -3839,9 +3839,9 @@
       "refusal_accuracy_unanswerable": 0.4,
       "false_refusal_rate": 0.0,
       "latency_ms": {
-        "p50": 22.55,
-        "p95": 24.63,
-        "mean": 22.7
+        "p50": 25.35,
+        "p95": 30.62,
+        "mean": 25.93
       },
       "per_question": [
         {
@@ -3928,11 +3928,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.66,
-            "dense_ms": 4.5,
-            "sparse_ms": 4.21,
+            "embed_ms": 15.02,
+            "dense_ms": 4.68,
+            "sparse_ms": 4.62,
             "rerank_ms": 0.0,
-            "total_ms": 22.37
+            "total_ms": 24.32
           },
           "rerank_failed": false,
           "hit": true,
@@ -4024,11 +4024,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.48,
-            "dense_ms": 4.5,
-            "sparse_ms": 4.08,
+            "embed_ms": 15.24,
+            "dense_ms": 4.6,
+            "sparse_ms": 4.34,
             "rerank_ms": 0.0,
-            "total_ms": 22.07
+            "total_ms": 24.17
           },
           "rerank_failed": false,
           "hit": true,
@@ -4120,11 +4120,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.0,
-            "dense_ms": 4.4,
-            "sparse_ms": 4.36,
+            "embed_ms": 16.35,
+            "dense_ms": 5.16,
+            "sparse_ms": 4.03,
             "rerank_ms": 0.0,
-            "total_ms": 22.77
+            "total_ms": 25.54
           },
           "rerank_failed": false,
           "hit": true,
@@ -4216,11 +4216,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.81,
-            "dense_ms": 4.77,
-            "sparse_ms": 3.55,
+            "embed_ms": 14.05,
+            "dense_ms": 5.24,
+            "sparse_ms": 4.99,
             "rerank_ms": 0.0,
-            "total_ms": 21.13
+            "total_ms": 24.28
           },
           "rerank_failed": false,
           "hit": true,
@@ -4312,11 +4312,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.92,
-            "dense_ms": 4.04,
-            "sparse_ms": 3.8,
+            "embed_ms": 15.78,
+            "dense_ms": 4.7,
+            "sparse_ms": 4.65,
             "rerank_ms": 0.0,
-            "total_ms": 21.77
+            "total_ms": 25.14
           },
           "rerank_failed": false,
           "hit": true,
@@ -4408,11 +4408,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.42,
-            "dense_ms": 4.68,
-            "sparse_ms": 4.33,
+            "embed_ms": 16.58,
+            "dense_ms": 6.23,
+            "sparse_ms": 7.68,
             "rerank_ms": 0.0,
-            "total_ms": 23.42
+            "total_ms": 30.5
           },
           "rerank_failed": false,
           "hit": true,
@@ -4504,11 +4504,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.33,
-            "dense_ms": 5.42,
-            "sparse_ms": 5.22,
+            "embed_ms": 22.78,
+            "dense_ms": 4.82,
+            "sparse_ms": 4.97,
             "rerank_ms": 0.0,
-            "total_ms": 25.97
+            "total_ms": 32.57
           },
           "rerank_failed": false,
           "hit": true,
@@ -4600,11 +4600,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.5,
-            "dense_ms": 5.25,
-            "sparse_ms": 3.94,
+            "embed_ms": 15.68,
+            "dense_ms": 4.39,
+            "sparse_ms": 4.22,
             "rerank_ms": 0.0,
-            "total_ms": 23.7
+            "total_ms": 24.3
           },
           "rerank_failed": false,
           "hit": true,
@@ -4696,11 +4696,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.25,
-            "dense_ms": 4.25,
-            "sparse_ms": 3.66,
+            "embed_ms": 18.23,
+            "dense_ms": 4.94,
+            "sparse_ms": 4.25,
             "rerank_ms": 0.0,
-            "total_ms": 21.16
+            "total_ms": 27.41
           },
           "rerank_failed": false,
           "hit": true,
@@ -4792,11 +4792,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.95,
-            "dense_ms": 4.99,
-            "sparse_ms": 3.92,
+            "embed_ms": 21.96,
+            "dense_ms": 4.77,
+            "sparse_ms": 4.22,
             "rerank_ms": 0.0,
-            "total_ms": 23.86
+            "total_ms": 30.95
           },
           "rerank_failed": false,
           "hit": true,
@@ -4888,11 +4888,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.51,
-            "dense_ms": 4.62,
-            "sparse_ms": 4.35,
+            "embed_ms": 18.51,
+            "dense_ms": 6.81,
+            "sparse_ms": 5.08,
             "rerank_ms": 0.0,
-            "total_ms": 23.48
+            "total_ms": 30.41
           },
           "rerank_failed": false,
           "hit": true,
@@ -4984,11 +4984,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.77,
-            "dense_ms": 5.14,
-            "sparse_ms": 3.94,
+            "embed_ms": 14.48,
+            "dense_ms": 4.56,
+            "sparse_ms": 5.75,
             "rerank_ms": 0.0,
-            "total_ms": 23.85
+            "total_ms": 24.8
           },
           "rerank_failed": false,
           "hit": true,
@@ -5080,11 +5080,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.16,
-            "dense_ms": 4.58,
-            "sparse_ms": 4.14,
+            "embed_ms": 15.76,
+            "dense_ms": 4.57,
+            "sparse_ms": 4.33,
             "rerank_ms": 0.0,
-            "total_ms": 22.89
+            "total_ms": 24.66
           },
           "rerank_failed": false,
           "hit": true,
@@ -5176,11 +5176,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.5,
-            "dense_ms": 4.89,
-            "sparse_ms": 4.04,
+            "embed_ms": 14.71,
+            "dense_ms": 5.49,
+            "sparse_ms": 4.3,
             "rerank_ms": 0.0,
-            "total_ms": 22.43
+            "total_ms": 24.51
           },
           "rerank_failed": false,
           "hit": true,
@@ -5272,11 +5272,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.31,
-            "dense_ms": 4.86,
-            "sparse_ms": 5.35,
+            "embed_ms": 17.9,
+            "dense_ms": 4.85,
+            "sparse_ms": 5.15,
             "rerank_ms": 0.0,
-            "total_ms": 24.52
+            "total_ms": 27.9
           },
           "rerank_failed": false,
           "hit": false,
@@ -5368,11 +5368,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.25,
-            "dense_ms": 4.42,
-            "sparse_ms": 3.71,
+            "embed_ms": 15.16,
+            "dense_ms": 4.17,
+            "sparse_ms": 4.45,
             "rerank_ms": 0.0,
-            "total_ms": 21.37
+            "total_ms": 23.79
           },
           "rerank_failed": false,
           "hit": true,
@@ -5464,11 +5464,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.96,
-            "dense_ms": 4.82,
-            "sparse_ms": 4.04,
+            "embed_ms": 15.95,
+            "dense_ms": 4.91,
+            "sparse_ms": 5.3,
             "rerank_ms": 0.0,
-            "total_ms": 22.82
+            "total_ms": 26.17
           },
           "rerank_failed": false,
           "hit": true,
@@ -5560,11 +5560,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 12.98,
-            "dense_ms": 4.68,
-            "sparse_ms": 3.55,
+            "embed_ms": 17.58,
+            "dense_ms": 5.1,
+            "sparse_ms": 4.78,
             "rerank_ms": 0.0,
-            "total_ms": 21.22
+            "total_ms": 27.46
           },
           "rerank_failed": false,
           "hit": true,
@@ -5656,11 +5656,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.28,
-            "dense_ms": 4.45,
-            "sparse_ms": 4.86,
+            "embed_ms": 18.11,
+            "dense_ms": 5.14,
+            "sparse_ms": 6.02,
             "rerank_ms": 0.0,
-            "total_ms": 24.59
+            "total_ms": 29.26
           },
           "rerank_failed": false,
           "hit": true,
@@ -5752,11 +5752,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.09,
-            "dense_ms": 4.64,
-            "sparse_ms": 3.94,
+            "embed_ms": 15.28,
+            "dense_ms": 5.16,
+            "sparse_ms": 4.17,
             "rerank_ms": 0.0,
-            "total_ms": 21.67
+            "total_ms": 24.61
           },
           "rerank_failed": false,
           "hit": true,
@@ -5848,11 +5848,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.74,
-            "dense_ms": 4.67,
-            "sparse_ms": 3.99,
+            "embed_ms": 14.57,
+            "dense_ms": 4.72,
+            "sparse_ms": 4.05,
             "rerank_ms": 0.0,
-            "total_ms": 23.4
+            "total_ms": 23.35
           },
           "rerank_failed": false,
           "hit": true,
@@ -5944,11 +5944,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.02,
-            "dense_ms": 4.41,
-            "sparse_ms": 3.96,
+            "embed_ms": 15.35,
+            "dense_ms": 5.16,
+            "sparse_ms": 4.32,
             "rerank_ms": 0.0,
-            "total_ms": 21.39
+            "total_ms": 24.83
           },
           "rerank_failed": false,
           "hit": true,
@@ -6040,11 +6040,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.8,
-            "dense_ms": 4.52,
-            "sparse_ms": 4.01,
+            "embed_ms": 15.82,
+            "dense_ms": 4.56,
+            "sparse_ms": 6.79,
             "rerank_ms": 0.0,
-            "total_ms": 23.33
+            "total_ms": 27.17
           },
           "rerank_failed": false,
           "hit": true,
@@ -6136,11 +6136,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.1,
-            "dense_ms": 5.01,
-            "sparse_ms": 4.09,
+            "embed_ms": 17.08,
+            "dense_ms": 4.77,
+            "sparse_ms": 3.7,
             "rerank_ms": 0.0,
-            "total_ms": 22.2
+            "total_ms": 25.56
           },
           "rerank_failed": false,
           "hit": true,
@@ -6232,11 +6232,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.51,
-            "dense_ms": 4.67,
-            "sparse_ms": 3.86,
+            "embed_ms": 17.58,
+            "dense_ms": 4.8,
+            "sparse_ms": 4.55,
             "rerank_ms": 0.0,
-            "total_ms": 23.04
+            "total_ms": 26.93
           },
           "rerank_failed": false,
           "hit": true,
@@ -6328,11 +6328,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.0,
-            "dense_ms": 5.36,
-            "sparse_ms": 3.66,
+            "embed_ms": 15.07,
+            "dense_ms": 4.73,
+            "sparse_ms": 4.8,
             "rerank_ms": 0.0,
-            "total_ms": 24.02
+            "total_ms": 24.59
           },
           "rerank_failed": false,
           "hit": true,
@@ -6424,11 +6424,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.13,
-            "dense_ms": 4.16,
-            "sparse_ms": 4.84,
+            "embed_ms": 14.77,
+            "dense_ms": 5.58,
+            "sparse_ms": 3.91,
             "rerank_ms": 0.0,
-            "total_ms": 23.13
+            "total_ms": 24.27
           },
           "rerank_failed": false,
           "hit": true,
@@ -6520,11 +6520,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.03,
-            "dense_ms": 4.58,
-            "sparse_ms": 3.57,
+            "embed_ms": 15.04,
+            "dense_ms": 5.08,
+            "sparse_ms": 5.56,
             "rerank_ms": 0.0,
-            "total_ms": 22.18
+            "total_ms": 25.68
           },
           "rerank_failed": false,
           "hit": true,
@@ -6616,11 +6616,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.26,
-            "dense_ms": 4.33,
-            "sparse_ms": 3.87,
+            "embed_ms": 16.73,
+            "dense_ms": 5.45,
+            "sparse_ms": 4.49,
             "rerank_ms": 0.0,
-            "total_ms": 22.46
+            "total_ms": 26.67
           },
           "rerank_failed": false,
           "hit": true,
@@ -6712,11 +6712,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.64,
-            "dense_ms": 4.49,
-            "sparse_ms": 3.96,
+            "embed_ms": 17.4,
+            "dense_ms": 4.9,
+            "sparse_ms": 4.65,
             "rerank_ms": 0.0,
-            "total_ms": 23.09
+            "total_ms": 26.94
           },
           "rerank_failed": false,
           "hit": true,
@@ -6808,11 +6808,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.0,
-            "dense_ms": 4.43,
-            "sparse_ms": 3.69,
+            "embed_ms": 15.05,
+            "dense_ms": 4.77,
+            "sparse_ms": 4.94,
             "rerank_ms": 0.0,
-            "total_ms": 21.11
+            "total_ms": 24.75
           },
           "rerank_failed": false
         },
@@ -6900,11 +6900,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.35,
-            "dense_ms": 4.18,
+            "embed_ms": 15.23,
+            "dense_ms": 4.7,
             "sparse_ms": 3.81,
             "rerank_ms": 0.0,
-            "total_ms": 21.35
+            "total_ms": 23.74
           },
           "rerank_failed": false
         },
@@ -6992,11 +6992,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.26,
-            "dense_ms": 4.39,
-            "sparse_ms": 3.69,
+            "embed_ms": 13.66,
+            "dense_ms": 4.46,
+            "sparse_ms": 4.02,
             "rerank_ms": 0.0,
-            "total_ms": 21.34
+            "total_ms": 22.14
           },
           "rerank_failed": false
         },
@@ -7084,11 +7084,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.43,
-            "dense_ms": 4.47,
-            "sparse_ms": 3.48,
+            "embed_ms": 15.2,
+            "dense_ms": 4.43,
+            "sparse_ms": 4.19,
             "rerank_ms": 0.0,
-            "total_ms": 21.38
+            "total_ms": 23.82
           },
           "rerank_failed": false
         },
@@ -7176,11 +7176,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.3,
-            "dense_ms": 4.3,
-            "sparse_ms": 3.86,
+            "embed_ms": 16.67,
+            "dense_ms": 4.67,
+            "sparse_ms": 4.89,
             "rerank_ms": 0.0,
-            "total_ms": 22.46
+            "total_ms": 26.23
           },
           "rerank_failed": false
         },
@@ -7268,11 +7268,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.0,
-            "dense_ms": 4.62,
-            "sparse_ms": 3.7,
+            "embed_ms": 14.06,
+            "dense_ms": 4.77,
+            "sparse_ms": 3.98,
             "rerank_ms": 0.0,
-            "total_ms": 22.33
+            "total_ms": 22.82
           },
           "rerank_failed": false
         },
@@ -7360,11 +7360,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.14,
-            "dense_ms": 4.32,
-            "sparse_ms": 3.92,
+            "embed_ms": 16.15,
+            "dense_ms": 4.87,
+            "sparse_ms": 4.28,
             "rerank_ms": 0.0,
-            "total_ms": 22.39
+            "total_ms": 25.29
           },
           "rerank_failed": false
         },
@@ -7452,11 +7452,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.14,
-            "dense_ms": 4.21,
-            "sparse_ms": 3.99,
+            "embed_ms": 13.88,
+            "dense_ms": 4.74,
+            "sparse_ms": 4.23,
             "rerank_ms": 0.0,
-            "total_ms": 21.34
+            "total_ms": 22.85
           },
           "rerank_failed": false
         },
@@ -7544,11 +7544,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.25,
-            "dense_ms": 4.64,
-            "sparse_ms": 3.99,
+            "embed_ms": 15.18,
+            "dense_ms": 5.62,
+            "sparse_ms": 5.26,
             "rerank_ms": 0.0,
-            "total_ms": 22.89
+            "total_ms": 26.06
           },
           "rerank_failed": false
         },
@@ -7636,11 +7636,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.18,
-            "dense_ms": 4.47,
-            "sparse_ms": 4.05,
+            "embed_ms": 16.85,
+            "dense_ms": 4.87,
+            "sparse_ms": 3.72,
             "rerank_ms": 0.0,
-            "total_ms": 21.71
+            "total_ms": 25.43
           },
           "rerank_failed": false
         }
@@ -7656,9 +7656,9 @@
       "refusal_accuracy_unanswerable": 0.5,
       "false_refusal_rate": 0.0,
       "latency_ms": {
-        "p50": 311.64,
-        "p95": 340.53,
-        "mean": 313.01
+        "p50": 311.77,
+        "p95": 334.38,
+        "mean": 314.02
       },
       "per_question": [
         {
@@ -7745,11 +7745,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.08,
-            "dense_ms": 4.27,
-            "sparse_ms": 3.48,
-            "rerank_ms": 564.11,
-            "total_ms": 585.0
+            "embed_ms": 15.03,
+            "dense_ms": 5.09,
+            "sparse_ms": 4.31,
+            "rerank_ms": 561.09,
+            "total_ms": 585.6
           },
           "rerank_failed": false,
           "hit": true,
@@ -7841,11 +7841,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 13.4,
-            "dense_ms": 4.74,
-            "sparse_ms": 4.31,
-            "rerank_ms": 278.17,
-            "total_ms": 300.68
+            "embed_ms": 18.02,
+            "dense_ms": 7.81,
+            "sparse_ms": 3.87,
+            "rerank_ms": 277.36,
+            "total_ms": 307.11
           },
           "rerank_failed": false,
           "hit": true,
@@ -7937,11 +7937,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.54,
-            "dense_ms": 4.49,
-            "sparse_ms": 3.85,
-            "rerank_ms": 312.13,
-            "total_ms": 335.04
+            "embed_ms": 15.41,
+            "dense_ms": 4.14,
+            "sparse_ms": 3.91,
+            "rerank_ms": 309.66,
+            "total_ms": 333.18
           },
           "rerank_failed": false,
           "hit": true,
@@ -8033,11 +8033,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.03,
-            "dense_ms": 5.65,
-            "sparse_ms": 3.41,
-            "rerank_ms": 286.41,
-            "total_ms": 309.55
+            "embed_ms": 15.54,
+            "dense_ms": 4.47,
+            "sparse_ms": 3.82,
+            "rerank_ms": 287.19,
+            "total_ms": 311.07
           },
           "rerank_failed": false,
           "hit": true,
@@ -8129,11 +8129,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.82,
-            "dense_ms": 4.88,
-            "sparse_ms": 4.08,
-            "rerank_ms": 290.95,
-            "total_ms": 314.77
+            "embed_ms": 17.31,
+            "dense_ms": 5.07,
+            "sparse_ms": 4.49,
+            "rerank_ms": 290.73,
+            "total_ms": 317.65
           },
           "rerank_failed": false,
           "hit": true,
@@ -8225,11 +8225,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.24,
-            "dense_ms": 4.39,
-            "sparse_ms": 3.63,
-            "rerank_ms": 331.67,
-            "total_ms": 354.97
+            "embed_ms": 17.61,
+            "dense_ms": 4.71,
+            "sparse_ms": 8.35,
+            "rerank_ms": 329.77,
+            "total_ms": 360.5
           },
           "rerank_failed": false,
           "hit": true,
@@ -8321,11 +8321,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.73,
-            "dense_ms": 4.88,
-            "sparse_ms": 3.72,
-            "rerank_ms": 295.19,
-            "total_ms": 318.58
+            "embed_ms": 17.76,
+            "dense_ms": 5.15,
+            "sparse_ms": 6.1,
+            "rerank_ms": 290.51,
+            "total_ms": 319.59
           },
           "rerank_failed": false,
           "hit": true,
@@ -8417,11 +8417,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.74,
-            "dense_ms": 5.36,
-            "sparse_ms": 3.97,
-            "rerank_ms": 270.88,
-            "total_ms": 295.0
+            "embed_ms": 17.73,
+            "dense_ms": 4.82,
+            "sparse_ms": 4.03,
+            "rerank_ms": 273.03,
+            "total_ms": 299.66
           },
           "rerank_failed": false,
           "hit": true,
@@ -8513,11 +8513,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.09,
-            "dense_ms": 7.77,
-            "sparse_ms": 3.68,
-            "rerank_ms": 295.25,
-            "total_ms": 320.85
+            "embed_ms": 18.02,
+            "dense_ms": 4.72,
+            "sparse_ms": 4.45,
+            "rerank_ms": 293.16,
+            "total_ms": 320.43
           },
           "rerank_failed": false,
           "hit": true,
@@ -8609,11 +8609,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.34,
-            "dense_ms": 4.77,
-            "sparse_ms": 3.79,
-            "rerank_ms": 267.43,
-            "total_ms": 291.39
+            "embed_ms": 16.41,
+            "dense_ms": 4.74,
+            "sparse_ms": 4.55,
+            "rerank_ms": 267.58,
+            "total_ms": 293.33
           },
           "rerank_failed": false,
           "hit": true,
@@ -8705,11 +8705,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.25,
-            "dense_ms": 4.58,
-            "sparse_ms": 3.99,
-            "rerank_ms": 296.37,
-            "total_ms": 320.25
+            "embed_ms": 15.64,
+            "dense_ms": 4.73,
+            "sparse_ms": 4.08,
+            "rerank_ms": 296.89,
+            "total_ms": 321.39
           },
           "rerank_failed": false,
           "hit": true,
@@ -8801,11 +8801,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.89,
-            "dense_ms": 5.31,
-            "sparse_ms": 3.8,
-            "rerank_ms": 296.15,
-            "total_ms": 320.21
+            "embed_ms": 17.46,
+            "dense_ms": 5.19,
+            "sparse_ms": 4.07,
+            "rerank_ms": 295.2,
+            "total_ms": 321.98
           },
           "rerank_failed": false,
           "hit": false,
@@ -8897,11 +8897,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.75,
-            "dense_ms": 4.42,
-            "sparse_ms": 5.1,
-            "rerank_ms": 300.04,
-            "total_ms": 324.37
+            "embed_ms": 17.72,
+            "dense_ms": 5.22,
+            "sparse_ms": 3.69,
+            "rerank_ms": 298.59,
+            "total_ms": 325.29
           },
           "rerank_failed": false,
           "hit": true,
@@ -8993,11 +8993,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.35,
-            "dense_ms": 4.47,
-            "sparse_ms": 4.21,
-            "rerank_ms": 291.54,
-            "total_ms": 315.62
+            "embed_ms": 17.28,
+            "dense_ms": 4.15,
+            "sparse_ms": 4.03,
+            "rerank_ms": 285.36,
+            "total_ms": 310.87
           },
           "rerank_failed": false,
           "hit": true,
@@ -9089,11 +9089,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.52,
-            "dense_ms": 6.42,
-            "sparse_ms": 4.02,
-            "rerank_ms": 299.43,
-            "total_ms": 326.44
+            "embed_ms": 16.16,
+            "dense_ms": 5.18,
+            "sparse_ms": 3.86,
+            "rerank_ms": 298.65,
+            "total_ms": 323.91
           },
           "rerank_failed": false,
           "hit": true,
@@ -9185,11 +9185,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.46,
-            "dense_ms": 5.17,
-            "sparse_ms": 4.11,
-            "rerank_ms": 278.1,
-            "total_ms": 301.9
+            "embed_ms": 19.15,
+            "dense_ms": 4.18,
+            "sparse_ms": 3.63,
+            "rerank_ms": 276.95,
+            "total_ms": 303.97
           },
           "rerank_failed": false,
           "hit": true,
@@ -9281,11 +9281,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.7,
-            "dense_ms": 5.04,
-            "sparse_ms": 5.84,
-            "rerank_ms": 242.56,
-            "total_ms": 268.19
+            "embed_ms": 18.19,
+            "dense_ms": 5.01,
+            "sparse_ms": 4.09,
+            "rerank_ms": 242.43,
+            "total_ms": 269.77
           },
           "rerank_failed": false,
           "hit": true,
@@ -9377,11 +9377,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.0,
-            "dense_ms": 4.71,
-            "sparse_ms": 4.03,
-            "rerank_ms": 251.68,
-            "total_ms": 276.48
+            "embed_ms": 19.02,
+            "dense_ms": 4.58,
+            "sparse_ms": 3.94,
+            "rerank_ms": 247.09,
+            "total_ms": 274.69
           },
           "rerank_failed": false,
           "hit": true,
@@ -9473,11 +9473,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.78,
-            "dense_ms": 7.81,
-            "sparse_ms": 3.94,
-            "rerank_ms": 291.32,
-            "total_ms": 318.9
+            "embed_ms": 19.94,
+            "dense_ms": 4.76,
+            "sparse_ms": 4.76,
+            "rerank_ms": 290.77,
+            "total_ms": 320.29
           },
           "rerank_failed": false,
           "hit": true,
@@ -9569,11 +9569,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 17.36,
-            "dense_ms": 5.44,
-            "sparse_ms": 3.54,
-            "rerank_ms": 273.77,
-            "total_ms": 300.16
+            "embed_ms": 19.09,
+            "dense_ms": 5.63,
+            "sparse_ms": 5.2,
+            "rerank_ms": 275.75,
+            "total_ms": 305.74
           },
           "rerank_failed": false,
           "hit": true,
@@ -9665,11 +9665,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 17.57,
-            "dense_ms": 4.25,
-            "sparse_ms": 3.64,
-            "rerank_ms": 311.13,
-            "total_ms": 336.63
+            "embed_ms": 15.64,
+            "dense_ms": 4.49,
+            "sparse_ms": 3.83,
+            "rerank_ms": 310.2,
+            "total_ms": 334.21
           },
           "rerank_failed": false,
           "hit": true,
@@ -9761,11 +9761,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.19,
-            "dense_ms": 5.52,
-            "sparse_ms": 4.2,
-            "rerank_ms": 287.92,
-            "total_ms": 312.88
+            "embed_ms": 15.13,
+            "dense_ms": 4.79,
+            "sparse_ms": 4.95,
+            "rerank_ms": 289.17,
+            "total_ms": 314.09
           },
           "rerank_failed": false,
           "hit": true,
@@ -9857,11 +9857,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.82,
-            "dense_ms": 4.96,
-            "sparse_ms": 5.02,
-            "rerank_ms": 293.79,
-            "total_ms": 319.65
+            "embed_ms": 18.01,
+            "dense_ms": 4.81,
+            "sparse_ms": 4.09,
+            "rerank_ms": 292.26,
+            "total_ms": 319.22
           },
           "rerank_failed": false,
           "hit": true,
@@ -9953,11 +9953,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.55,
-            "dense_ms": 4.45,
-            "sparse_ms": 3.66,
-            "rerank_ms": 297.57,
-            "total_ms": 320.28
+            "embed_ms": 15.76,
+            "dense_ms": 4.6,
+            "sparse_ms": 5.68,
+            "rerank_ms": 294.58,
+            "total_ms": 320.67
           },
           "rerank_failed": false,
           "hit": true,
@@ -10049,11 +10049,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.94,
-            "dense_ms": 4.66,
+            "embed_ms": 18.83,
+            "dense_ms": 4.71,
             "sparse_ms": 3.96,
-            "rerank_ms": 227.34,
-            "total_ms": 251.95
+            "rerank_ms": 227.64,
+            "total_ms": 255.2
           },
           "rerank_failed": false,
           "hit": true,
@@ -10145,11 +10145,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.4,
-            "dense_ms": 4.55,
-            "sparse_ms": 3.69,
-            "rerank_ms": 294.46,
-            "total_ms": 319.2
+            "embed_ms": 19.3,
+            "dense_ms": 5.67,
+            "sparse_ms": 4.29,
+            "rerank_ms": 292.76,
+            "total_ms": 322.08
           },
           "rerank_failed": false,
           "hit": true,
@@ -10241,11 +10241,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.89,
-            "dense_ms": 7.51,
-            "sparse_ms": 4.04,
-            "rerank_ms": 272.15,
-            "total_ms": 299.65
+            "embed_ms": 19.9,
+            "dense_ms": 5.75,
+            "sparse_ms": 3.79,
+            "rerank_ms": 273.01,
+            "total_ms": 302.53
           },
           "rerank_failed": false,
           "hit": true,
@@ -10337,11 +10337,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.56,
-            "dense_ms": 4.79,
-            "sparse_ms": 3.47,
-            "rerank_ms": 261.92,
-            "total_ms": 284.81
+            "embed_ms": 18.58,
+            "dense_ms": 5.54,
+            "sparse_ms": 4.07,
+            "rerank_ms": 264.34,
+            "total_ms": 292.57
           },
           "rerank_failed": false,
           "hit": true,
@@ -10433,11 +10433,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.53,
-            "dense_ms": 4.27,
-            "sparse_ms": 4.53,
-            "rerank_ms": 287.96,
-            "total_ms": 313.35
+            "embed_ms": 16.21,
+            "dense_ms": 5.55,
+            "sparse_ms": 3.99,
+            "rerank_ms": 289.73,
+            "total_ms": 315.53
           },
           "rerank_failed": false,
           "hit": false,
@@ -10529,11 +10529,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 18.32,
-            "dense_ms": 5.4,
-            "sparse_ms": 4.04,
-            "rerank_ms": 312.59,
-            "total_ms": 340.41
+            "embed_ms": 16.47,
+            "dense_ms": 4.89,
+            "sparse_ms": 3.73,
+            "rerank_ms": 305.5,
+            "total_ms": 330.65
           },
           "rerank_failed": false,
           "hit": true,
@@ -10625,11 +10625,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.64,
-            "dense_ms": 7.77,
-            "sparse_ms": 3.62,
-            "rerank_ms": 250.89,
-            "total_ms": 277.96
+            "embed_ms": 17.04,
+            "dense_ms": 4.94,
+            "sparse_ms": 4.48,
+            "rerank_ms": 243.92,
+            "total_ms": 270.43
           },
           "rerank_failed": false
         },
@@ -10717,11 +10717,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.29,
-            "dense_ms": 7.62,
-            "sparse_ms": 4.38,
-            "rerank_ms": 272.46,
-            "total_ms": 298.82
+            "embed_ms": 17.53,
+            "dense_ms": 5.3,
+            "sparse_ms": 4.36,
+            "rerank_ms": 272.39,
+            "total_ms": 299.66
           },
           "rerank_failed": false
         },
@@ -10809,11 +10809,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.22,
-            "dense_ms": 5.78,
-            "sparse_ms": 4.05,
-            "rerank_ms": 264.21,
-            "total_ms": 288.31
+            "embed_ms": 14.75,
+            "dense_ms": 4.62,
+            "sparse_ms": 3.82,
+            "rerank_ms": 263.66,
+            "total_ms": 286.91
           },
           "rerank_failed": false
         },
@@ -10901,11 +10901,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.65,
-            "dense_ms": 4.92,
-            "sparse_ms": 3.43,
-            "rerank_ms": 266.21,
-            "total_ms": 289.26
+            "embed_ms": 16.64,
+            "dense_ms": 6.06,
+            "sparse_ms": 4.0,
+            "rerank_ms": 266.29,
+            "total_ms": 293.06
           },
           "rerank_failed": false
         },
@@ -10993,11 +10993,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.74,
-            "dense_ms": 4.96,
-            "sparse_ms": 4.4,
-            "rerank_ms": 262.91,
-            "total_ms": 289.05
+            "embed_ms": 18.47,
+            "dense_ms": 4.99,
+            "sparse_ms": 4.02,
+            "rerank_ms": 260.97,
+            "total_ms": 288.49
           },
           "rerank_failed": false
         },
@@ -11085,11 +11085,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 15.06,
-            "dense_ms": 4.06,
-            "sparse_ms": 3.64,
-            "rerank_ms": 257.9,
-            "total_ms": 280.71
+            "embed_ms": 17.4,
+            "dense_ms": 5.41,
+            "sparse_ms": 3.88,
+            "rerank_ms": 256.95,
+            "total_ms": 283.7
           },
           "rerank_failed": false
         },
@@ -11177,11 +11177,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 16.43,
-            "dense_ms": 7.9,
-            "sparse_ms": 4.08,
-            "rerank_ms": 293.96,
-            "total_ms": 322.43
+            "embed_ms": 22.12,
+            "dense_ms": 5.44,
+            "sparse_ms": 4.15,
+            "rerank_ms": 294.0,
+            "total_ms": 325.77
           },
           "rerank_failed": false
         },
@@ -11269,11 +11269,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.44,
-            "dense_ms": 7.77,
-            "sparse_ms": 3.98,
-            "rerank_ms": 262.0,
-            "total_ms": 288.24
+            "embed_ms": 15.19,
+            "dense_ms": 4.32,
+            "sparse_ms": 4.65,
+            "rerank_ms": 262.23,
+            "total_ms": 286.44
           },
           "rerank_failed": false
         },
@@ -11361,11 +11361,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.52,
-            "dense_ms": 4.67,
-            "sparse_ms": 3.25,
-            "rerank_ms": 287.65,
-            "total_ms": 310.15
+            "embed_ms": 14.79,
+            "dense_ms": 5.46,
+            "sparse_ms": 6.04,
+            "rerank_ms": 285.9,
+            "total_ms": 312.25
           },
           "rerank_failed": false
         },
@@ -11453,11 +11453,11 @@
             }
           ],
           "timings": {
-            "embed_ms": 14.51,
-            "dense_ms": 4.63,
-            "sparse_ms": 3.56,
-            "rerank_ms": 250.85,
-            "total_ms": 273.59
+            "embed_ms": 15.41,
+            "dense_ms": 8.13,
+            "sparse_ms": 3.65,
+            "rerank_ms": 248.1,
+            "total_ms": 275.34
           },
           "rerank_failed": false
         }
@@ -11601,17 +11601,18 @@
     "unanswerable": 10,
     "false_refusals": 0,
     "false_answers": 0,
-    "citation_precision": 0.64,
+    "citation_precision": 0.8916666666666667,
+    "citation_precision_strict": 0.6527777777777778,
     "citation_recall": 0.9333333333333333,
     "ttft_ms": {
-      "p50": 710.96,
-      "p95": 981.32,
-      "mean": 749.79
+      "p50": 899.2,
+      "p95": 1167.65,
+      "mean": 897.55
     },
     "total_ms": {
-      "p50": 1410.21,
-      "p95": 2196.12,
-      "mean": 1383.28
+      "p50": 1489.19,
+      "p95": 2385.28,
+      "mean": 1515.59
     },
     "errors": [],
     "per_question": [
@@ -11623,6 +11624,66 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > RRF 融合",
+            "lines": [
+              19,
+              25
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 量化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 参数怎么定",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
@@ -11632,9 +11693,10 @@
         "cited": [
           1
         ],
-        "ttft_ms": 543.9,
-        "total_ms": 705.74,
+        "ttft_ms": 1094.74,
+        "total_ms": 1226.93,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11645,18 +11707,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > Payload 与过滤",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+            "lines": [
+              17,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 集合与向量",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 运维注意",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "新版本推荐用 **query_points** 替代 search [1]。",
+        "answer": "新版本推荐用 **query_points** 接口替代 search [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 663.69,
-        "total_ms": 811.37,
+        "ttft_ms": 778.16,
+        "total_ms": 851.14,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11667,6 +11790,66 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 余弦相似度的直觉",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 稠密检索与稀疏检索",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 嵌入模型做什么",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
@@ -11676,9 +11859,10 @@
         "cited": [
           1
         ],
-        "ttft_ms": 691.43,
-        "total_ms": 832.27,
+        "ttft_ms": 1017.74,
+        "total_ms": 1138.48,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11689,6 +11873,66 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 量化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 性能基线",
+            "lines": [
+              35,
+              37
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > RRF 融合",
+            "lines": [
+              19,
+              25
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
@@ -11698,9 +11942,10 @@
         "cited": [
           1
         ],
-        "ttft_ms": 662.68,
-        "total_ms": 767.63,
+        "ttft_ms": 978.89,
+        "total_ms": 1093.22,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11711,18 +11956,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+            "lines": [
+              17,
+              21
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 稠密检索与稀疏检索",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 中文的特殊问题",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "开启 IDF 修饰符后，写入稀疏向量时只需要提供词频；查询时也提供词频，Qdrant 会把 IDF 应用到打分中 [1]。",
+        "answer": "开启 IDF 修饰符后，写入稀疏向量时只需要提供词频，查询时也提供词频，Qdrant 会把 IDF 应用到打分中 [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 682.74,
-        "total_ms": 857.76,
+        "ttft_ms": 941.83,
+        "total_ms": 1163.15,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11733,18 +12039,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 余弦相似度的直觉",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > RRF 融合",
+            "lines": [
+              19,
+              25
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "经过 sigmoid 函数后，bge-reranker-v2-m3 输出的相关性分数可以理解为 0 到 1 的相关概率 [1]。",
+        "answer": "经过 sigmoid 后可以理解为 0 到 1 的相关概率 [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 640.23,
-        "total_ms": 820.45,
+        "ttft_ms": 581.76,
+        "total_ms": 781.37,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11755,18 +12122,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "local-inference.md",
+            "heading": "本地推理 > Ollama 的用法",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 参数怎么定",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > Payload 与过滤",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "Ollama 常用的聊天接口是 `/api/chat`，嵌入接口是 `/api/embed` [1]。",
+        "answer": "Ollama 常用的接口有 `/api/chat` 和 `/api/embed` [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 617.65,
-        "total_ms": 767.51,
+        "ttft_ms": 1232.97,
+        "total_ms": 1400.36,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11777,18 +12205,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 量化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 余弦相似度的直觉",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "bge-m3 在本地运行时的显存占用约 0.7GB [1]。",
+        "answer": "bge-m3 在本地运行时显存占用约 0.7GB，单条文本的嵌入延迟在十几毫秒量级，适合实时检索 [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 685.27,
-        "total_ms": 832.78,
+        "ttft_ms": 1051.49,
+        "total_ms": 1067.63,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11799,18 +12288,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 归一化与距离",
+            "lines": [
+              27,
+              29
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 集合与向量",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 运维注意",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+            "lines": [
+              17,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "Qdrant 的 Cosine 距离内部会做归一化处理，因此存入的向量长度不影响排序 [1]。",
+        "answer": "Qdrant 的 Cosine 距离内部会做归一化，因此存入的向量长度不影响排序 [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 848.03,
-        "total_ms": 978.88,
+        "ttft_ms": 606.58,
+        "total_ms": 800.43,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11821,6 +12371,66 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 什么是 RAG",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 为什么必须评测",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测集怎么构造",
+            "lines": [
+              11,
+              20
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 常见失败模式",
+            "lines": [
+              29,
+              34
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
@@ -11830,9 +12440,10 @@
         "cited": [
           1
         ],
-        "ttft_ms": 869.48,
-        "total_ms": 1012.5,
+        "ttft_ms": 725.67,
+        "total_ms": 940.52,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11843,19 +12454,81 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > RAG 与微调的区别",
+            "lines": [
+              23,
+              25
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 什么是 RAG",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 为什么要在本地跑",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 量化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "不把知识直接训练进模型参数、而放在外部索引里，主要有以下原因：\n\n1. **更新成本**：微调改变模型参数，资料更新后需要重新训练；RAG 把知识放在外部索引里，更新资料只需重建索引 [1]。\n\n2. **可追溯性**：微调难以保证事实准确，而 RAG 可以给出处 [1]。\n\n3. **避免编造**：语言模型参数里没有私有资料，且可能编造不存在的事实；RAG 不修改模型参数，只在每次回答前动态补充证据，资料更新后不需要重新训练 [2]。\n\n4. **场景匹配**：对于个人知识库这类“资料经常变化、必须可追溯”的场景，RAG 更合适 [1]。\n\n代价是系统多了一条检索链路，延迟和工程复杂度都更高",
+        "answer": "**核心原因：外部索引在“资料常变、必须可追溯”的场景下更合适，而训练进参数难以保证事实准确、更新成本高。**\n\n- 微调会改变模型参数，适合学习风格、格式和领域语感，但难以保证事实准确，资料更新后还要重新训练 [1]。\n- RAG 把知识放在外部索引里，更新资料只需重建索引，并且可以给出处 [1]；它不修改模型参数，只在每次回答前动态补充证据，因此资料更新后不需要重新训练 [2]。\n- RAG 解决的核心问题正是：模型参数里没有你的私有资料，而且模型可能编造不存在的事实 [2]。\n- 对于个人知识库这类“资料经常变化、必须可追溯”的场景，RAG 更合适；代价是系统多了一条检索链路，延迟和工程",
         "cited": [
           1,
           2
         ],
-        "ttft_ms": 790.29,
-        "total_ms": 1559.5,
-        "citation_precision": 0.5,
+        "ttft_ms": 877.97,
+        "total_ms": 1747.86,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -11864,20 +12537,82 @@
         "answerable": true,
         "top_score": 0.07667409628629684,
         "gold_indices": [],
+        "accepted_indices": [
+          1,
+          3
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测集怎么构造",
+            "lines": [
+              11,
+              20
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 嵌入模型做什么",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 4,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 语义分块",
+            "lines": [
+              27,
+              29
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "当用户提问的用词和原文不一样时，主要靠**向量检索（嵌入模型）**来找到相关内容：\n\n- 嵌入模型把文本映射成固定维度的向量，语义相近的文本向量方向也相近；检索时比较问题向量与文档向量的余弦相似度，就能找到语义相关的片段 [3]。\n- 评测集中专门设有“语义改写”类题目，即问题与原文用词不同，用来考察向量检索的效果 [1]。\n\n此外，检索环节本身也是把问题转成向量、找出最相似的若干片段 [5]。资料中未提及其他针对用词不一致的专门方法（如同义词扩展等）。",
+        "answer": "用户提问用词与原文不同时，主要依靠**向量检索（嵌入模型）**来找到相关内容：\n\n- 嵌入模型把文本映射成固定维度的向量，语义相近的文本向量方向也相近；检索时比较问题向量与文档向量的余弦相似度，就能找到语义相关的片段 [3]。\n- 评测集中专门设有“语义改写”类题目，即问题与原文用词不同，用来考察向量检索的效果 [1]。\n\n此外，检索召回不足时，再强的生成模型也无法补救 [5]，因此这类语义匹配能力对整体质量很关键。",
         "cited": [
           3,
           1,
           5
         ],
-        "ttft_ms": 981.32,
-        "total_ms": 1780.31,
-        "citation_precision": 0.0,
+        "ttft_ms": 1082.68,
+        "total_ms": 1767.42,
+        "citation_precision": 0.6666666666666666,
+        "citation_precision_strict": 0.0,
         "citation_recall": 0.0
       },
       {
@@ -11888,6 +12623,66 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 余弦相似度的直觉",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 稠密检索与稀疏检索",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 嵌入模型做什么",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 归一化与距离",
+            "lines": [
+              27,
+              29
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > RRF 融合",
+            "lines": [
+              19,
+              25
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
@@ -11897,9 +12692,10 @@
         "cited": [
           1
         ],
-        "ttft_ms": 825.69,
-        "total_ms": 978.56,
+        "ttft_ms": 929.32,
+        "total_ms": 1109.32,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -11910,19 +12706,81 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rerank.md",
+            "heading": "重排模型 > 延迟与显存",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > 为什么需要重排",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 常见失败模式",
+            "lines": [
+              29,
+              34
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中给出的降级顺序是：**把重排放到 CPU → 改成按需加载 → 减少候选数量** [1]。\n\n另外，资料也提到降级顺序应由延迟和质量的取舍决定，而不是“哪个先报错就关哪个” [2]。",
+        "answer": "如果重排模型跑不动，可行的降级顺序是：**把重排放到 CPU → 改成按需加载 → 减少候选数量**；无论选哪种，都要先测量再决定 [1]。\n\n在生成、嵌入、重排三个模型同时驻留导致显存紧张的场景下，工程上的降级选项包括：重排改 CPU、嵌入按需加载、或换更小的生成模型 [2]。降级顺序应由延迟和质量的取舍决定，而不是“哪个先报错就关哪个” [2]。",
         "cited": [
           1,
           2
         ],
-        "ttft_ms": 664.93,
-        "total_ms": 975.91,
-        "citation_precision": 0.5,
+        "ttft_ms": 1323.32,
+        "total_ms": 1753.21,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -11933,20 +12791,83 @@
         "gold_indices": [
           3
         ],
+        "accepted_indices": [
+          1,
+          2,
+          3
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 常见失败模式",
+            "lines": [
+              29,
+              34
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 分块为什么重要",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > 为什么需要重排",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "检索没召回正确材料时，后面的模型再强也没用，原因如下：\n\n1. **分块是检索质量的上限**：检索的基本单位是分块，分块太粗会稀释语义，太细会丢失上下文；而“检索没召回，后面的重排和生成都无法补救” [2]。\n\n2. **生成依赖检索到的片段**：RAG 标准流程中，生成步骤是把问题和检索出的片段一起交给语言模型，要求它引用片段作答；检索召回不足时，再强的生成模型也无法补救 [3]。\n\n3. **没召回会导致凭空作答**：检索没召回正确片段时，模型只能凭空回答，这是 RAG 的常见失败模式之一 [1]。\n\n补充：工程上对应的手段是混合检索提高召回、重排提高精度、提示词约束引用格式，以及设置阈值",
+        "answer": "检索没召回正确材料时，后面的模型再强也没用的原因，资料中给出的依据如下：\n\n- **分块是检索质量的上限**：检索没召回，后面的重排和生成都无法补救 [2]。\n- **检索召回不足时，再强的生成模型也无法补救**：在 RAG 五步流程中，每一步都会影响最终质量，检索召回不足时生成环节无法弥补 [3]。\n- **模型只能凭空回答**：检索没召回正确片段时，模型只能凭空回答，这是 RAG 的常见失败模式之一 [1]。\n\n换句话说，生成模型只能基于交给它的片段作答；如果正确片段根本没被检索出来，重排和生成阶段都没有可补救的输入 [2][3]。",
         "cited": [
           2,
           3,
           1
         ],
-        "ttft_ms": 617.82,
-        "total_ms": 1579.43,
-        "citation_precision": 0.3333333333333333,
+        "ttft_ms": 808.73,
+        "total_ms": 1674.71,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.3333333333333333,
         "citation_recall": 1.0
       },
       {
@@ -11957,20 +12878,82 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 中文的特殊问题",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 标题感知",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 固定窗口",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 语义分块",
+            "lines": [
+              27,
+              29
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 行号定位",
+            "lines": [
+              23,
+              25
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "保留标题主要有以下好处：\n\n1. **让片段自带上下文**：对中英混合的技术笔记，分块时保留标题能让片段自带上下文；标题参与嵌入通常能明显提升召回 [1]。\n2. **分块天然带有主题**：按标题切分时，每个标题开启一个新节，每个分块天然带有主题，引用时可以显示“某文件 > 某小节” [2]。\n3. **帮助模型区分相似片段**：标题还可以拼进嵌入文本，帮助模型区分相似但主题不同的片段 [2]。\n\n代价是分块长度不均匀：短小节可能只有一两句话，长小节仍需二次切分，实现上还要处理标题层级和空节 [2]。另外，对个人知识库而言，标题感知加长度上限通常已经够用 [4]。",
+        "answer": "保留标题主要有以下好处：\n\n1. **让片段自带上下文**：对中英混合的技术笔记，分块时保留标题能让片段自带上下文，标题参与嵌入通常能明显提升召回 [1]。\n\n2. **分块天然带有主题，便于引用**：按标题切分后，每个分块天然带有主题，引用时可以显示“某文件 > 某小节” [2]。\n\n3. **帮助模型区分相似片段**：标题还可以拼进嵌入文本，帮助模型区分相似但主题不同的片段 [2]。\n\n需要注意的代价是分块长度不均匀：短小节可能只有一两句话，长小节仍需二次切分，实现上还要处理标题层级和空节 [2]。另外，对个人知识库而言，标题感知加长度上限通常已经够用 [4]。",
         "cited": [
           1,
           2,
           4
         ],
-        "ttft_ms": 827.46,
-        "total_ms": 1641.91,
-        "citation_precision": 0.3333333333333333,
+        "ttft_ms": 894.42,
+        "total_ms": 1753.67,
+        "citation_precision": 0.6666666666666666,
+        "citation_precision_strict": 0.3333333333333333,
         "citation_recall": 1.0
       },
       {
@@ -11981,18 +12964,79 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 密钥与配置",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 出站内容的最小化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 固定窗口",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 读取范围的显式化",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "根据资料，API 密钥管理应遵循以下做法：\n\n- **只从环境变量读取**：密钥不写入代码、不提交到仓库，也不出现在日志里 [1]。\n- **配置分离**：配置文件只提供示例模板，真实配置放在被忽略的本地文件中；这样换机器时能知道需要哪些变量，又不会泄露密钥 [1]。\n\n资料中未涉及密钥轮换、权限分级或加密存储等其他管理措施。",
+        "answer": "根据资料，API 密钥管理应遵循以下做法：\n\n- **只从环境变量读取**：API 密钥不写入代码、不提交到仓库，也不出现在日志里 [1]。\n- **配置分离**：配置文件只提供示例模板，真实配置放在被忽略的本地文件中；这样换机器时知道需要哪些变量，又不会泄露密钥 [1]。",
         "cited": [
           1
         ],
-        "ttft_ms": 960.59,
-        "total_ms": 1479.11,
+        "ttft_ms": 928.23,
+        "total_ms": 1266.24,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -12003,19 +13047,81 @@
         "gold_indices": [
           2
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 为什么要在本地跑",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 出站内容的最小化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 本地优先的含义",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "local-inference.md",
+            "heading": "本地推理 > Ollama 的用法",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中给出的验证方式是：**断网运行，并检查日志或抓包**，而不是“相信代码”[2]。\n\n补充依据：\n- 本地模式应该完全不产生外部请求[2]。\n- 本地推理意味着模型权重和输入数据都在本机，断网也能工作；对隐私敏感场景，这是能证明“数据没有出站”的方式[1]。\n\n资料中未找到更具体的抓包工具、日志字段或操作步骤等信息。",
+        "answer": "资料中给出的验证方式是：**断网运行，并检查日志或抓包**，而不是“相信代码”[2]。\n\n补充背景：本地模式应当完全不产生外部请求[2]；本地模式断网可用、数据零出站[3]。",
         "cited": [
           2,
-          1
+          3
         ],
-        "ttft_ms": 1379.86,
-        "total_ms": 1503.64,
+        "ttft_ms": 844.03,
+        "total_ms": 1173.36,
         "citation_precision": 0.5,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -12026,21 +13132,84 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1,
+          3,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 余弦相似度的直觉",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 性能基线",
+            "lines": [
+              35,
+              37
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 归一化与距离",
+            "lines": [
+              27,
+              29
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": true
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "不能直接套用别的模型调好的相似度阈值，原因有两点：\n\n1. **不同模型的分数量纲差异很大。** 例如 bge-m3 对完全不相关的两段中文也可能给出 0.3 以上的分数，所以阈值必须针对具体模型和语料校准 [1]。拿一个通用阈值套所有模型是常见误区，正确做法是构造“相关问题 + 无关问题”的小评测集，观察分数分布，再选一个能分开两者的值 [1]。\n\n2. **性能数字也依赖具体环境。** 延迟等指标会随驱动、量化和上下文长度变化，必须在目标机器上实测，不能直接引用别人的 benchmark [2]。\n\n补充：如果阈值用于拒答，还需要在有答案和无答案的评测题上同时校准，避免误拒和漏拒 [3]；",
+        "answer": "不能直接套用别的模型调好的相似度阈值，原因有两点：\n\n1. **不同模型的分数量纲差异很大**：同样是余弦相似度，不同模型给出的分数分布并不一致。例如 bge-m3 对完全不相关的两段中文也可能给出 0.3 以上的分数，所以阈值必须针对具体模型和语料校准 [1]。拿一个通用阈值套所有模型是常见误区，正确做法是构造“相关问题 + 无关问题”的小评测集，观察分数分布，再选一个能分开两者的值 [1]。\n\n2. **阈值需要在评测集上校准，而非固定数字**：以重排分数为例，明确相关的样本得分接近 1，明确无关的接近 0，但部分相关的样本可能落在 0.1 到 0.2 之间，所以拒答阈值不能只看一个固定数",
         "cited": [
           1,
-          2,
+          5,
           3,
-          5
+          2
         ],
-        "ttft_ms": 768.96,
-        "total_ms": 1669.1,
-        "citation_precision": 0.25,
+        "ttft_ms": 692.8,
+        "total_ms": 1740.86,
+        "citation_precision": 0.75,
+        "citation_precision_strict": 0.25,
         "citation_recall": 1.0
       },
       {
@@ -12051,19 +13220,81 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 什么是 RAG",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > RAG 与微调的区别",
+            "lines": [
+              23,
+              25
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rerank.md",
+            "heading": "重排模型 > 为什么需要重排",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > BM25 的直觉",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料更新后不需要重新训练模型，原因如下：\n\n- RAG 不修改模型参数，只在每次回答前动态补充证据，因此资料更新后不需要重新训练 [1]。\n- RAG 把知识放在外部索引里，更新资料只需重建索引，而不像微调那样需要重新训练 [2]。\n\n补充一点：资料中未说明“重建索引”的具体操作细节，缺少这方面的信息。",
+        "answer": "资料更新后不需要重新训练模型，原因如下：\n\n- RAG 不修改模型参数，只在每次回答前动态补充证据，因此资料更新后不需要重新训练 [1]。\n- RAG 把知识放在外部索引里，更新资料只需重建索引，而不像微调那样需要重新训练 [2]。\n\n补充：微调会改变模型参数，资料更新也要重新训练，这正是 RAG 与之的关键区别 [2]。",
         "cited": [
           1,
           2
         ],
-        "ttft_ms": 690.55,
-        "total_ms": 1202.42,
-        "citation_precision": 0.5,
+        "ttft_ms": 930.12,
+        "total_ms": 1416.75,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -12075,22 +13306,85 @@
           2,
           5
         ],
+        "accepted_indices": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 常见失败模式",
+            "lines": [
+              29,
+              34
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rerank.md",
+            "heading": "重排模型 > 为什么需要重排",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 4,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 分块为什么重要",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": true,
+            "accepted": true
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "一条完整的检索链路可以按“召回 → 重排 → 拒答”组织，各环节及其解决的问题如下：\n\n**1. 召回（检索）**\n- 环节内容：把问题转成向量，从向量库中找出最相似的若干片段 [3]。\n- 解决的问题：为生成提供依据，避免“检索没召回正确片段，模型只能凭空回答” [1]。召回不足时，再强的生成模型也无法补救 [3]。\n- 局限：向量检索是双塔结构，问题和文档在编码阶段没有互相看见，细粒度相关性判断较弱 [2]。\n\n**2. 重排**\n- 环节内容：通常用交叉编码器把问题和候选文档拼在一起送入模型，输出相关性分数；常见做法是先用向量检索取回 20 到 50 个候选，再精排取前 5 个交给生成模",
+        "answer": "一条完整的检索链路包含以下环节：\n\n**1. 召回（向量检索）**\n先用便宜的向量检索取回 20 到 50 个候选 [2]。向量检索是双塔结构，问题和文档分别编码后只比较两个向量，速度快，但两者在编码阶段没有互相看见，细粒度相关性判断较弱 [2]。召回不足时，再强的生成模型也无法补救 [3]。\n\n**2. 重排**\n重排模型通常是交叉编码器，把问题和候选文档拼在一起送入模型输出相关性分数，注意力可同时看到问题和文档，判断更准确，但每个候选都要单独推理、成本高 [2]。常见做法是用重排模型对召回的候选精排，取前 5 个交给生成模型 [2]。重排用于提高精度 [1]。\n\n**3. 拒答**\n重排分",
         "cited": [
+          2,
           3,
           1,
-          2,
-          5,
-          4
+          5
         ],
-        "ttft_ms": 730.61,
-        "total_ms": 2310.5,
-        "citation_precision": 0.4,
+        "ttft_ms": 707.39,
+        "total_ms": 2385.28,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -12101,21 +13395,83 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > BM25 的直觉",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 稠密检索与稀疏检索",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+            "lines": [
+              17,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > RRF 融合",
+            "lines": [
+              19,
+              25
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "中文语料上做 BM25 需要特别注意以下几点：\n\n1. **分词质量是 BM25 的弱点所在**：BM25 依赖分词质量，中文没有天然空格，如果分词器把整句当成一个词，BM25 就完全失效 [1]。\n\n2. **稀疏检索的适用场景**：BM25 属于稀疏检索，擅长精确匹配专有名词、编号、错误码和罕见术语，但无法理解同义表达 [2]。\n\n3. **若用 Qdrant 的稀疏向量实现 BM25，需正确开启 IDF 修饰符**：忘记开启时打分退化成简单的词频点积，罕见词的优势就消失了 [3]。\n\n4. **稀疏部分可用独立的分词加 BM25 方案补齐**：通过 Ollama 调用 bge-m3 时通",
+        "answer": "中文语料上做 BM25 需要特别注意以下几点：\n\n**1. 分词质量是 BM25 的命门**\nBM25 依赖分词质量，中文没有天然空格，如果分词器把整句当成一个词，BM25 就完全失效 [1]。\n\n**2. 稀疏检索的适用场景**\nBM25 属于稀疏检索，擅长精确匹配专有名词、编号、错误码和罕见术语，但无法理解同义表达 [2]。因此中文语料上若查询存在大量同义改写，单靠 BM25 不够，需要与稠密检索融合 [2]。\n\n**3. 若用 Qdrant 承载 BM25，注意开启 IDF 修饰符**\nQdrant 的稀疏向量适合 BM25 这类词项加权模型 [3]。使用服务端 IDF 修饰符时，集合会",
         "cited": [
           1,
           2,
           3,
-          4
+          4,
+          5
         ],
-        "ttft_ms": 692.06,
-        "total_ms": 1662.83,
-        "citation_precision": 0.25,
+        "ttft_ms": 1055.42,
+        "total_ms": 2656.26,
+        "citation_precision": 0.2,
+        "citation_precision_strict": 0.2,
         "citation_recall": 1.0
       },
       {
@@ -12127,6 +13483,69 @@
           2,
           4,
           5
+        ],
+        "accepted_indices": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 稠密检索与稀疏检索",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 集合与向量",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+            "lines": [
+              17,
+              21
+            ],
+            "gold": true,
+            "accepted": true
+          }
         ],
         "refused": false,
         "refused_by": null,
@@ -12141,9 +13560,10 @@
           2,
           3
         ],
-        "ttft_ms": 737.77,
-        "total_ms": 2155.92,
-        "citation_precision": 0.6,
+        "ttft_ms": 894.76,
+        "total_ms": 2180.31,
+        "citation_precision": 0.8,
+        "citation_precision_strict": 0.6,
         "citation_recall": 1.0
       },
       {
@@ -12155,21 +13575,85 @@
           1,
           2
         ],
+        "accepted_indices": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 分块为什么重要",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 中文的特殊问题",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 固定窗口",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 5,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 参数怎么定",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": true
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "分块大小会从检索和生成两个环节同时影响质量：\n\n**对检索的影响**\n- 检索的基本单位是分块，不是整篇文档 [2]。\n- 分块太粗：一个向量里混入多个主题，语义被稀释，检索时难以命中 [1][2]。\n- 分块太细：片段缺少上下文，同样影响理解 [2]。\n- 分块是检索质量的上限；检索没召回，后面的重排和生成都无法补救 [2]。\n\n**对生成的影响**\n- 分块过粗会稀释语义，过细会丢失上下文，两者都会影响最终质量 [1]。\n- 检索召回不足时，再强的生成模型也无法补救 [1]。\n- 固定窗口切分可能从句子或章节中间切断，引用时读起来突兀 [4]。\n- 重叠能缓解切断问题，但会带来重复内容，增",
+        "answer": "分块大小会从检索和生成两个环节同时影响质量，具体如下：\n\n**对检索的影响**\n- 分块是检索的基本单位，不是整篇文档 [2]。\n- 分块太粗：一个向量里混入多个主题，语义被稀释，检索效果下降 [1][2]。\n- 分块太细：片段缺少上下文，难以被正确理解 [1][2]。\n- 分块被视为检索质量的上限——检索没召回，后面的重排和生成都无法补救 [2]。\n\n**对生成的影响**\n- 分块过粗会稀释语义，过细会丢失上下文，两者都会影响最终质量 [1]。\n- 检索召回不足时，再强的生成模型也无法补救 [1]。\n- 固定窗口切分可能从句子或章节中间切断，引用时读起来突兀 [4]；重叠虽能缓解切断问题，但",
         "cited": [
           2,
           1,
           4,
           5
         ],
-        "ttft_ms": 710.96,
-        "total_ms": 1924.99,
-        "citation_precision": 0.5,
+        "ttft_ms": 899.2,
+        "total_ms": 2244.12,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -12181,21 +13665,85 @@
           1,
           5
         ],
+        "accepted_indices": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 行号定位",
+            "lines": [
+              23,
+              25
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 引用要解决什么问题",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 稳定 ID",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 4,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 引用与拒答的配合",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > Payload 与过滤",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": true,
+            "accepted": true
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "为了让引用能被核对，数据层需要保存以下信息：\n\n1. **来源文件与位置信息**：引用至少要能回答来自哪个文件、哪一节、哪几行，以及原文片段是什么 [2]。分块时需记录起止行号，前端才能显示“第 15 到 22 行”，让用户快速打开原文核对 [1]。\n\n2. **稳定 ID**：每个分块需要一个稳定 ID，用于在数据库、向量库和前端之间关联；常见做法是把文件路径、分块序号和内容哈希拼起来再取哈希 [3]。内容不变时 ID 不变，重建索引不会产生重复；内容变化时 ID 变化，旧向量可被准确清理 [3]。\n\n3. **Payload 元数据**：每个向量点可携带 payload，用来存原文、文件路",
+        "answer": "为了让引用能被核对，数据层需要保存以下信息：\n\n1. **文件与位置信息**：引用至少要能回答来自哪个文件、哪一节、哪几行，以及原文片段是什么 [2]。分块时需记录起止行号，前端才能显示“第 15 到 22 行”，方便用户打开原文核对 [1]。\n\n2. **稳定 ID**：每个分块需要一个稳定 ID，用于在数据库、向量库和前端之间关联；常见做法是把文件路径、分块序号和内容哈希拼起来再取哈希 [3]。内容不变时 ID 不变，重建索引不会产生重复；内容变化时 ID 变化，旧向量可被准确清理 [3]。\n\n3. **Payload 元数据**：每个向量点可携带 payload，用来存原文、文件路径、标",
         "cited": [
           2,
           1,
           3,
           5
         ],
-        "ttft_ms": 532.67,
-        "total_ms": 1660.14,
-        "citation_precision": 0.5,
+        "ttft_ms": 464.23,
+        "total_ms": 1566.62,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -12207,21 +13755,82 @@
           1,
           2
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rerank.md",
+            "heading": "重排模型 > 延迟与显存",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 性能基线",
+            "lines": [
+              35,
+              37
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > 为什么需要重排",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "在 8GB 显存下同时安排三类模型，资料给出的要点如下：\n\n**1. 先认清风险**\n生成、嵌入、重排三个模型同时驻留时，显存占用会接近上限，实测合计可能达到 7.5GB 以上，只剩几百 MB 余量 [2]。此时长上下文、更大的批处理或并发请求都可能导致显存不足 [2]。\n\n**2. 可行的降级手段**\n- 把重排放到 CPU [1][2]\n- 嵌入改成按需加载 [1][2]\n- 减少重排候选数量 [1]\n- 或换更小的生成模型 [2]\n\n**3. 降级顺序的原则**\n降级顺序应由延迟和质量的取舍决定，而不是\"哪个先报错就关哪个\" [2]。资料中提到的可行顺序是：把重排放到 CPU、改成按需加",
+        "answer": "在 8GB 显存的机器上，三者同时驻留会非常紧张，需要做取舍和降级。\n\n**显存现状**\n- 生成、嵌入、重排三个模型同时驻留，显存占用会接近上限，实测合计可能达到 7.5GB 以上，只剩几百 MB 余量 [2]。\n- 此时长上下文、更大的批处理或并发请求都可能导致显存不足 [2]。\n\n**可行的降级方式**\n- 把重排放到 CPU [1][2]。\n- 嵌入模型改为按需加载 [2]（重排也可改成按需加载 [1]）。\n- 减少重排候选数量 [1]。\n- 或者换更小的生成模型 [2]。\n\n**降级顺序怎么定**\n- 降级顺序应由延迟和质量的取舍决定，而不是“哪个先报错就关哪个” [2]。\n- 无论",
         "cited": [
           2,
           1,
-          3,
-          5
+          3
         ],
-        "ttft_ms": 764.5,
-        "total_ms": 2553.93,
-        "citation_precision": 0.5,
+        "ttft_ms": 884.24,
+        "total_ms": 2153.95,
+        "citation_precision": 0.6666666666666666,
+        "citation_precision_strict": 0.6666666666666666,
         "citation_recall": 1.0
       },
       {
@@ -12232,12 +13841,76 @@
         "gold_indices": [
           1
         ],
+        "accepted_indices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 核心指标",
+            "lines": [
+              24,
+              30
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 指标之间的关系",
+            "lines": [
+              34,
+              38
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测的运行方式",
+            "lines": [
+              42,
+              44
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 4,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 为什么必须评测",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 5,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测集怎么构造",
+            "lines": [
+              11,
+              20
+            ],
+            "gold": false,
+            "accepted": true
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "做一套可信的 RAG 评测，资料中提到的要点如下：\n\n**一、核心指标**\n\n1. **Recall@5**：正确片段是否出现在前 5 个检索结果中，衡量检索能力，不涉及生成 [1]。\n2. **引用准确率**：回答中的每个引用编号是否真的支持对应陈述，可用人工抽查或规则校验，关键是定义清楚 [1]。\n3. **拒答正确率**：无答案题中系统是否正确拒答；有答案题中是否没有误拒 [1]。\n4. **首 token 延迟**：从请求发出到第一个 token 的时间，影响交互体验 [1]。\n\n**二、指标之间的关系（需结合看）**\n\n- Recall@5 高但引用准确率低，说明生成阶段没有正确使用",
+        "answer": "**核心指标**\n\n- **Recall@5**：正确片段是否出现在前 5 个检索结果中，衡量检索能力，不涉及生成 [1]。\n- **引用准确率**：回答中的每个引用编号是否真的支持对应陈述，可人工抽查或规则校验，关键是定义清楚 [1]。\n- **拒答正确率**：无答案题中系统是否正确拒答，有答案题中是否没有误拒 [1]。\n- **首 token 延迟**：从请求发出到第一个 token 的时间，影响交互体验 [1]。\n\n**指标之间的关系（诊断价值）**\n\n- Recall@5 高但引用准确率低，说明生成阶段没有正确使用上下文，或提示词约束不够 [2]。\n- 引用准确率高但 Recall@5",
         "cited": [
           1,
           2,
@@ -12245,9 +13918,10 @@
           3,
           4
         ],
-        "ttft_ms": 532.88,
-        "total_ms": 2196.12,
-        "citation_precision": 0.2,
+        "ttft_ms": 1012.13,
+        "total_ms": 2541.33,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.2,
         "citation_recall": 1.0
       },
       {
@@ -12258,20 +13932,81 @@
         "gold_indices": [
           2
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 引用与拒答的配合",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "rerank.md",
+            "heading": "重排模型 > 重排与拒答",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 指标之间的关系",
+            "lines": [
+              34,
+              38
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测集怎么构造",
+            "lines": [
+              11,
+              20
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "除了保证可信，拒答还有以下实际好处：\n\n1. **节省一次云端调用**：当重排最高分低于阈值时，不调用生成模型，直接返回“资料中未找到足够依据”，从而节省一次云端调用 [2]。\n\n2. **避免模型在没有证据时编造**：拒答保证没依据时不编造，与引用共同构成“可信回答”的边界 [1][2]。\n\n需要注意：拒答阈值调高会减少编造，但会增加误拒，两个错误都要统计，不能只看一边 [3]。",
+        "answer": "拒答除了保证可信，还有以下实际好处：\n\n1. **节省一次云端调用**：当重排最高分低于阈值时，不调用生成模型，直接返回“资料中未找到足够依据”，从而节省一次云端调用 [2]。\n\n2. **减少编造风险**：拒答阈值调高会减少编造，但会增加误拒，因此两个错误都要统计，不能只看一边 [3]。",
         "cited": [
           2,
-          1,
           3
         ],
-        "ttft_ms": 855.04,
-        "total_ms": 1399.25,
-        "citation_precision": 0.3333333333333333,
+        "ttft_ms": 1041.15,
+        "total_ms": 1544.78,
+        "citation_precision": 0.5,
+        "citation_precision_strict": 0.5,
         "citation_recall": 1.0
       },
       {
@@ -12280,20 +14015,83 @@
         "answerable": true,
         "top_score": 0.01697026938199997,
         "gold_indices": [],
+        "accepted_indices": [
+          1,
+          4,
+          5
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 本地优先的含义",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 引用与拒答的配合",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 隐私作为工程能力",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": false,
+            "accepted": true
+          },
+          {
+            "index": 5,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 读取范围的显式化",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": true
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "要让原始文档不出本机，需要以下机制配合：\n\n1. **本地优先的架构**：文档读取、分块、嵌入、索引、检索全部在本机完成；生成阶段可选择本地模式，实现断网可用、数据零出站 [1]。\n\n2. **最小出站与发送前预览**：联网作为可选项且可控，发送前可预览将要出站的内容 [1][4]。\n\n3. **显式化的读取范围**：不扫描整个硬盘，只遍历用户显式配置允许读取的目录 [5]。\n\n4. **可审计的扫描日志**：记录读了哪些文件、跳过了哪些文件、失败原因，让用户能审计系统碰了什么 [5]。\n\n5. **其他可验证的隐私机制**：单次关闭、来源黑名单、本地零出站、日志可审计 [4]。\n\n概括来说，",
+        "answer": "要让原始文档不出本机，需要以下机制配合：\n\n1. **本地优先的处理流程**：文档读取、分块、嵌入、索引、检索全部在本机完成，原始数据默认留在本机，联网是可选项且可控 [1]。\n\n2. **生成阶段的可控选择**：生成阶段可选云端或本地；本地模式断网可用、数据零出站，云端模式则只发送少量检索片段 [1]。\n\n3. **可验证的隐私机制**：包括最小出站、发送前预览、单次关闭、来源黑名单、本地零出站、日志可审计 [4]。\n\n4. **读取范围的显式化**：不扫描整个硬盘，只遍历用户显式配置允许读取的目录，并用扫描日志记录读了哪些文件、跳过了哪些、失败原因，供用户审计 [5]。",
         "cited": [
           1,
           4,
           5
         ],
-        "ttft_ms": 1016.41,
-        "total_ms": 2054.42,
-        "citation_precision": 0.0,
+        "ttft_ms": 870.84,
+        "total_ms": 1677.36,
+        "citation_precision": 1.0,
+        "citation_precision_strict": 0.0,
         "citation_recall": 0.0
       },
       {
@@ -12305,19 +14103,81 @@
           1,
           2
         ],
+        "accepted_indices": [
+          1,
+          2
+        ],
+        "hits": [
+          {
+            "index": 1,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 运维注意",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 2,
+            "path": "citation-design.md",
+            "heading": "引用设计 > 稳定 ID",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": true,
+            "accepted": true
+          },
+          {
+            "index": 3,
+            "path": "rerank.md",
+            "heading": "重排模型 > 为什么需要重排",
+            "lines": [
+              5,
+              9
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > RAG 与微调的区别",
+            "lines": [
+              23,
+              25
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > Payload 与过滤",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": false,
         "refused_by": null,
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "**为什么原始文档必须备份、向量索引可以重建**\n\n- 向量索引可以重建，所以向量数据不是必须备份的内容；但原始文档和元数据数据库必须备份。重建索引的时间取决于文件数量和嵌入速度。[1]\n- 数据目录要挂载到宿主机，否则容器删除后索引丢失。[1]\n\n**重建时如何保证顺序和 ID 不重复**\n\n- 每个分块需要一个稳定 ID，用于在数据库、向量库和前端之间关联。常见做法是把文件路径、分块序号和内容哈希拼起来再取哈希。[2]\n- 稳定 ID 的好处是：内容不变时 ID 不变，重建索引不会产生重复；内容变化时 ID 变化，旧向量可以被准确清理。[2]\n\n资料中未找到关于“重建时处理顺序”的更多说明",
+        "answer": "**为什么原始文档必须备份、向量索引可以重建**\n\n- 向量库的数据目录要挂载到宿主机，否则容器删除后索引会丢失 [1]。\n- 但索引本身可以重建，所以向量数据不是必须备份的内容；原始文档和元数据数据库必须备份 [1]。\n- 重建索引的耗时取决于文件数量和嵌入速度 [1]。\n\n**重建时如何保证顺序和 ID 不重复**\n\n- 每个分块需要一个稳定 ID，用于在数据库、向量库和前端之间关联；常见做法是把文件路径、分块序号和内容哈希拼起来再取哈希 [2]。\n- 稳定 ID 的好处是：内容不变时 ID 不变，重建索引不会产生重复；内容变化时 ID 变化，旧向量可以被准确清理 [2]。\n\n资料中未找到",
         "cited": [
           1,
           2
         ],
-        "ttft_ms": 497.75,
-        "total_ms": 1330.07,
+        "ttft_ms": 570.94,
+        "total_ms": 1549.15,
         "citation_precision": 1.0,
+        "citation_precision_strict": 1.0,
         "citation_recall": 1.0
       },
       {
@@ -12326,6 +14186,64 @@
         "answerable": false,
         "top_score": 2.221953218395356e-05,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测集怎么构造",
+            "lines": [
+              11,
+              20
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 出站内容的最小化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 运维注意",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 固定窗口",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "gate",
         "false_refusal": false,
@@ -12337,6 +14255,64 @@
         "answerable": false,
         "top_score": 0.0011891259346157312,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 性能基线",
+            "lines": [
+              35,
+              37
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "rerank.md",
+            "heading": "重排模型 > 延迟与显存",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 参数怎么定",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "gate",
         "false_refusal": false,
@@ -12348,17 +14324,75 @@
         "answerable": false,
         "top_score": 0.9483224153518677,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 余弦相似度的直觉",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > BM25 的直觉",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "generation",
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中未找到足够依据。现有资料只介绍了 bge-m3 的发布方、支持语言、向量维度（1024 维）、最大 token 长度、稀疏/多向量支持、显存占用和延迟等信息 [1]，没有提及训练数据规模或条数。",
+        "answer": "资料中未找到足够依据。现有资料只介绍了 bge-m3 的语言支持、向量维度、上下文长度、显存占用和延迟等信息 [1]，没有涉及训练数据规模或条数。",
         "cited": [
           1
         ],
-        "ttft_ms": 638.57,
-        "total_ms": 1070.5
+        "ttft_ms": 856.01,
+        "total_ms": 1161.49
       },
       {
         "id": "q34",
@@ -12366,6 +14400,64 @@
         "answerable": false,
         "top_score": 0.009967690333724022,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+            "lines": [
+              17,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 运维注意",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > Payload 与过滤",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 集合与向量",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "gate",
         "false_refusal": false,
@@ -12377,6 +14469,64 @@
         "answerable": false,
         "top_score": 0.002894654870033264,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "chunking-strategy.md",
+            "heading": "分块策略 > 参数怎么定",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "gate",
         "false_refusal": false,
@@ -12388,17 +14538,75 @@
         "answerable": false,
         "top_score": 0.03771587088704109,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "local-inference.md",
+            "heading": "本地推理 > Ollama 的用法",
+            "lines": [
+              19,
+              23
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测的运行方式",
+            "lines": [
+              42,
+              44
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "generation",
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中未找到足够依据。现有资料只涉及 Ollama 的 HTTP 接口用法（/api/chat、/api/embed）、流式输出和思维链等 [1]，没有关于 Ollama 支持哪些 Windows 版本的信息。",
+        "answer": "资料中未找到足够依据。现有资料只涉及 Ollama 的 HTTP 接口用法（/api/chat、/api/embed）、流式输出和思维链开关 [1]，没有关于 Ollama 支持哪些 Windows 版本的信息。",
         "cited": [
           1
         ],
-        "ttft_ms": 539.77,
-        "total_ms": 854.87
+        "ttft_ms": 689.36,
+        "total_ms": 1039.4
       },
       {
         "id": "q37",
@@ -12406,19 +14614,79 @@
         "answerable": false,
         "top_score": 0.9640591144561768,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 量化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 性能基线",
+            "lines": [
+              35,
+              37
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 显存共存的取舍",
+            "lines": [
+              27,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rerank.md",
+            "heading": "重排模型 > 延迟与显存",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "generation",
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中未找到足够依据。\n\n现有资料只涉及 4B 模型在 Q4 量化下的推理显存占用（约 3GB）[1]，以及生成、嵌入、重排模型共存时的显存取舍 [3][4]，没有提到 LoRA 微调所需的显存。\n\n缺少的信息包括：LoRA 微调时的显存构成（如基础模型权重、优化器状态、激活值、批大小与序列长度的影响），以及是否有针对 4B 模型微调的实测数据。",
+        "answer": "资料中未找到足够依据。\n\n现有资料只涉及量化推理的显存占用（如 4B 模型 Q4 量化约 3GB [1]）、推理性能基线 [2]、多模型共存时的显存取舍 [3][4]，以及 bge-m3 嵌入模型的显存占用 [5]，均未提及 LoRA 微调所需的显存。\n\n缺少的信息类型：LoRA 微调相关的显存估算，包括训练时的权重、梯度、优化器状态、激活值开销，以及 LoRA 秩、批大小、序列长度等配置对显存的影响。",
         "cited": [
           1,
+          2,
           3,
-          4
+          4,
+          5
         ],
-        "ttft_ms": 881.08,
-        "total_ms": 1510.69
+        "ttft_ms": 1167.65,
+        "total_ms": 1573.73
       },
       {
         "id": "q38",
@@ -12426,18 +14694,73 @@
         "answerable": false,
         "top_score": 0.02379460074007511,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > bge-m3",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "rerank.md",
+            "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+            "lines": [
+              13,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "embeddings-zh.md",
+            "heading": "中文嵌入模型 > 中文的特殊问题",
+            "lines": [
+              33,
+              35
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 本地优先的含义",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 查询接口",
+            "lines": [
+              25,
+              27
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "generation",
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中未找到足够依据。现有资料只涉及嵌入模型的多语言支持（bge-m3 支持中文、英文等 [1]；bge-reranker-v2-m3 支持中英文 [2]），没有提到任何 OCR 或扫描件文字识别功能，也没有说明其支持的语言范围。缺少的信息类型：OCR 组件/引擎说明及其语言支持列表。",
-        "cited": [
-          1,
-          2
-        ],
-        "ttft_ms": 874.25,
-        "total_ms": 1410.21
+        "answer": "资料中未找到足够依据。现有资料只涉及嵌入模型的多语言支持、重排模型、本地优先与隐私边界、Qdrant 查询接口等内容，没有提到扫描件 OCR 功能，也没有说明支持哪些 OCR 语言。缺少的信息类型是：OCR 功能说明及其语言支持列表。",
+        "cited": [],
+        "ttft_ms": 963.2,
+        "total_ms": 1416.0
       },
       {
         "id": "q39",
@@ -12445,17 +14768,75 @@
         "answerable": false,
         "top_score": 0.09795484691858292,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > 运维注意",
+            "lines": [
+              31,
+              33
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 本地优先的含义",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "hybrid-retrieval.md",
+            "heading": "混合检索 > 工程取舍",
+            "lines": [
+              29,
+              31
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "rag-basics.md",
+            "heading": "RAG 基础 > 标准流程",
+            "lines": [
+              11,
+              19
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "privacy-local-first.md",
+            "heading": "本地优先与隐私边界 > 密钥与配置",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "generation",
         "false_refusal": false,
         "false_answer": false,
         "error": null,
-        "answer": "资料中未找到足够依据说明“如何把索引同步到另一台电脑”。\n\n相关资料只涉及以下间接信息：\n- 向量库数据目录需挂载到宿主机，否则容器删除后索引会丢失 [1]。\n- 索引可以重建，向量数据不是必须备份的内容；但原始文档和元数据数据库必须备份 [1]。\n- 重建索引的时间取决于文件数量和嵌入速度 [1]。\n\n缺少的信息：索引的导出/迁移方式、跨机器传输步骤，以及目标机器上的恢复或重建流程。",
+        "answer": "资料中未找到足够依据，无法回答“怎么把索引同步到另一台电脑”。\n\n现有资料只涉及以下相关内容，但没有同步索引的方法：\n- 向量库通常以容器方式运行，数据目录要挂载到宿主机，否则容器删除后索引丢失 [1]。\n- 索引可以重建，向量数据不是必须备份的内容；原始文档和元数据数据库必须备份 [1]。\n- 重建索引的时间取决于文件数量和嵌入速度 [1]。\n\n缺少的信息包括：索引/向量库的导出与迁移方式、跨机器传输的具体步骤，以及目标机器上的恢复或重建流程。",
         "cited": [
           1
         ],
-        "ttft_ms": 825.86,
-        "total_ms": 1563.52
+        "ttft_ms": 1016.19,
+        "total_ms": 1489.19
       },
       {
         "id": "q40",
@@ -12463,6 +14844,64 @@
         "answerable": false,
         "top_score": 2.427513391012326e-05,
         "gold_indices": [],
+        "accepted_indices": [],
+        "hits": [
+          {
+            "index": 1,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 评测的运行方式",
+            "lines": [
+              42,
+              44
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 2,
+            "path": "rag-evaluation.md",
+            "heading": "RAG 评测 > 为什么必须评测",
+            "lines": [
+              5,
+              7
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 3,
+            "path": "qdrant-notes.md",
+            "heading": "Qdrant 使用笔记 > Payload 与过滤",
+            "lines": [
+              11,
+              13
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 4,
+            "path": "local-inference.md",
+            "heading": "本地推理 > 量化",
+            "lines": [
+              11,
+              15
+            ],
+            "gold": false,
+            "accepted": false
+          },
+          {
+            "index": 5,
+            "path": "rerank.md",
+            "heading": "重排模型 > 延迟与显存",
+            "lines": [
+              19,
+              21
+            ],
+            "gold": false,
+            "accepted": false
+          }
+        ],
         "refused": true,
         "refused_by": "gate",
         "false_refusal": false,

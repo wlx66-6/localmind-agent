@@ -1,6 +1,6 @@
 # Stage 2 retrieval evaluation
 
-- generated_at: 2026-10-24T16:54:33+00:00
+- generated_at: 2026-10-24T17:16:16+00:00
 - collection: `localmind_chunks_v2`
 - questions: 40 (30 answerable / 10 unanswerable)
 - top_k: 5
@@ -9,9 +9,9 @@
 
 | mode | Hit@k | Recall@k | MRR@k | 拒答率 | 误拒率 | p50 ms | p95 ms |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| vector | 93.3% | 82.8% | 0.776 | 20.0% | 0.0% | 19 | 22 |
-| hybrid | 96.7% | 91.1% | 0.806 | 40.0% | 0.0% | 23 | 25 |
-| hybrid_rerank | 93.3% | 87.2% | 0.844 | 50.0% | 0.0% | 312 | 341 |
+| vector | 93.3% | 82.8% | 0.776 | 20.0% | 0.0% | 22 | 27 |
+| hybrid | 96.7% | 91.1% | 0.806 | 40.0% | 0.0% | 25 | 31 |
+| hybrid_rerank | 93.3% | 87.2% | 0.844 | 50.0% | 0.0% | 312 | 334 |
 
 ## Threshold sweep (hybrid_rerank)
 
@@ -56,10 +56,11 @@
 - unanswerable refused: 10/10
 - true answers falsely refused: 0/30
 - unanswerable falsely answered: 0
-- citation precision (gold-based, strict): 64.0%
+- citation precision (gold + acceptable): 89.2%
+- citation precision (gold only, strict): 65.3%
 - citation recall (gold-based): 93.3%
-- first token p50 / p95: 711 / 981 ms
-- total p50 / p95: 1410 / 2196 ms
+- first token p50 / p95: 899 / 1168 ms
+- total p50 / p95: 1489 / 2385 ms
 
 ## Per-question retrieval failures
 
