@@ -89,7 +89,7 @@ PASS: 本地轨道完成问答，出站回执为零，未观测到非环回连�
 
 | 检查 | 结果 |
 | --- | --- |
-| `ruff check` / `ruff format --check` | 通过 / 74 个文件已格式化 |
+| `ruff check` / `ruff format --check` | 通过 / 77 个文件已格式化 |
 | `mypy` | 40 个源文件无问题 |
 | `pytest` | **48 passed**（新增 18 个：轨道、开关、黑名单、指标、Ollama 解析、迁移、出站策略） |
 | `tsc --noEmit` | 通过 |
