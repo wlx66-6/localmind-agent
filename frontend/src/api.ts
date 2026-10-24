@@ -2,6 +2,8 @@ import type {
   Citation,
   Egress,
   Health,
+  MemoryItem,
+  RecalledMemory,
   RetrievalInfo,
   ScanResult,
   Source,
@@ -57,10 +59,28 @@ export const updateSourceEgress = (id: number, egressAllowed: boolean) =>
     body: JSON.stringify({ egress_allowed: egressAllowed }),
   })
 
+export const listMemories = (includeSuperseded = false) =>
+  request<MemoryItem[]>(`/api/memories?include_superseded=${includeSuperseded}`)
+
+export async function deleteMemory(id: number): Promise<void> {
+  const response = await fetch(`/api/memories/${id}`, { method: 'DELETE' })
+  if (!response.ok) {
+    let detail = `删除失败（${response.status}）`
+    try {
+      const body = (await response.json()) as { detail?: string }
+      if (body.detail) detail = body.detail
+    } catch {
+      // 忽略非 JSON 错误体
+    }
+    throw new Error(detail)
+  }
+}
+
 export type CitationsPayload = {
   conversationId: number
   track: Track
   items: Citation[]
+  memories: RecalledMemory[]
   retrieval: RetrievalInfo
   egress: Egress
   refused: boolean
@@ -152,6 +172,7 @@ function dispatch(frame: Frame, handlers: ChatHandlers): void {
         conversation_id: number
         track: Track
         items: Citation[]
+        memories?: RecalledMemory[]
         retrieval: RetrievalInfo
         egress: Egress
         refused: boolean
@@ -160,6 +181,7 @@ function dispatch(frame: Frame, handlers: ChatHandlers): void {
         conversationId: data.conversation_id,
         track: data.track,
         items: data.items,
+        memories: data.memories ?? [],
         retrieval: data.retrieval,
         egress: data.egress,
         refused: data.refused,

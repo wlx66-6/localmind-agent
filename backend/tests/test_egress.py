@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+from app.memory.types import MemoryHit
 from app.retrieval.types import RetrievalHit
 from app.services.egress import build_manifest, renumber, split_by_policy
 
@@ -68,6 +69,35 @@ def test_manifest_counts_conversation_history() -> None:
     # question (3) + snippet (2) + history (3 + 2)
     assert manifest.chars == 10
     assert manifest.history_messages == 2
+
+
+def test_manifest_counts_injected_memories() -> None:
+    hits = [hit(1, document_id=1, path="a.md", text="文")]
+    memories = [
+        MemoryHit(
+            id=1,
+            kind="preference",
+            key="技术栈偏好",
+            content="一二",
+            occurred_at=None,
+            created_at="2026-10-25T00:00:00",
+            score=0.8,
+        ),
+        MemoryHit(
+            id=2,
+            kind="fact",
+            key="所在城市",
+            content="三",
+            occurred_at="2026-08-12",
+            created_at="2026-10-25T00:00:00",
+            score=0.7,
+        ),
+    ]
+    manifest = build_manifest("问题", hits, [], track="cloud", skipped=False, memories=memories)
+    assert manifest.memories == 2
+    assert manifest.memory_chars == 3
+    # question (2) + snippet (1) + memory bodies (3)
+    assert manifest.chars == 6
 
 
 def test_manifest_is_disabled_when_nothing_leaves_the_machine() -> None:

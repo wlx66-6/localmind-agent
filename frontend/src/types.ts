@@ -50,7 +50,37 @@ export type Egress = {
   history_messages: number
   blocked_chunks: number
   blocked_files: number
+  /** Recalled long-term memories injected into the prompt. */
+  memories: number
+  memory_chars: number
   skipped: boolean
+}
+
+export type MemoryKind = 'fact' | 'preference' | 'summary'
+
+/** A memory recalled into this turn (SSE `citations.memories`). */
+export type RecalledMemory = {
+  id: number
+  kind: MemoryKind
+  key: string
+  content: string
+  occurred_at: string | null
+  created_at: string
+  score: number
+}
+
+/** A memory row as listed in the panel; superseded rows keep their history. */
+export type MemoryItem = {
+  id: number
+  kind: MemoryKind
+  key: string
+  content: string
+  occurred_at: string | null
+  created_at: string
+  status: 'active' | 'superseded'
+  superseded_by: number | null
+  source_conversation_id: number | null
+  embedding_ok: boolean
 }
 
 export type MessageMetrics = {
@@ -88,6 +118,7 @@ export type ChatMessage = {
   role: 'user' | 'assistant'
   content: string
   citations: Citation[]
+  memories: RecalledMemory[]
   cited: number[]
   refused: boolean
   track: Track | null

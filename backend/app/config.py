@@ -72,6 +72,27 @@ class Settings(BaseSettings):
 
     chat_history_turns: int = 6
 
+    # --- Stage 4: long-term memory -----------------------------------------
+    # Master switch; turning it off hides the memory panel and stops injection.
+    memory_enabled: bool = True
+    # Background extraction after each answer. Turning it off keeps memories
+    # that already exist but stops new ones from being written.
+    memory_auto_extract: bool = True
+    # Inject recalled memories into the prompt. Off means recall still runs for
+    # the panel but nothing is added to the model context.
+    memory_inject: bool = True
+    # A rolling summary every N user messages (0 disables summaries).
+    memory_summary_every: int = 6
+    memory_collection: str = "localmind_memories"
+    memory_top_k: int = 5
+    # Dense cosine threshold for injecting a memory. Memories are short
+    # sentences, so unrelated ones sit lower than document chunks; this value
+    # is calibrated by scripts/verify_memory.py and recorded in ADR-0011.
+    memory_min_score: float = 0.5
+    # Extraction gets its own budget: a local 4B model can take several
+    # seconds, and a stuck call must not pin a background task forever.
+    memory_extract_timeout: float = 120.0
+
     host: str = "127.0.0.1"
     port: int = 8000
     log_level: str = "INFO"

@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.config import Track
 from app.generation.base import ChatMessage
+from app.memory.types import MemoryHit
 from app.models import Document, Source
 from app.retrieval.types import RetrievalHit
 
@@ -45,6 +46,10 @@ class EgressManifest:
     # receipt counts it and says how many messages it came from.
     chars: int
     history_messages: int = 0
+    # Memories injected from earlier conversations. They are as much outbound
+    # content as snippets are, so they get their own line in the receipt.
+    memories: int = 0
+    memory_chars: int = 0
     # Snippets withheld by the source blacklist, before the prompt was built.
     blocked_chunks: int = 0
     blocked_files: int = 0
@@ -92,7 +97,9 @@ def build_manifest(
     track: Track,
     skipped: bool,
     history: Sequence[ChatMessage] = (),
+    memories: Sequence[MemoryHit] = (),
 ) -> EgressManifest:
+    memory_chars = sum(len(memory.content) for memory in memories)
     return EgressManifest(
         track=track,
         enabled=track == "cloud" and not skipped,
@@ -100,8 +107,11 @@ def build_manifest(
         files=_count_files(hits),
         chars=len(question)
         + sum(len(hit.text) for hit in hits)
-        + sum(len(message.content) for message in history),
+        + sum(len(message.content) for message in history)
+        + memory_chars,
         history_messages=len(history),
+        memories=len(memories),
+        memory_chars=memory_chars,
         blocked_chunks=len(withheld),
         blocked_files=_count_files(withheld),
         skipped=skipped,

@@ -16,6 +16,8 @@ from app.api.sse import sse_event
 from app.config import Track
 from app.generation.base import ChatMessage, ChatProvider, ProviderError
 from app.generation.prompt import REFUSAL_TEXT, build_messages, is_refusal
+from app.memory.retrieval import retrieve_memories
+from app.memory.types import MemoryHit
 from app.models import Conversation, Message
 from app.retrieval.embedder import EmbeddingError
 from app.retrieval.pipeline import RetrievalResult, retrieve, should_refuse
@@ -148,11 +150,39 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
     # "not found" would be wrong — the material exists, policy withheld it.
     blocked_all = bool(withheld) and not hits
 
+    # Recall is independent of the document store and always runs on the local
+    # embedding model, so it adds no egress on either track. Blocked questions
+    # skip it: the turn is about withheld documents, and answering from memory
+    # instead would silently change the subject.
+    memories: list[MemoryHit] = []
+    memory_store = getattr(request.app.state, "memory_store", None)
+    if (
+        settings.memory_enabled
+        and settings.memory_inject
+        and not blocked_all
+        and memory_store is not None
+    ):
+        memories = await retrieve_memories(
+            embedder,
+            memory_store,
+            session_factory,
+            question,
+            top_k=settings.memory_top_k,
+            min_score=settings.memory_min_score,
+        )
+
     manifest = build_manifest(
-        question, hits, withheld, track=track, skipped=skipped, history=history
+        question,
+        hits,
+        withheld,
+        track=track,
+        skipped=skipped,
+        history=history,
+        memories=memories,
     )
 
     # 检索成功后再落库：避免检索失败留下空会话；会话与首条消息同事务提交，满足外键约束。
+    user_message_id = 0
     with session_factory() as session:
         if conversation_id is None:
             conversation = Conversation(title=question[:40], track=track)
@@ -165,16 +195,23 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
             stored = session.get(Conversation, conversation_id)
             if stored is not None and stored.track != track:
                 stored.track = track
-        session.add(
-            Message(conversation_id=conversation_id, role="user", content=question, track=track)
+        user_message = Message(
+            conversation_id=conversation_id, role="user", content=question, track=track
         )
+        session.add(user_message)
         session.commit()
+        user_message_id = user_message.id
 
     refusal = should_refuse(
         hits,
         min_rerank_score=settings.retrieval_gate_rerank_score,
         min_dense_score=settings.retrieval_min_score,
     )
+    # A matched memory can answer "what did I tell you before" even when no
+    # local document is relevant, so it lifts the retrieval gate. The memory
+    # threshold is the guard against injecting an unrelated recollection.
+    if memories:
+        refusal = False
     if blocked_all:
         refusal = False
     rerank_device = getattr(reranker, "device", None)
@@ -186,6 +223,9 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
                 "conversation_id": conversation_id,
                 "track": track,
                 "items": _citation_payload(hits),
+                # Memories that will be injected, shown as a separate basis in
+                # the UI. They are not citations and carry no [n] numbering.
+                "memories": [asdict(memory) for memory in memories],
                 # The trace makes retrieval debuggable from the UI and from
                 # recorded stages; it never leaves the machine.
                 "retrieval": {
@@ -318,7 +358,7 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
                 },
             )
 
-        messages: list[ChatMessage] = build_messages(question, hits, history)
+        messages: list[ChatMessage] = build_messages(question, hits, history, memories)
         parts: list[str] = []
         ttft_ms: float | None = None
         try:
@@ -367,6 +407,17 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
         message_id = _save_assistant(
             session_factory, conversation_id, answer, citations, track=track, metrics=metrics
         )
+        # Fire-and-forget: extraction may take seconds on the local 4B model,
+        # and the answer is already on screen. Failures are recorded in the
+        # message metrics, never in this stream.
+        _schedule_memory(
+            request,
+            conversation_id=conversation_id,
+            user_message_id=user_message_id,
+            assistant_message_id=message_id,
+            user_text=question,
+            track=track,
+        )
         yield finish(message_id, cited=cited, refused=refused_by_model, metrics=metrics)
 
     return StreamingResponse(
@@ -377,6 +428,30 @@ async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
             "Connection": "keep-alive",
             "X-Accel-Buffering": "no",
         },
+    )
+
+
+def _schedule_memory(
+    request: Request,
+    *,
+    conversation_id: int,
+    user_message_id: int,
+    assistant_message_id: int,
+    user_text: str,
+    track: Track,
+) -> None:
+    runner = getattr(request.app.state, "memory_tasks", None)
+    service = getattr(request.app.state, "memory", None)
+    if runner is None or service is None:
+        return
+    runner.spawn(
+        service.after_turn(
+            conversation_id=conversation_id,
+            user_message_id=user_message_id,
+            assistant_message_id=assistant_message_id,
+            user_text=user_text,
+            track=track,
+        )
     )
 
 
@@ -414,6 +489,12 @@ def _metrics(
             "timings": asdict(result.timings),
         },
         "egress": asdict(manifest),
+        # Injection is known now; extraction/summary results are merged in
+        # later by MemoryService once the background task finishes.
+        "memory": {
+            "injected": manifest.memories,
+            "chars": manifest.memory_chars,
+        },
     }
 
 

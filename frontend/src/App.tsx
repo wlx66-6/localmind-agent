@@ -3,8 +3,9 @@ import * as api from './api'
 import ChatView from './components/ChatView'
 import CitationPanel from './components/CitationPanel'
 import Header from './components/Header'
+import MemoryPanel from './components/MemoryPanel'
 import SourcesPanel from './components/SourcesPanel'
-import type { ChatMessage, Health, Source, Track } from './types'
+import type { ChatMessage, Health, MemoryItem, Source, Track } from './types'
 
 function errorText(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
@@ -16,6 +17,7 @@ function blankAssistant(id: string, track: Track): ChatMessage {
     role: 'assistant',
     content: '',
     citations: [],
+    memories: [],
     cited: [],
     refused: false,
     track,
@@ -38,6 +40,13 @@ export default function App() {
   const [sourceError, setSourceError] = useState<string | null>(null)
   const [sourceNotice, setSourceNotice] = useState<string | null>(null)
   const [busyId, setBusyId] = useState<number | null>(null)
+
+  const [memories, setMemories] = useState<MemoryItem[]>([])
+  const [memoriesLoading, setMemoriesLoading] = useState(true)
+  const [memoryError, setMemoryError] = useState<string | null>(null)
+  const [memoryNotice, setMemoryNotice] = useState<string | null>(null)
+  const [busyMemoryId, setBusyMemoryId] = useState<number | null>(null)
+  const [includeSuperseded, setIncludeSuperseded] = useState(false)
 
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [conversationId, setConversationId] = useState<number | null>(null)
@@ -64,6 +73,29 @@ export default function App() {
   useEffect(() => {
     void refreshSources()
   }, [refreshSources])
+
+  const refreshMemories = useCallback(async () => {
+    try {
+      setMemories(await api.listMemories(includeSuperseded))
+      setMemoryError(null)
+    } catch (error) {
+      setMemoryError(errorText(error))
+    } finally {
+      setMemoriesLoading(false)
+    }
+  }, [includeSuperseded])
+
+  useEffect(() => {
+    void refreshMemories()
+  }, [refreshMemories])
+
+  // Extraction runs in the background after a turn ends, so the panel cannot
+  // refresh on `done` alone; keep a ref so the timer always uses the current
+  // filter without re-subscribing the stream.
+  const refreshMemoriesRef = useRef(refreshMemories)
+  useEffect(() => {
+    refreshMemoriesRef.current = refreshMemories
+  }, [refreshMemories])
 
   useEffect(() => {
     let cancelled = false
@@ -145,6 +177,21 @@ export default function App() {
     }
   }
 
+  async function handleDeleteMemory(id: number) {
+    setBusyMemoryId(id)
+    setMemoryError(null)
+    setMemoryNotice(null)
+    try {
+      await api.deleteMemory(id)
+      setMemoryNotice('记忆已删除，后续回答不会再引用它')
+      await refreshMemories()
+    } catch (error) {
+      setMemoryError(errorText(error))
+    } finally {
+      setBusyMemoryId(null)
+    }
+  }
+
   async function handleToggleEgress(id: number, allowed: boolean) {
     setBusyId(id)
     setSourceError(null)
@@ -174,6 +221,7 @@ export default function App() {
         role: 'user',
         content: question,
         citations: [],
+        memories: [],
         cited: [],
         refused: false,
         track,
@@ -214,6 +262,7 @@ export default function App() {
             patch({
               track: payload.track,
               citations: payload.items,
+              memories: payload.memories,
               egress: payload.egress,
               retrieval: payload.retrieval,
             })
@@ -238,6 +287,9 @@ export default function App() {
               ttftMs: result.ttftMs,
               totalMs: result.totalMs,
             })
+            // Background extraction usually lands a few seconds later; the
+            // panel also has a manual refresh.
+            window.setTimeout(() => void refreshMemoriesRef.current(), 4000)
           },
           onError: (message) => patch({ error: message, streaming: false }),
         },
@@ -279,7 +331,7 @@ export default function App() {
         canNewChat={messages.length > 0}
       />
       <div className="flex min-h-0 flex-1">
-        <div className="hidden md:flex">
+        <aside className="hidden w-72 shrink-0 flex-col border-r border-stone-200 bg-white/60 md:flex">
           <SourcesPanel
             sources={sources}
             loading={sourcesLoading}
@@ -291,7 +343,18 @@ export default function App() {
             onDelete={handleDelete}
             onToggleEgress={(id, allowed) => void handleToggleEgress(id, allowed)}
           />
-        </div>
+          <MemoryPanel
+            memories={memories}
+            loading={memoriesLoading}
+            error={memoryError}
+            notice={memoryNotice}
+            includeSuperseded={includeSuperseded}
+            onIncludeSupersededChange={setIncludeSuperseded}
+            onRefresh={() => void refreshMemories()}
+            onDelete={(id) => void handleDeleteMemory(id)}
+            busyId={busyMemoryId}
+          />
+        </aside>
         <ChatView
           messages={messages}
           input={input}
@@ -305,7 +368,8 @@ export default function App() {
           skipEgress={skipEgress}
           onSkipEgressChange={setSkipEgress}
         />
-        {activeMessage && activeMessage.citations.length > 0 && (
+        {activeMessage &&
+          (activeMessage.citations.length > 0 || activeMessage.memories.length > 0) && (
           <div className="hidden lg:flex">
             <CitationPanel message={activeMessage} onClose={() => setActiveId(null)} />
           </div>

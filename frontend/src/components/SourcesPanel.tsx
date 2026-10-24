@@ -44,7 +44,7 @@ export default function SourcesPanel({
   }
 
   return (
-    <aside className="flex w-72 shrink-0 flex-col border-r border-stone-200 bg-white/60">
+    <section className="flex min-h-0 flex-1 flex-col">
       <div className="border-b border-stone-200 px-4 py-3">
         <h2 className="text-sm font-semibold text-stone-800">资料源</h2>
         <p className="mt-0.5 text-xs text-stone-500">
@@ -74,7 +74,7 @@ export default function SourcesPanel({
         {notice && <p className="text-xs text-stone-500">{notice}</p>}
       </div>
 
-      <div className="flex-1 overflow-y-auto px-3 py-3">
+      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
         {loading && <p className="px-1 text-xs text-stone-500">加载中…</p>}
         {!loading && sources.length === 0 && (
           <p className="px-1 text-xs text-stone-500">还没有资料源。先添加一个目录，再扫描建立索引。</p>
@@ -124,6 +124,6 @@ export default function SourcesPanel({
           ))}
         </ul>
       </div>
-    </aside>
+    </section>
   )
 }

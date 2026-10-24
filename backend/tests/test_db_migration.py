@@ -48,14 +48,22 @@ def test_create_all_adds_stage3_columns_to_existing_database(tmp_path: Path) -> 
     assert "egress_allowed" in columns(path, "sources")
     assert "track" in columns(path, "conversations")
     assert {"track", "metrics_json"} <= columns(path, "messages")
+    # Stage 4 adds a brand-new table; create_all is enough, no ALTER needed.
+    assert {"kind", "key", "content", "status", "superseded_by"} <= columns(path, "memories")
+    # ... and one column on an existing table, for summary idempotency.
+    assert "summarized_user_messages" in columns(path, "conversations")
 
     # Existing rows keep working and get usable defaults.
     with sqlite3.connect(path) as connection:
         metrics, track = connection.execute(
             "SELECT metrics_json, track FROM messages WHERE content = '旧消息'"
         ).fetchone()
+        summarized = connection.execute(
+            "SELECT summarized_user_messages FROM conversations WHERE id = 1"
+        ).fetchone()[0]
     assert metrics == "{}"
     assert track is None
+    assert summarized == 0
     db.dispose()
 
 

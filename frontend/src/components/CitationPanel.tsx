@@ -1,4 +1,5 @@
-import type { ChatMessage, Citation, Egress } from '../types'
+import { localDate } from '../format'
+import type { ChatMessage, Citation, Egress, RecalledMemory } from '../types'
 
 function traceLabel(citation: Citation): string {
   const parts: string[] = []
@@ -13,21 +14,35 @@ function traceLabel(citation: Citation): string {
   return parts.join(' · ')
 }
 
+const KIND_LABEL: Record<RecalledMemory['kind'], string> = {
+  fact: '事实',
+  preference: '偏好',
+  summary: '摘要',
+}
+
+function memoryDate(memory: RecalledMemory): string {
+  const occurred = memory.occurred_at ? `事发 ${memory.occurred_at}` : null
+  const recorded = `记于 ${localDate(memory.created_at)}`
+  return occurred ? `${occurred} · ${recorded}` : recorded
+}
+
 type Receipt = { title: string; detail: string; tone: string }
 
 /** Turns the server-provided manifest into an honest one-line receipt. */
 function receipt(egress: Egress): Receipt {
+  const memoryPart =
+    egress.memories > 0 ? `，含 ${egress.memories} 条记忆（${egress.memory_chars} 字符）` : ''
   if (egress.track === 'local') {
     return {
       title: '本地生成 · 零出站',
-      detail: `本机处理 ${egress.chunks} 段 / ${egress.files} 个文件，未向任何外部服务发送内容`,
+      detail: `本机处理 ${egress.chunks} 段 / ${egress.files} 个文件${memoryPart}，未向任何外部服务发送内容`,
       tone: 'border-emerald-200 bg-emerald-50 text-emerald-800',
     }
   }
   if (egress.skipped) {
     return {
       title: '本次未上传',
-      detail: `检索到 ${egress.chunks} 段，已按你的选择拦下，没有调用任何生成模型`,
+      detail: `检索到 ${egress.chunks} 段${memoryPart}，已按你的选择拦下，没有调用任何生成模型`,
       tone: 'border-stone-200 bg-stone-50 text-stone-700',
     }
   }
@@ -35,7 +50,7 @@ function receipt(egress: Egress): Receipt {
     egress.history_messages > 0 ? `，含 ${egress.history_messages} 条历史消息` : ''
   return {
     title: '已发送到云端',
-    detail: `${egress.chunks} 段 / ${egress.files} 个文件 / ${egress.chars} 字符${history}`,
+    detail: `${egress.chunks} 段 / ${egress.files} 个文件 / ${egress.chars} 字符（已含记忆）${history}`,
     tone: 'border-sky-200 bg-sky-50 text-sky-800',
   }
 }
@@ -75,8 +90,47 @@ export default function CitationPanel({ message, onClose }: Props) {
           </div>
         )}
         {!message && <p className="px-1 text-xs text-stone-500">点击回答中的编号可查看对应片段。</p>}
-        {message && message.citations.length === 0 && (
+        {message && message.citations.length === 0 && message.memories.length === 0 && (
           <p className="px-1 text-xs text-stone-500">这次回答没有召回任何片段。</p>
+        )}
+        {message && message.memories.length > 0 && (
+          <section className="mb-3">
+            <h3 className="px-1 text-[11px] font-semibold text-stone-600">
+              召回的记忆（{message.memories.length}）
+            </h3>
+            <p className="px-1 pb-1.5 text-[10px] text-stone-400">
+              来自之前的对话，不是资料片段，因此没有编号
+            </p>
+            <ul className="space-y-2">
+              {message.memories.map((memory) => (
+                <li
+                  key={memory.id}
+                  className="rounded-xl border border-amber-200 bg-amber-50/50 p-3"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-800">
+                      {KIND_LABEL[memory.kind]}
+                    </span>
+                    <span className="truncate text-[10px] text-stone-500">{memory.key}</span>
+                    <span className="ml-auto text-[10px] tabular-nums text-stone-400">
+                      {memory.score.toFixed(2)}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 whitespace-pre-wrap break-words text-xs leading-relaxed text-stone-700">
+                    {memory.content}
+                  </p>
+                  <p className="mt-1 text-[10px] tabular-nums text-stone-400">
+                    {memoryDate(memory)}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {message && message.citations.length > 0 && (
+          <h3 className="px-1 pb-1.5 text-[11px] font-semibold text-stone-600">
+            资料片段（{message.citations.length}）
+          </h3>
         )}
         <ul className="space-y-2">
           {message?.citations.map((citation) => {

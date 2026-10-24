@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from app.generation.base import ChatMessage
-from app.generation.prompt import REFUSAL_TEXT, build_messages, format_context
+from app.generation.prompt import REFUSAL_TEXT, build_messages, format_context, format_memories
+from app.memory.types import MemoryHit
 from app.models import Message
 from app.retrieval.types import RetrievalHit
 from app.services.chat import cited_indices, history_messages
@@ -39,6 +40,39 @@ def test_context_lists_every_source_with_location() -> None:
     context = format_context(hits)
     assert "[1] 文件：notes/a.md；小节：混合检索 > RRF；行：10-20" in context
     assert "[2]" in context
+
+
+def memory(content: str, *, occurred_at: str | None = None) -> MemoryHit:
+    return MemoryHit(
+        id=1,
+        kind="fact",
+        key="所在城市",
+        content=content,
+        occurred_at=occurred_at,
+        created_at="2026-10-24T18:39:22+00:00",
+        score=0.8,
+    )
+
+
+def test_memories_prefer_the_event_date() -> None:
+    assert format_memories([memory("住在杭州。", occurred_at="2026-08-12")]) == (
+        "- 2026-08-12（事实）：住在杭州。"
+    )
+
+
+def test_memories_fall_back_to_the_local_recording_date() -> None:
+    from app.timeutil import local_date
+
+    line = format_memories([memory("住在杭州。")])
+    assert local_date("2026-10-24T18:39:22+00:00").isoformat() in line
+    assert "（事实）" in line
+
+
+def test_memories_are_a_separate_section_from_the_documents() -> None:
+    messages = build_messages("我住哪", [], [], memories=[memory("住在杭州。")])
+    content = messages[-1].content
+    assert "【记忆】" in content
+    assert "【资料】\n（本轮没有命中资料）" in content
 
 
 def test_build_messages_order() -> None:

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import asyncio
 import json
 from collections.abc import AsyncIterator
 from dataclasses import replace
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +18,9 @@ from app.config import Settings
 from app.db import Database
 from app.generation.base import ChatMessage
 from app.generation.prompt import REFUSAL_TEXT
-from app.models import Conversation, Document, Message, Source
+from app.memory.service import TaskRunner
+from app.memory.store import ScoredMemory
+from app.models import Conversation, Document, Memory, Message, Source
 from app.retrieval.pipeline import RetrievalResult, RetrievalTimings
 from app.retrieval.types import RetrievalHit
 from app.services.egress import BLOCKED_TEXT, SKIPPED_TEXT
@@ -64,11 +68,34 @@ class FakeProvider:
             yield char
 
 
+class FakeMemoryStore:
+    def __init__(self, hits: list[ScoredMemory]) -> None:
+        self.hits = hits
+        self.calls: list[tuple[int, float | None]] = []
+
+    async def search(
+        self, vector: list[float], *, limit: int, min_score: float | None = None
+    ) -> list[ScoredMemory]:
+        self.calls.append((limit, min_score))
+        return self.hits[:limit]
+
+
+class SpyMemoryService:
+    def __init__(self) -> None:
+        self.calls: list[dict[str, Any]] = []
+
+    async def after_turn(self, **kwargs: Any) -> None:
+        self.calls.append(kwargs)
+
+
 def build_app(
     tmp_path: Path,
     provider: FakeProvider | None,
     *,
     local_provider: FakeProvider | None = None,
+    memory_store: FakeMemoryStore | None = None,
+    memory_service: SpyMemoryService | None = None,
+    memory_tasks: TaskRunner | None = None,
 ) -> tuple[FastAPI, Database]:
     db = Database(tmp_path / "chat.db")
     db.create_all()
@@ -80,6 +107,12 @@ def build_app(
     app.state.store = object()
     app.state.rerankers = {"cloud": object(), "local": object()}
     app.state.providers = {"cloud": provider, "local": local_provider}
+    if memory_store is not None:
+        app.state.memory_store = memory_store
+    if memory_service is not None:
+        app.state.memory = memory_service
+    if memory_tasks is not None:
+        app.state.memory_tasks = memory_tasks
     app.include_router(chat.router)
     return app, db
 
@@ -229,6 +262,28 @@ class ExplodingProvider(FakeProvider):
         self.calls.append(messages)
         raise AssertionError("cloud provider must not be called on the local track")
         yield ""  # pragma: no cover - keeps this an async generator
+
+
+def add_memory(
+    db: Database,
+    *,
+    content: str,
+    kind: str = "preference",
+    key: str = "技术栈偏好",
+    status: str = "active",
+    occurred_at: date | None = None,
+) -> int:
+    with db.session_factory() as session:
+        memory = Memory(
+            kind=kind,
+            key=key,
+            content=content,
+            occurred_at=occurred_at,
+            status=status,
+        )
+        session.add(memory)
+        session.commit()
+        return memory.id
 
 
 def add_document(db: Database, *, egress_allowed: bool, rel_path: str) -> int:
@@ -396,4 +451,128 @@ async def test_message_metrics_are_persisted(
         assert metrics["ttft_ms"] is not None
         assert metrics["egress"]["chunks"] == 1
         assert metrics["retrieval"]["mode"] == "hybrid_rerank"
+        assert metrics["memory"]["injected"] == 0
+    db.dispose()
+
+
+# --- Stage 4: long-term memory ---------------------------------------------
+
+
+async def test_recalled_memory_is_injected_and_counted_in_egress(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider(answer="你之前说过常用 Python。")
+    db_probe = Database(tmp_path / "chat.db")
+    db_probe.create_all()
+    memory_id = add_memory(db_probe, content="用户常用 Python 与 TypeScript。")
+    db_probe.dispose()
+    store = FakeMemoryStore([ScoredMemory(memory_id=memory_id, score=0.82, payload={})])
+    app, db = build_app(tmp_path, provider, memory_store=store)
+    use_hits(monkeypatch, [HIT])
+
+    events = await collect(app, "我以前说过我的技术栈偏好吗？")
+
+    citations = events[0][1]
+    assert citations["memories"][0]["content"] == "用户常用 Python 与 TypeScript。"
+    assert citations["memories"][0]["score"] == 0.82
+    assert citations["egress"]["memories"] == 1
+    assert citations["egress"]["memory_chars"] == len("用户常用 Python 与 TypeScript。")
+    sent = provider.calls[0][-1].content
+    assert "【记忆】" in sent
+    assert "用户常用 Python 与 TypeScript。" in sent
+    assert "【资料】" in sent
+
+    with db.session_factory() as session:
+        assistant = session.scalars(select(Message).where(Message.role == "assistant")).one()
+        metrics = json.loads(assistant.metrics_json)
+        assert metrics["memory"]["injected"] == 1
+        assert metrics["egress"]["memories"] == 1
+    db.dispose()
+
+
+async def test_memory_lifts_the_retrieval_gate(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider(answer="你之前说过常用 Python。")
+    db_probe = Database(tmp_path / "chat.db")
+    db_probe.create_all()
+    memory_id = add_memory(db_probe, content="用户常用 Python。")
+    db_probe.dispose()
+    store = FakeMemoryStore([ScoredMemory(memory_id=memory_id, score=0.9, payload={})])
+    app, db = build_app(tmp_path, provider, memory_store=store)
+    use_hits(monkeypatch, [])  # no document is relevant to "what did I say"
+
+    events = await collect(app, "我之前说过我的技术栈偏好吗？")
+
+    assert events[0][1]["refused"] is False
+    assert len(provider.calls) == 1
+    assert events[-1][1]["refused"] is False
+    db.dispose()
+
+
+async def test_local_track_reports_memories_but_stays_zero_egress(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cloud = ExplodingProvider()
+    local = FakeProvider(answer="你之前说过常用 Python。")
+    db_probe = Database(tmp_path / "chat.db")
+    db_probe.create_all()
+    memory_id = add_memory(db_probe, content="用户常用 Python。")
+    db_probe.dispose()
+    store = FakeMemoryStore([ScoredMemory(memory_id=memory_id, score=0.9, payload={})])
+    app, db = build_app(tmp_path, cloud, local_provider=local, memory_store=store)
+    use_hits(monkeypatch, [HIT])
+
+    events = await collect(app, "我之前说过什么？", track="local")
+
+    egress = events[0][1]["egress"]
+    assert egress["enabled"] is False
+    assert egress["memories"] == 1
+    assert egress["memory_chars"] == len("用户常用 Python。")
+    assert cloud.calls == []
+    db.dispose()
+
+
+async def test_memory_extraction_is_scheduled_after_a_normal_turn(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider()
+    service = SpyMemoryService()
+    runner = TaskRunner()
+    app, db = build_app(tmp_path, provider, memory_service=service, memory_tasks=runner)
+    use_hits(monkeypatch, [HIT])
+
+    await collect(app, "我平时写 Python")
+    await asyncio.sleep(0)
+
+    assert len(service.calls) == 1
+    call = service.calls[0]
+    assert call["conversation_id"] == 1
+    assert call["user_text"] == "我平时写 Python"
+    assert call["track"] == "cloud"
+    assert isinstance(call["user_message_id"], int)
+    assert isinstance(call["assistant_message_id"], int)
+    await runner.shutdown()
+    db.dispose()
+
+
+async def test_memory_extraction_is_not_scheduled_for_skip_or_gate_refusal(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    provider = FakeProvider()
+    service = SpyMemoryService()
+    runner = TaskRunner()
+    app, db = build_app(tmp_path, provider, memory_service=service, memory_tasks=runner)
+    use_hits(monkeypatch, [HIT])
+
+    await collect(app, "只检索一次", skip_egress=True)
+    await asyncio.sleep(0)
+    assert service.calls == []
+    assert provider.calls == []
+
+    use_hits(monkeypatch, [])
+    await collect(app, "无关问题")
+    await asyncio.sleep(0)
+    assert service.calls == []
+    await runner.shutdown()
     db.dispose()

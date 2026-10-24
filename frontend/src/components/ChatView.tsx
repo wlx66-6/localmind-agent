@@ -119,6 +119,7 @@ export default function ChatView({
           {messages.map((message) => {
             const isUser = message.role === 'user'
             const hasCitations = message.citations.length > 0
+            const hasMemories = message.memories.length > 0
             const timing = isUser ? null : latencyLabel(message)
             return (
               <div key={message.id} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -164,6 +165,20 @@ export default function ChatView({
                           }`}
                         >
                           引用 {message.citations.length}
+                        </button>
+                      )}
+                      {hasMemories && (
+                        <button
+                          type="button"
+                          onClick={() => onSelectMessage(message.id)}
+                          title="这条回答用到了你的长期记忆"
+                          className={`rounded px-1.5 py-0.5 transition ${
+                            activeId === message.id
+                              ? 'bg-amber-600 text-white'
+                              : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                          }`}
+                        >
+                          记忆 {message.memories.length}
                         </button>
                       )}
                       {timing && (

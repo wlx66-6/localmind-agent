@@ -18,7 +18,10 @@ logger = logging.getLogger("localmind.db")
 # Alembic arrives in stage 5 when there are real migrations to sequence.
 _ADDED_COLUMNS: dict[str, dict[str, str]] = {
     "sources": {"egress_allowed": "BOOLEAN NOT NULL DEFAULT 1"},
-    "conversations": {"track": "VARCHAR(16)"},
+    "conversations": {
+        "track": "VARCHAR(16)",
+        "summarized_user_messages": "INTEGER NOT NULL DEFAULT 0",
+    },
     "messages": {
         "track": "VARCHAR(16)",
         "metrics_json": "TEXT NOT NULL DEFAULT '{}'",

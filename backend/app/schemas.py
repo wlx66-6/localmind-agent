@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -89,3 +89,17 @@ class ConversationOut(BaseModel):
     track: str | None = None
     created_at: datetime
     messages: list[MessageOut]
+
+
+class MemoryOut(BaseModel):
+    id: int
+    kind: str
+    key: str
+    content: str
+    occurred_at: date | None
+    # UTC ISO with an explicit offset, so the browser does not have to guess.
+    created_at: str
+    status: str
+    superseded_by: int | None
+    source_conversation_id: int | None
+    embedding_ok: bool

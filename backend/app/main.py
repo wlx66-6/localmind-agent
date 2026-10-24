@@ -8,13 +8,15 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import chat, health, sources
+from app.api import chat, health, memories, sources
 from app.config import get_settings
 from app.db import Database
 from app.generation.base import ChatProvider
 from app.generation.deepseek import DeepSeekProvider
 from app.generation.ollama import OllamaProvider
 from app.logging import setup_logging
+from app.memory.service import MemoryService, TaskRunner
+from app.memory.store import MemoryStore
 from app.retrieval import sparse
 from app.retrieval.embedder import OllamaEmbedder
 from app.retrieval.reranker import CrossEncoderReranker
@@ -47,6 +49,17 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         await store.ensure_collection()
     except VectorStoreError as exc:
         logger.error("qdrant_init_failed", extra={"event": "qdrant_init_failed", "error": str(exc)})
+
+    memory_store = MemoryStore(settings.qdrant_url, settings.memory_collection, settings.embed_dim)
+    try:
+        await memory_store.ensure_collection()
+    except VectorStoreError as exc:
+        # Memory recall degrades to "nothing found"; chat and documents keep
+        # working, and the panel still shows SQLite rows.
+        logger.error(
+            "memory_collection_init_failed",
+            extra={"event": "memory_collection_init_failed", "error": str(exc)},
+        )
 
     # One reranker per track, because they run on different devices: the cloud
     # track keeps the GPU copy (snippets are sent out, so the local model is
@@ -92,13 +105,18 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         "local": local_provider,
     }
 
+    memory_service = MemoryService(db.session_factory, settings, embedder, memory_store, providers)
+
     app.state.settings = settings
     app.state.db = db
     app.state.embedder = embedder
     app.state.store = store
+    app.state.memory_store = memory_store
     app.state.rerankers = rerankers
     app.state.providers = providers
     app.state.ingest = IngestService(db.session_factory, settings, embedder, store)
+    app.state.memory = memory_service
+    app.state.memory_tasks = TaskRunner()
 
     # Warm up lazily-loaded locals in the background: jieba takes ~0.5s and each
     # reranker several seconds, none of it should land on the first question.
@@ -114,13 +132,16 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             "cloud_configured": settings.has_cloud_key,
             "default_track": settings.default_track,
             "local_model": settings.ollama_chat_model,
+            "memory_collection": settings.memory_collection,
         },
     )
     yield
 
     app.state.warmup_task.cancel()
+    await app.state.memory_tasks.shutdown()
     await embedder.aclose()
     await store.close()
+    await memory_store.close()
     db.dispose()
 
 
@@ -137,3 +158,4 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(sources.router)
 app.include_router(chat.router)
+app.include_router(memories.router)
