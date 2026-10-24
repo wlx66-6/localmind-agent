@@ -8,6 +8,8 @@ fastapi>=0.115
 uvicorn[standard]>=0.30
 pydantic-settings>=2.4
 sqlalchemy>=2.0
+# 阶段 5 起 schema 由 Alembic 版本管理，启动时执行 upgrade head。
+alembic>=1.13
 httpx>=0.27
 qdrant-client>=1.16
 # 中文稀疏检索：jieba 分词 + Qdrant IDF 修饰符（FastEmbed 的 Qdrant/bm25

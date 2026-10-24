@@ -62,6 +62,10 @@ class CitationOut(BaseModel):
     score: float
     text: str
     document_id: int | None = None
+    ordinal: int = 0
+    # PDF only; when set the UI cites "第 N 页 · 第 K 块" instead of line numbers.
+    page: int | None = None
+    page_end: int | None = None
 
 
 class HealthOut(BaseModel):

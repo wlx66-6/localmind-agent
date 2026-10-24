@@ -98,7 +98,7 @@ def build_app(
     memory_tasks: TaskRunner | None = None,
 ) -> tuple[FastAPI, Database]:
     db = Database(tmp_path / "chat.db")
-    db.create_all()
+    db.migrate()
     settings = Settings(sqlite_path=tmp_path / "chat.db")
     app = FastAPI()
     app.state.settings = settings
@@ -463,7 +463,7 @@ async def test_recalled_memory_is_injected_and_counted_in_egress(
 ) -> None:
     provider = FakeProvider(answer="你之前说过常用 Python。")
     db_probe = Database(tmp_path / "chat.db")
-    db_probe.create_all()
+    db_probe.migrate()
     memory_id = add_memory(db_probe, content="用户常用 Python 与 TypeScript。")
     db_probe.dispose()
     store = FakeMemoryStore([ScoredMemory(memory_id=memory_id, score=0.82, payload={})])
@@ -495,7 +495,7 @@ async def test_memory_lifts_the_retrieval_gate(
 ) -> None:
     provider = FakeProvider(answer="你之前说过常用 Python。")
     db_probe = Database(tmp_path / "chat.db")
-    db_probe.create_all()
+    db_probe.migrate()
     memory_id = add_memory(db_probe, content="用户常用 Python。")
     db_probe.dispose()
     store = FakeMemoryStore([ScoredMemory(memory_id=memory_id, score=0.9, payload={})])
@@ -516,7 +516,7 @@ async def test_local_track_reports_memories_but_stays_zero_egress(
     cloud = ExplodingProvider()
     local = FakeProvider(answer="你之前说过常用 Python。")
     db_probe = Database(tmp_path / "chat.db")
-    db_probe.create_all()
+    db_probe.migrate()
     memory_id = add_memory(db_probe, content="用户常用 Python。")
     db_probe.dispose()
     store = FakeMemoryStore([ScoredMemory(memory_id=memory_id, score=0.9, payload={})])

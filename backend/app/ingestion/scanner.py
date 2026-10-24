@@ -4,7 +4,8 @@ import hashlib
 from collections.abc import Iterator
 from pathlib import Path
 
-SUPPORTED_SUFFIXES = {".md", ".markdown", ".txt"}
+from app.ingestion.parser import SUPPORTED_SUFFIXES
+
 SKIP_DIRS = {
     ".git",
     ".hg",

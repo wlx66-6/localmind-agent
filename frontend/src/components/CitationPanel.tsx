@@ -14,6 +14,24 @@ function traceLabel(citation: Citation): string {
   return parts.join(' · ')
 }
 
+/**
+ * Where the snippet sits in its file. A PDF is cited by page because its line
+ * numbers come out of text extraction order and mean nothing to the reader;
+ * everything else keeps the line range used since stage 1.
+ */
+function locationLabel(citation: Citation): string {
+  const page = citation.page ?? null
+  if (page === null) {
+    return `第 ${citation.start_line}–${citation.end_line} 行`
+  }
+  const pageEnd = citation.page_end ?? null
+  const pages =
+    pageEnd !== null && pageEnd !== page ? `第 ${page}–${pageEnd} 页` : `第 ${page} 页`
+  // Citations stored before stage 5 have no ordinal; fall back to no block.
+  const ordinal = citation.ordinal
+  return typeof ordinal === 'number' ? `${pages} · 第 ${ordinal + 1} 块` : pages
+}
+
 const KIND_LABEL: Record<RecalledMemory['kind'], string> = {
   fact: '事实',
   preference: '偏好',
@@ -160,9 +178,7 @@ export default function CitationPanel({ message, onClose }: Props) {
                   {citation.path}
                   {citation.heading && <span className="text-stone-400"> › {citation.heading}</span>}
                 </p>
-                <p className="text-[10px] text-stone-400">
-                  第 {citation.start_line}–{citation.end_line} 行
-                </p>
+                <p className="text-[10px] text-stone-400">{locationLabel(citation)}</p>
                 <p className="mt-2 max-h-48 overflow-y-auto whitespace-pre-wrap break-words text-xs leading-relaxed text-stone-600">
                   {citation.text}
                 </p>

@@ -137,7 +137,8 @@ class IngestService:
             parsed.text,
             max_chars=self._settings.chunk_max_chars,
             overlap=self._settings.chunk_overlap,
-            markdown=parsed.markdown,
+            mode=parsed.mode,
+            page_starts=parsed.page_starts,
         )
         vectors = await self._embedder.embed([chunk.embedding_text for chunk in chunks])
 
@@ -149,6 +150,7 @@ class IngestService:
                 content_hash=content_hash,
                 size=stat.st_size,
                 mtime=stat.st_mtime,
+                page_count=parsed.page_count,
             )
             session.add(document)
             session.flush()
@@ -158,6 +160,7 @@ class IngestService:
             document.size = stat.st_size
             document.mtime = stat.st_mtime
             document.indexed_at = utcnow()
+            document.page_count = parsed.page_count
 
         chunk_rows = []
         points = []
@@ -174,6 +177,8 @@ class IngestService:
                     end_line=chunk.end_line,
                     text=chunk.text,
                     qdrant_id=qdrant_id,
+                    page=chunk.page,
+                    page_end=chunk.page_end,
                 )
             )
             points.append(
@@ -190,9 +195,12 @@ class IngestService:
                         "chunk_id": chunk_id,
                         "path": rel_path,
                         "heading": chunk.heading,
+                        "ordinal": chunk.ordinal,
                         "start_line": chunk.start_line,
                         "end_line": chunk.end_line,
                         "text": chunk.text,
+                        "page": chunk.page,
+                        "page_end": chunk.page_end,
                     },
                 )
             )

@@ -4,29 +4,14 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
+from alembic import command
+from alembic.config import Config
 from sqlalchemy import Engine, create_engine, event
 from sqlalchemy.orm import Session, sessionmaker
 
-from app.models import Base
+BACKEND_DIR = Path(__file__).resolve().parents[1]
 
 logger = logging.getLogger("localmind.db")
-
-# create_all() only creates missing tables, it never adds columns to an
-# existing one. Stage 3 adds columns to databases created in stages 1–2, so
-# each added column is declared here and applied with ALTER TABLE on startup.
-# SQLite supports ADD COLUMN with a constant default, which is all we need.
-# Alembic arrives in stage 5 when there are real migrations to sequence.
-_ADDED_COLUMNS: dict[str, dict[str, str]] = {
-    "sources": {"egress_allowed": "BOOLEAN NOT NULL DEFAULT 1"},
-    "conversations": {
-        "track": "VARCHAR(16)",
-        "summarized_user_messages": "INTEGER NOT NULL DEFAULT 0",
-    },
-    "messages": {
-        "track": "VARCHAR(16)",
-        "metrics_json": "TEXT NOT NULL DEFAULT '{}'",
-    },
-}
 
 
 def _enable_foreign_keys(engine: Engine) -> None:
@@ -40,34 +25,38 @@ def _enable_foreign_keys(engine: Engine) -> None:
 class Database:
     def __init__(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
+        self.path = path
+        self.url = f"sqlite:///{path.as_posix()}"
         self.engine = create_engine(
-            f"sqlite:///{path.as_posix()}",
+            self.url,
             connect_args={"check_same_thread": False},
         )
         _enable_foreign_keys(self.engine)
         self.session_factory = sessionmaker(bind=self.engine, expire_on_commit=False)
 
-    def create_all(self) -> None:
-        Base.metadata.create_all(self.engine)
-        self._add_missing_columns()
+    def migrate(self) -> None:
+        """Bring the file to the latest revision.
 
-    def _add_missing_columns(self) -> None:
-        with self.engine.begin() as connection:
-            for table, columns in _ADDED_COLUMNS.items():
-                existing = {
-                    row[1] for row in connection.exec_driver_sql(f"PRAGMA table_info({table})")
-                }
-                if not existing:
-                    # Table does not exist (should not happen after create_all).
-                    continue
-                for name, ddl in columns.items():
-                    if name in existing:
-                        continue
-                    connection.exec_driver_sql(f"ALTER TABLE {table} ADD COLUMN {name} {ddl}")
-                    logger.info(
-                        "column_added",
-                        extra={"event": "column_added", "table": table, "column": name},
-                    )
+        Alembic replaced the stage-1 hand-rolled ``create_all`` +
+        ``ALTER TABLE`` pair: the baseline revision converges fresh, stage-1
+        and stage-4 files to the same shape, and every later change arrives as
+        a numbered revision (see ``backend/migrations``).
+
+        The migration opens its own short-lived engine instead of reusing
+        ``self.engine`` so that it never leaves an open transaction on the
+        connection pool the app is about to use.
+        """
+        config = Config(str(BACKEND_DIR / "alembic.ini"))
+        config.set_main_option("script_location", str(BACKEND_DIR / "migrations"))
+        config.set_main_option("sqlalchemy.url", self.url)
+        # The app already installed its JSON log handler; env.py must not
+        # overwrite it with alembic.ini's logging sections.
+        config.attributes["app_logging_configured"] = True
+        command.upgrade(config, "head")
+        logger.info(
+            "database_migrated",
+            extra={"event": "database_migrated", "path": str(self.path)},
+        )
 
     def session(self) -> Iterator[Session]:
         session = self.session_factory()

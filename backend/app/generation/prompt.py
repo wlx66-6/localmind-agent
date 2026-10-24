@@ -38,7 +38,14 @@ def format_context(hits: list[RetrievalHit]) -> str:
         location = f"文件：{hit.path}"
         if hit.heading:
             location += f"；小节：{hit.heading}"
-        location += f"；行：{hit.start_line}-{hit.end_line}"
+        if hit.page is not None:
+            # A PDF's line numbers would be an artifact of text extraction
+            # order, so the model is told the page instead and quotes it.
+            spans = hit.page_end is not None and hit.page_end != hit.page
+            pages = f"{hit.page}-{hit.page_end}" if spans else f"{hit.page}"
+            location += f"；页码：{pages}"
+        else:
+            location += f"；行：{hit.start_line}-{hit.end_line}"
         blocks.append(f"[{hit.index}] {location}\n{hit.text}")
     return "\n\n".join(blocks)
 

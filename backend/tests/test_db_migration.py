@@ -3,9 +3,12 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from app.db import Database
+from alembic.config import Config
+from alembic.script import ScriptDirectory
 
-# Stage 1–2 schema, before the dual-track columns existed.
+from app.db import BACKEND_DIR, Database
+
+# Stage 1–2 schema: no dual-track columns, no memory table.
 OLD_SCHEMA = """
 CREATE TABLE sources (
     id INTEGER PRIMARY KEY,
@@ -37,21 +40,66 @@ def columns(path: Path, table: str) -> set[str]:
         return {row[1] for row in connection.execute(f"PRAGMA table_info({table})")}
 
 
-def test_create_all_adds_stage3_columns_to_existing_database(tmp_path: Path) -> None:
+def tables(path: Path) -> set[str]:
+    with sqlite3.connect(path) as connection:
+        return {
+            row[0]
+            for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        }
+
+
+def head_revision() -> str:
+    config = Config(str(BACKEND_DIR / "alembic.ini"))
+    config.set_main_option("script_location", str(BACKEND_DIR / "migrations"))
+    head = ScriptDirectory.from_config(config).get_current_head()
+    assert head is not None
+    return head
+
+
+def test_migrate_converges_a_stage2_database(tmp_path: Path) -> None:
     path = tmp_path / "old.db"
     with sqlite3.connect(path) as connection:
         connection.executescript(OLD_SCHEMA)
+        # A stage-1 file already had documents and chunks; add them so the
+        # fixture is an honest old database rather than a synthetic stub.
+        connection.executescript(
+            """
+            CREATE TABLE documents (
+                id INTEGER PRIMARY KEY,
+                source_id INTEGER,
+                rel_path VARCHAR(1024),
+                abs_path VARCHAR(1024) UNIQUE,
+                content_hash VARCHAR(64),
+                size INTEGER,
+                mtime FLOAT,
+                indexed_at DATETIME
+            );
+            CREATE TABLE chunks (
+                id VARCHAR(64) PRIMARY KEY,
+                document_id INTEGER,
+                ordinal INTEGER,
+                heading VARCHAR(512),
+                start_line INTEGER,
+                end_line INTEGER,
+                text TEXT,
+                qdrant_id VARCHAR(36)
+            );
+            """
+        )
 
     db = Database(path)
-    db.create_all()
+    db.migrate()
 
     assert "egress_allowed" in columns(path, "sources")
     assert "track" in columns(path, "conversations")
     assert {"track", "metrics_json"} <= columns(path, "messages")
-    # Stage 4 adds a brand-new table; create_all is enough, no ALTER needed.
+    # Stage 4 introduces a brand-new table.
     assert {"kind", "key", "content", "status", "superseded_by"} <= columns(path, "memories")
     # ... and one column on an existing table, for summary idempotency.
     assert "summarized_user_messages" in columns(path, "conversations")
+    # Stage 5 adds the PDF page anchors.
+    assert {"page", "page_end"} <= columns(path, "chunks")
+    assert "page_count" in columns(path, "documents")
 
     # Existing rows keep working and get usable defaults.
     with sqlite3.connect(path) as connection:
@@ -67,10 +115,26 @@ def test_create_all_adds_stage3_columns_to_existing_database(tmp_path: Path) -> 
     db.dispose()
 
 
+def test_fresh_database_is_migrated_to_head(tmp_path: Path) -> None:
+    path = tmp_path / "fresh.db"
+    db = Database(path)
+    db.migrate()
+
+    assert "alembic_version" in tables(path)
+    with sqlite3.connect(path) as connection:
+        version = connection.execute("SELECT version_num FROM alembic_version").fetchone()[0]
+    assert version == head_revision()
+    assert {"sources", "documents", "chunks", "conversations", "messages", "memories"} <= tables(
+        path
+    )
+    assert {"page", "page_end"} <= columns(path, "chunks")
+    db.dispose()
+
+
 def test_migration_is_idempotent(tmp_path: Path) -> None:
     path = tmp_path / "fresh.db"
     db = Database(path)
-    db.create_all()
-    db.create_all()  # second startup must not raise "duplicate column name"
+    db.migrate()
+    db.migrate()  # second startup must be a no-op, not "duplicate column name"
     assert "metrics_json" in columns(path, "messages")
     db.dispose()

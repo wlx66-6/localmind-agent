@@ -29,7 +29,7 @@ from app.services.ingest import IngestService
 async def run(args: argparse.Namespace) -> int:
     settings = get_settings()
     db = Database(settings.sqlite_path)
-    db.create_all()
+    db.migrate()
     embedder = OllamaEmbedder(settings.ollama_host, settings.ollama_embed_model, settings.embed_dim)
     store = QdrantStore(settings.qdrant_url, settings.qdrant_collection, settings.embed_dim)
     await store.ensure_collection()

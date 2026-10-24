@@ -109,6 +109,8 @@ def _to_hit(
     rerank_score: float | None = None,
 ) -> RetrievalHit:
     raw_document_id = payload.get("document_id")
+    raw_page = payload.get("page")
+    raw_page_end = payload.get("page_end")
     return RetrievalHit(
         index=index,
         chunk_id=chunk_id,
@@ -119,6 +121,9 @@ def _to_hit(
         end_line=int(payload.get("end_line", 0)),
         score=score,
         text=str(payload.get("text", "")),
+        ordinal=int(payload.get("ordinal", 0)),
+        page=int(raw_page) if raw_page is not None else None,
+        page_end=int(raw_page_end) if raw_page_end is not None else None,
         dense_rank=dense_rank,
         sparse_rank=sparse_rank,
         fused_rank=fused_rank,

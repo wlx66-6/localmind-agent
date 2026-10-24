@@ -80,7 +80,7 @@ async def make_harness(
     provider: ScriptedProvider | None = None,
 ) -> Harness:
     db = Database(tmp_path / "memory.db")
-    db.create_all()
+    db.migrate()
     client = AsyncQdrantClient(":memory:")
     store = MemoryStore("", "memories", 8, client=client)
     await store.ensure_collection()

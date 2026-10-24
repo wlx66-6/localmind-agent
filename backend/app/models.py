@@ -43,6 +43,9 @@ class Document(Base):
     size: Mapped[int]
     mtime: Mapped[float]
     indexed_at: Mapped[datetime] = mapped_column(default=utcnow)
+    # PDF only: lets the UI say "40 pages, no extractable text" instead of
+    # showing a silently empty document.
+    page_count: Mapped[int | None] = mapped_column(default=None)
 
     source: Mapped[Source] = relationship(back_populates="documents")
     chunks: Mapped[list[Chunk]] = relationship(
@@ -63,6 +66,10 @@ class Chunk(Base):
     end_line: Mapped[int]
     text: Mapped[str] = mapped_column(Text)
     qdrant_id: Mapped[str] = mapped_column(String(36))
+    # PDF only: a reflowed page has no stable line numbers, so citations point
+    # at the page a chunk starts on (and ends on, if it crosses a break).
+    page: Mapped[int | None] = mapped_column(default=None)
+    page_end: Mapped[int | None] = mapped_column(default=None)
 
     document: Mapped[Document] = relationship(back_populates="chunks")
 

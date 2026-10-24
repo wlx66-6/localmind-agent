@@ -2,7 +2,9 @@
 
 本地优先的个人知识代理：把本机笔记建成可检索索引，用日常语言提问，回答必须给出处；资料里没有依据时明确拒答。索引与检索全部在本机完成，生成阶段默认走云端、后续可切换到本地模型。
 
-当前处于**阶段 4 · 长期记忆**：在双轨 RAG 之上加入跨会话记忆——每轮答完异步抽取事实/偏好，每 6 条用户消息滚动生成会话摘要；同 key 覆盖旧值并保留历史，事件时间与记录时间分开；记忆独立于文档引用展示，并计入出站回执。云端轨道抽取只读用户已发出的那条消息，本地轨道抽取在本机完成。
+当前处于**阶段 5 · 工程化与解析扩展**（进行中）：在阶段 4 的长期记忆之上，资料类型扩展到 PDF / docx / 代码（PDF 按页引用），数据库结构改由 Alembic 版本管理。剩余工作见 [PROGRESS.md](PROGRESS.md)。
+
+阶段 4 的长期记忆：每轮答完异步抽取事实/偏好，每 6 条用户消息滚动生成会话摘要；同 key 覆盖旧值并保留历史，事件时间与记录时间分开；记忆独立于文档引用展示，并计入出站回执。云端轨道抽取只读用户已发出的那条消息，本地轨道抽取在本机完成。
 
 ## 架构
 
@@ -148,6 +150,26 @@ cp .env.example .env
 
 仓库自带 `examples/corpus/`（10 篇公开技术笔记）用于演示，不包含任何个人资料。
 
+支持的文件类型：
+
+| 类型 | 后缀 | 引用定位 |
+| --- | --- | --- |
+| Markdown | `.md` `.markdown` | 行号 |
+| 纯文本 | `.txt` | 行号 |
+| PDF | `.pdf` | 页码（每页单独分块，不跨页） |
+| Word | `.docx` | 行号（Word 标题转成 markdown 标题） |
+| 代码 / 配置 | `.py .ts .go .rs .java .sh .sql .yaml .json` 等 23 种 | 行号（按顶层函数/类切节） |
+
+扫描版 PDF（没有文本层）会明确报错"没有可提取文本"，不做 OCR。旧版 `.doc` 需要另存为 `.docx`。
+
+想看 PDF 与 docx 的引用效果，把 `examples/formats/` 作为第二个资料源加入（该目录由 `scripts/make_demo_files.py` 生成，与评测语料分开，不影响 40 题检索评测）：
+
+```bash
+.venv/Scripts/python.exe scripts/make_demo_files.py      # 可选：重新生成
+.venv/Scripts/python.exe scripts/ingest_cli.py add examples/formats
+.venv/Scripts/python.exe scripts/ingest_cli.py scan 2
+```
+
 改了 `CHUNK_MAX_CHARS` / `CHUNK_OVERLAP` 或向量布局后，旧向量会与新链路不一致，需要强制重建：
 
 ```bash
@@ -197,6 +219,19 @@ npm run typecheck
 npm run build
 ```
 
+### 数据库迁移
+
+Schema 由 Alembic 管理，后端启动时自动执行 `upgrade head`。手动查看或升级：
+
+```bash
+.venv/Scripts/python.exe -m alembic -c backend/alembic.ini current
+.venv/Scripts/python.exe -m alembic -c backend/alembic.ini upgrade head
+```
+
+- `0001` 是阶段 1～4 的**收敛基线**：缺表建表、缺列补列，所以全新库、旧库都能一次迁移到位（阶段 4 之前没有版本表，无法按版本号判断）。
+- `0002` 起是普通的前向 revision。新增列用 `app/schema.py` 的 `add_missing_columns`，因为 SQLite 没有 `ADD COLUMN IF NOT EXISTS`。
+- 基线不可回滚（`downgrade` 直接报错）：回滚等于删掉索引与记忆。
+
 ### 检索评测
 
 ```bash
@@ -228,12 +263,15 @@ backend/app/
   services/       摄取与问答编排、出站策略（egress）
   config.py       环境变量与路径
   models.py       SQLAlchemy 模型
-  db.py           引擎、会话与轻量列迁移
+  db.py           引擎、会话与启动时迁移
+  schema.py       幂等补列（基线 migration 与后续 revision 共用）
   logging.py      JSON 结构化日志
   timeutil.py     UTC 存储与本地日期展示的换算
+backend/migrations/  Alembic 迁移脚本（0001 基线 + 0002 阶段 5）
 backend/tests/    单元与集成测试
 frontend/src/     React 单页（对话、引用侧栏、资料源面板）
-examples/corpus/  演示语料（公开技术笔记）
+examples/corpus/  演示语料（公开技术笔记，评测集基于它）
+examples/formats/ PDF 与 docx 演示文件（由 scripts/make_demo_files.py 生成）
 eval/stage2/      40 题检索评测集（gold 为逐字引文）
 scripts/          ingest_cli、检索评测、离线验证、阶段 0 spike
 docs/adr/         架构决策记录
@@ -244,7 +282,9 @@ PROGRESS.md       阶段进度与待办
 
 ## 当前限制
 
-- 只支持 `.md` / `.markdown` / `.txt`；PDF、docx、代码文件在阶段 5 接入。
+- 不做 OCR：扫描版 PDF 没有文本层，会被明确报错而不是索引成空文档。
+- PDF 每页强制单独分块，保证引用永远指向单页；代价是跨页段落被切成两段。`page_end` 字段已预留，若评测显示需要跨页打包，可只改分块不改表。
+- 阶段 5 之前索引的 md/txt 分块，Qdrant payload 里没有 `ordinal` 字段（只影响"第 K 块"，而块号目前只在 PDF 引用里出现）；`scan --force` 后一致。
 - 重排模型按字面相似度打分，对"同义改写"类问题会低估正确片段（例如同一段正确内容，换一种问法分数从 0.8 掉到 0.001）。实测数据与两层拒答的设计依据见 ADR-0009。
 - 引用精确率 89.2%（宏平均，按 gold + 可接受片段判定），比 90% 验收线低 0.8 个百分点；只认 gold 的严格口径为 65.3%。失分来自生成端对窄问题也给出 4～5 条引用。引用召回 93.3%、引用编号有效性 100%。口径与逐题分析见 ADR-0009。
 - 分词依赖 jieba 词典，专业新词可能切错；哈希碰撞概率极低但非零。

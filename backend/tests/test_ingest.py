@@ -33,7 +33,7 @@ async def test_scan_index_skip_change_and_remove(tmp_path: Path) -> None:
     (root / "sub" / "b.txt").write_text("这是一段纯文本笔记，内容足够长。", encoding="utf-8")
 
     db = Database(tmp_path / "test.db")
-    db.create_all()
+    db.migrate()
     client = AsyncQdrantClient(":memory:")
     store = QdrantStore("", "test_chunks", 8, client=client)
     await store.ensure_collection()

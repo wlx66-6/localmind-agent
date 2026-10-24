@@ -21,7 +21,7 @@ class FakeEmbedder:
 
 async def build_app(tmp_path: Path) -> tuple[FastAPI, Database, AsyncQdrantClient]:
     db = Database(tmp_path / "api.db")
-    db.create_all()
+    db.migrate()
     client = AsyncQdrantClient(":memory:")
     store = MemoryStore("", "memories", 8, client=client)
     await store.ensure_collection()
@@ -115,7 +115,7 @@ async def test_delete_removes_the_memory_and_clears_the_pointer(tmp_path: Path) 
 
 async def test_delete_without_a_service_is_a_404(tmp_path: Path) -> None:
     db = Database(tmp_path / "no-service.db")
-    db.create_all()
+    db.migrate()
     app = FastAPI()
     app.state.db = db
     app.state.memory = None

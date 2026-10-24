@@ -56,7 +56,7 @@ def seed(db: Database) -> dict[str, int]:
 
 async def test_only_active_memories_are_returned_in_score_order(tmp_path: Path) -> None:
     db = Database(tmp_path / "retrieval.db")
-    db.create_all()
+    db.migrate()
     ids = seed(db)
     store = FakeStore(
         [
@@ -80,7 +80,7 @@ async def test_only_active_memories_are_returned_in_score_order(tmp_path: Path) 
 
 async def test_top_k_truncates_recalled_memories(tmp_path: Path) -> None:
     db = Database(tmp_path / "retrieval.db")
-    db.create_all()
+    db.migrate()
     ids = seed(db)
     store = FakeStore(
         [
@@ -99,7 +99,7 @@ async def test_top_k_truncates_recalled_memories(tmp_path: Path) -> None:
 
 async def test_embedding_failure_returns_empty_without_raising(tmp_path: Path) -> None:
     db = Database(tmp_path / "retrieval.db")
-    db.create_all()
+    db.migrate()
     seed(db)
     store = FakeStore([])
 
@@ -119,7 +119,7 @@ async def test_embedding_failure_returns_empty_without_raising(tmp_path: Path) -
 
 async def test_vector_store_failure_returns_empty_without_raising(tmp_path: Path) -> None:
     db = Database(tmp_path / "retrieval.db")
-    db.create_all()
+    db.migrate()
     seed(db)
     store = FakeStore([], error=RuntimeError("qdrant down"))
 

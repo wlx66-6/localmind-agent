@@ -19,6 +19,11 @@ export type Citation = {
   end_line: number
   score: number
   text: string
+  // Position inside the document, and the PDF page range when the source is a
+  // PDF (a reflowed page has no stable line numbers to cite).
+  ordinal: number
+  page: number | null
+  page_end: number | null
   // Retrieval trace: per-route ranks, fusion order and rerank score.
   dense_rank: number | null
   sparse_rank: number | null

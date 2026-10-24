@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-- **当前阶段**：阶段 5 · 工程化与解析扩展（待确认范围与技术选择）
+- **当前阶段**：阶段 5 · 工程化与解析扩展（进行中：Alembic 迁移 + 解析器 + 引用扩展已完成，评测 / Compose / CI / 文档待做）
 - **最近更新**：2026-10-25
 - **仓库**：`git@github.com:wlx66-6/localmind-agent.git`（私有）
 
@@ -245,6 +245,45 @@
 
 Alembic 基线 + 新字段 → 解析器（PDF/docx/代码）→ 引用字段与前端展示 → 摄取接入（扩展名白名单、增量）→ `metrics_report.py` → 双轨 + 记忆评测 → Docker Compose + CI → 文档（ADR-0012/0013、验收记录、简历素材）。
 
+#### 阶段 5 进展（2026-10-25，进行中）
+
+已完成（第 1～4 项）：
+
+- [x] **Alembic 基线**：`backend/alembic.ini` + `backend/migrations/`（`env.py`、`0001_stage4_baseline`、`0002_stage5_parsing_fields`）。
+  基线不重放历史 DDL，而是**幂等收敛**：缺表建表（冻结的阶段 4 schema）、缺列补列（`app/schema.py`），因此同一 revision 对全新库、阶段 1 库、阶段 4 库都成立。启动时由 `Database.migrate()` 执行 `upgrade head`，取代原来的 `create_all()` + `PRAGMA/ALTER` 双轨机制（该机制已删除）。
+  实测：现有 `data/localmind.db`（10 文档 / 47 分块 / 10 条记忆）在重启时迁移成功，`alembic_version=0002`，数据无损；阶段 1 旧库与全新库均有单测覆盖。
+- [x] **解析器**：`ingestion/parser.py` 改为 `ParsedDocument{text, mode, doc_type, page_starts, page_count}`。
+  PDF 用 PyMuPDF 按页抽块（`page_starts` 记录每页起始字符偏移）；docx 用 python-docx，Word 标题转成 markdown 标题、表格按 `a | b` 行保留；代码走扩展名白名单（23 种）按顶层符号切节。扫描版 PDF 抛明确错误"共 N 页，但没有可提取文本（可能是扫描版，当前不做 OCR）"。
+- [x] **分块**：`chunk_text(mode=markdown|text|code, page_starts=...)`。文档类型由 mode 显式表达（取代 `markdown: bool`）；PDF **每页强制一节**，分块不跨页，所以引用永远是单页；代码按 `def/class/func/…` 顶层符号切节，签名作为 heading，被硬切的块仍带签名。
+- [x] **引用链路**：`RetrievalHit` / `CitationOut` 增加 `ordinal`、`page`、`page_end`；Qdrant payload 与 SQLite `chunks.page/page_end` 同步；`format_context` 对 PDF 写「页码：N」而不是行号；前端 `locationLabel()` 显示「第 N 页 · 第 K 块」，文本类仍是行号，旧引用（无 ordinal）自动降级。
+- [x] **演示语料**：`scripts/make_demo_files.py` 生成 `examples/formats/localmind-runbook.pdf`（3 页）与 `delivery-checklist.docx`（标题 + 表格）。独立目录、不进 `examples/corpus`，避免污染 40 题评测集。
+- [x] 测试 **109 passed**（新增解析器 10、分块 6、迁移 1，改写 2）；ruff / format / mypy（55 文件）/ 前端 `tsc + vite build` 全绿。
+
+实测（2026-10-25，本机）：
+
+```
+source 2 (= examples/formats) 扫描: scanned=2 indexed=2 failed=0
+runbook.pdf    → page_count=3，3 个分块，page/page_end = 1-1 / 2-2 / 3-3，ordinal 0/1/2
+checklist.docx → 4 个分块，heading 形如 "知识库交付清单 > 一、资料入库"，表格保留为 "检查项 | 命令 | …"
+只检索提问"备份要备份哪些东西？" → [1] localmind-runbook.pdf page=1-1 ord=0 score=0.942
+```
+
+未做（下次继续，按顺序）：
+
+- [ ] `--force` 重建资料源 1：旧 47 个分块的 payload 里没有 `ordinal` 字段（不影响引用显示，但重建后数据一致）。
+- [ ] `scripts/metrics_report.py`：SQLite → Markdown，双轨首 token、拒答、出站、记忆抽取状态。
+- [ ] 双轨评测：同一 40 题跑云端 + 本地，另加 5 道记忆场景题，产出对比报告 `docs/eval/stage5-report.*`。
+- [ ] Docker Compose：backend + frontend + Qdrant（CPU torch），Ollama 留宿主机；README 两步启动。
+- [ ] GitHub Actions：后端 ruff/mypy/pytest + 前端 tsc/vite build。
+- [ ] ADR-0012（解析与引用扩展，含"PDF 每页强制分块"取舍）、ADR-0013（容器化/CI/迁移策略）、阶段 5 验收记录、README 更新、简历素材。
+
+已知问题/待确认：
+
+1. **PDF 每页强制分块**：换来"引用永远单页"，代价是跨页段落被切断。若评测显示 PDF 类问题质量下降，可改为允许跨页并显示「第 N–M 页」——`page_end` 列已经预留，不需要再迁移。
+2. **扫描版 PDF 计入 `failed`**：错误信息明确，但 UI 里和"解析失败"混在一起；暂不加新计数，避免改动 ScanResult 契约。
+3. **Alembic 基线不可回滚**（`downgrade()` 直接抛错）：回滚等于删用户数据，故意不做。
+4. **旧 md 分块没有 `ordinal` payload**：只影响"第 K 块"的显示，而块号目前只在 PDF 引用里出现，因此无实际影响；`--force` 重建后可彻底一致。
+
 ## 关键决策
 
 | 维度 | 结论 |
@@ -301,3 +340,4 @@ Alembic 基线 + 新字段 → 解析器（PDF/docx/代码）→ 引用字段与
 - **2026-10-25**：阶段 3 验收通过并推送。作者本机跑通离线验证；问题 6（本地轨道评测）并入阶段 5，问题 7（发送前预览）判定不做。下一阶段：阶段 4 · 长期记忆（待确认目标与范围后开工）。
 - **2026-10-25**：阶段 4 实现完成。记忆抽取/摘要/召回/覆盖、出站回执计数、记忆面板与 API 落地；实测修掉两个真实缺陷（kind 漂移导致同 key 记忆分叉、摘要同边界写两次）；测试 92 个通过，lint/类型/前端构建全绿。等待作者验收。
 - **2026-10-25**：阶段 4 验收通过并推送。作者走查后确认无问题。下一阶段：阶段 5 · 工程化与解析扩展（待确认目标与范围后开工）。
+- **2026-10-25**：阶段 5 技术选择确认（7 项）。完成第 1～4 步：Alembic 基线 + 阶段 5 迁移（幂等收敛，旧库无损升级到 0002）、PDF/docx/代码解析器、按页分块与页码引用、前端「第 N 页 · 第 K 块」、演示 PDF/docx 生成脚本。测试 109 个通过，lint/类型/前端构建全绿。下一步：指标脚本 → 双轨评测 → Compose + CI → 文档。
