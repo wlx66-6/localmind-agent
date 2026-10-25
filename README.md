@@ -194,6 +194,44 @@ npm run dev
 
 打开 <http://127.0.0.1:5173>。
 
+### 6. 或者：docker compose 一键启动
+
+上面的步骤都做过一次之后，也可以只用容器跑（后端 + 前端 + Qdrant）：
+
+```bash
+cp .env.example .env                                  # 填 DEEPSEEK_API_KEY（可选）
+HF_CACHE=D:/dev/models/huggingface NOTES_DIR=D:/notes docker compose up --build
+```
+
+打开 <http://127.0.0.1:5173>（nginx 同时反代 `/api`，所以不需要单独的开发服务器）。所有端口都绑定在 `127.0.0.1`。
+
+三个容器：`backend`（CPU 版 torch）、`frontend`（nginx）、`qdrant`。数据在命名卷 `localmind_data`（SQLite）与 `qdrant_storage` 里。
+
+| compose 变量 | 作用 |
+| --- | --- |
+| `NOTES_DIR` | 你的资料目录，只读挂到容器的 `/notes`（默认 `./examples`）。启动后在页面里把 `/notes/corpus`（或任意子目录）加为资料源 |
+| `HF_CACHE` | 宿主机上的 Hugging Face 缓存目录，只读挂到 `/hf` 供重排模型加载；不设也能启动，只是重排降级为融合顺序 |
+
+**Ollama 不在容器里**（模型太大，也无法随镜像分发）。容器通过 `host.docker.internal:11434` 访问宿主机上的 Ollama。Docker Desktop（Windows / macOS）会把该地址转发到宿主机回环，因此 Ollama 保持默认的 `127.0.0.1` 监听即可——实测健康检查、嵌入、本地生成都通。若在 Linux 或其它环境连不上，再让 Ollama 监听 `0.0.0.0:11434`（此时建议加防火墙只放行 Docker 网段）。
+
+容器方式的重排跑在 CPU 上，代价是实打实的（本机 8 GB 显卡 / 16 GB 内存实测）：
+
+| 项目 | 宿主机（CUDA 重排） | 容器（CPU 重排） |
+| --- | --- | --- |
+| 重排 20 个候选 | ~0.37 s | ~2.2 s（冷启动 5.7 s） |
+| 云端首 token | 1.6 s | 3.1 s |
+| 本地首 token | 2.7 s | 2.6 s |
+
+也就是说：**容器路径不满足"云端首 token < 2 s"的验收线**，它的定位是"换台机器也能一条命令跑起来"；要性能就用上面的宿主机流程。降低代价的办法是把 `RETRIEVAL_TOP_N` 调到 10（重排减半，召回略降），脚本 `scripts/eval_retrieval.py` 可以用来量化这个取舍。
+
+备份（容器方式）：
+
+```bash
+docker compose cp backend:/data/localmind.db ./localmind-backup.db
+docker run --rm -v localmind_qdrant_storage:/data -v %cd%:/backup alpine \
+  tar czf /backup/qdrant-backup.tar.gz -C /data .
+```
+
 ## 使用
 
 - 提问后先返回命中的片段（右侧「引用片段」），再流式输出回答；回答中的 `[n]` 可点击定位。
@@ -241,6 +279,30 @@ Schema 由 Alembic 管理，后端启动时自动执行 `upgrade head`。手动�
 
 报告写入 `docs/eval/stage2-report.json` 与 `.md`（逐题明细 + 汇总）。评测集在 `eval/stage2/questions.jsonl`：40 题，`exact` / `paraphrase` / `cross_doc` / `unanswerable` 各 10 题，gold 用逐字引文标注，分块参数变化后仍可评测。指标定义与实测结论见 [ADR-0009](docs/adr/0009-retrieval-evaluation.md)。
 
+评测读数依赖索引内容：只要有评测语料之外的资料源被索引，Recall@5 就不可比。脚本会检查 SQLite 里的文档路径并直接退出——先移除其它资料源，或明确加 `--allow-extra-documents`。
+
+### 双轨评测与记忆场景
+
+```bash
+# 40 题 × 云端 + 本地；需要 Qdrant、Ollama，以及后端在 8000 端口（记忆场景走 HTTP）
+.venv/Scripts/python.exe scripts/eval_stage5.py --tracks cloud local
+.venv/Scripts/python.exe scripts/eval_stage5.py --tracks cloud --skip-memory --limit 5   # 快速冒烟
+```
+
+每题只检索一次，同一组片段分别交给两条轨道生成，因此差值只来自生成层。报告写入 `docs/eval/stage5-report.{json,md}`：双轨对比表、逐题对照、5 个记忆场景（跨会话召回、同 key 覆盖、无关不召回、事件时间、删除后失效）。
+
+记忆场景会写入真实记忆（面板里可删），因为它测的就是后台抽取这条链路。
+
+### 运行指标
+
+```bash
+.venv/Scripts/python.exe scripts/metrics_report.py                 # 打印到终端
+.venv/Scripts/python.exe scripts/metrics_report.py --out docs/eval/stage5-metrics.md
+.venv/Scripts/python.exe scripts/metrics_report.py --days 7        # 只看最近一周
+```
+
+直接从 `messages.metrics_json` 汇总：双轨首 token / 总耗时 / 重排耗时、两层拒答次数、实际出站片段与字符、记忆抽取状态与耗时、文档与分块规模。不需要后端在跑，也不发任何请求。
+
 ### 验证本地轨道零出站
 
 ```bash
@@ -250,6 +312,15 @@ netstat -ano | findstr :8000
 ```
 
 脚本做两件事：断言本地轨道的回答非空且出站回执为 `enabled=false`；在请求进行期间采样后端进程的 TCP 连接，要求远端地址全部是环回地址（只会看到 Ollama 与本机 Qdrant）。完整的人工断网演示步骤见 `docs/spikes/stage3-acceptance.md`。
+
+## 持续集成
+
+`.github/workflows/ci.yml`，push 到 `main` 或提 PR 时触发：
+
+- **backend**：CPU 版 torch → 依赖 → `ruff check` / `ruff format --check` → `mypy` → `pytest`（设置 `HF_HUB_OFFLINE=1`，测试里任何试图下载模型的行为都会失败）。
+- **frontend**：`npm ci` → `tsc --noEmit` + `vite build`。
+
+不构建镜像、不跑评测：前者只验证 Dockerfile，后者需要模型、Qdrant 与云端密钥，属于发布前的人工步骤（见 [ADR-0014](docs/adr/0014-containerization-and-ci.md)）。
 
 ## 目录结构
 
@@ -273,10 +344,12 @@ frontend/src/     React 单页（对话、引用侧栏、资料源面板）
 examples/corpus/  演示语料（公开技术笔记，评测集基于它）
 examples/formats/ PDF 与 docx 演示文件（由 scripts/make_demo_files.py 生成）
 eval/stage2/      40 题检索评测集（gold 为逐字引文）
-scripts/          ingest_cli、检索评测、离线验证、阶段 0 spike
+scripts/          ingest_cli、检索评测、双轨评测、指标报告、离线验证、演示文件生成
 docs/adr/         架构决策记录
-docs/eval/        评测报告（JSON + Markdown）
+docs/eval/        评测报告与运行指标（JSON + Markdown）
 docs/spikes/      阶段验证与验收记录
+docker-compose.yml / backend/Dockerfile / frontend/Dockerfile + nginx.conf
+.github/workflows/ci.yml
 PROGRESS.md       阶段进度与待办
 ```
 
@@ -286,7 +359,8 @@ PROGRESS.md       阶段进度与待办
 - PDF 每页强制单独分块，保证引用永远指向单页；代价是跨页段落被切成两段。`page_end` 字段已预留，若评测显示需要跨页打包，可只改分块不改表。
 - 阶段 5 之前索引的 md/txt 分块，Qdrant payload 里没有 `ordinal` 字段（只影响"第 K 块"，而块号目前只在 PDF 引用里出现）；`scan --force` 后一致。
 - 重排模型按字面相似度打分，对"同义改写"类问题会低估正确片段（例如同一段正确内容，换一种问法分数从 0.8 掉到 0.001）。实测数据与两层拒答的设计依据见 ADR-0009。
-- 引用精确率 89.2%（宏平均，按 gold + 可接受片段判定），比 90% 验收线低 0.8 个百分点；只认 gold 的严格口径为 65.3%。失分来自生成端对窄问题也给出 4～5 条引用。引用召回 93.3%、引用编号有效性 100%。口径与逐题分析见 ADR-0009。
+- 引用精确率 85%～89%（宏平均，按 gold + 可接受片段判定；阶段 2 单次 89.2%，阶段 5 双轨 85.6% / 87.9%），受生成端"窄问题也给 4～5 条引用"影响，单次波动约 ±3 个百分点；只认 gold 的严格口径为 65.3%。引用召回 93.3%、引用编号有效性 100%。口径与逐题分析见 ADR-0009。
+- Docker 路径用 CPU 重排，重排稳态约 2.2 s、云端首 token 约 3.1 s，**不满足"首 token < 2 s"**；性能路径是宿主机 venv（CUDA）。见 [ADR-0014](docs/adr/0014-containerization-and-ci.md)。
 - 分词依赖 jieba 词典，专业新词可能切错；哈希碰撞概率极低但非零。
 - 本地轨道（qwen3.5:4b）回答质量低于云端：同一问题会更啰嗦、偶发把两个片段的内容混在一起。引用编号仍由同一套解析与校验生成。
 - 双模型同时驻留时 GPU 会争用：本地模型在显存里时，云端轨道的 CUDA 重排从 ~0.29s 升到 ~0.75s（首 token 仍 < 2s）。Ollama 空闲卸载后恢复。实测数据见 `docs/spikes/stage3-acceptance.md`。
@@ -294,5 +368,6 @@ PROGRESS.md       阶段进度与待办
 - 记忆抽取质量依赖模型：本地 4B 模型偶尔输出不合规 JSON，`parse_drafts` 会逐条丢弃而不是整体失败，代价是那一轮可能漏记。
 - 记忆召回是单条消息一次向量查询，一句话里问两件事时可能只召回其中一件（实测"我住哪、用什么语言"只召回城市，0.54；单独问技术栈是 0.80）。记忆只按语义相似度召回，不做按 key 的精确查找。
 - 记忆没有自动过期与批量清理，面板只能逐条删除；说得太多会积累噪音。
-- 轨迹里的时间戳（资料源最近扫描时间等）仍按 UTC 存储、按本地时区解释显示，存在最多 8 小时的偏移；记忆相关日期已修正，其余留到阶段 5 统一处理。
+- 轨迹里的时间戳（资料源最近扫描时间等）仍按 UTC 存储、按本地时区解释显示，存在最多 8 小时的偏移；记忆相关日期已修正，其余未处理。
 - 数据库与向量库需要分别备份：`data/localmind.db` 与 Qdrant volume。
+- 评测的可复现边界：Recall@k 在重建索引后稳定，MRR 会有 ±0.03 的漂移（HNSW 近似检索），且集合里混入评测语料之外的文档时读数不可比——脚本会主动拒绝运行。

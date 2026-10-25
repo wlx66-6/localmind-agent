@@ -21,6 +21,8 @@ models/
 *.pth
 
 # ---- Vector indexes & local databases ----
+# 整个 data/ 都是本机运行状态（SQLite、评测临时输出），不入库。
+/data/
 data/index/
 data/vector_store/
 data/local/

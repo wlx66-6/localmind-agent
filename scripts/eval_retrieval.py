@@ -27,6 +27,7 @@ import argparse
 import asyncio
 import json
 import re
+import sqlite3
 import statistics
 import sys
 import time
@@ -78,6 +79,25 @@ def normalize(text: str) -> str:
     return re.sub(r"\s+", "", text)
 
 
+def documents_outside_corpus(settings: Settings, corpus_root: Path) -> list[str]:
+    """Paths indexed from outside the evaluation corpus.
+
+    Retrieval reads the live Qdrant collection, so any extra source (a PDF
+    folder, personal notes) competes for the top-k slots and makes Recall@k
+    incomparable with earlier runs. Checking the SQLite index turns that
+    silent drift into a loud failure.
+    """
+    root = str(corpus_root.resolve())
+    if not settings.sqlite_path.exists():
+        return []
+    connection = sqlite3.connect(settings.sqlite_path)
+    try:
+        rows = connection.execute("SELECT abs_path FROM documents").fetchall()
+    finally:
+        connection.close()
+    return sorted({row[0] for row in rows if not str(row[0]).startswith(root)})
+
+
 def load_questions(path: Path) -> list[EvalQuestion]:
     questions = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -107,7 +127,8 @@ def chunk_corpus(corpus_root: Path, settings: Settings) -> dict[str, list[ChunkD
             parsed.text,
             max_chars=settings.chunk_max_chars,
             overlap=settings.chunk_overlap,
-            markdown=parsed.markdown,
+            mode=parsed.mode,
+            page_starts=parsed.page_starts,
         )
     return cache
 
@@ -625,6 +646,18 @@ async def run(args: argparse.Namespace) -> int:
             print(f"annotation resolution failed: {problem}", file=sys.stderr)
         return 2
 
+    outside = documents_outside_corpus(settings, corpus_root)
+    if outside and not args.allow_extra_documents:
+        listing = "\n  ".join(outside[:5])
+        print(
+            "index contains documents outside the corpus root; Recall@k would not be "
+            f"comparable. Remove those sources or pass --allow-extra-documents.\n  {listing}",
+            file=sys.stderr,
+        )
+        return 2
+    if outside:
+        print(f"warning: {len(outside)} documents outside the corpus are indexed", flush=True)
+
     answerable = sum(1 for question in questions if question.answerable)
     print(
         f"questions={len(questions)} answerable={answerable} "
@@ -726,6 +759,11 @@ def main() -> int:
     )
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--out", default=str(BASE_DIR / "docs/eval"))
+    parser.add_argument(
+        "--allow-extra-documents",
+        action="store_true",
+        help="run even if the index contains documents outside --corpus-root",
+    )
     parser.add_argument(
         "--full",
         action="store_true",

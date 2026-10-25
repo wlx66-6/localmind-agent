@@ -1,0 +1,1696 @@
+{
+  "generated_at": "2026-10-25T07:49:11+00:00",
+  "questions_file": "eval/stage2/questions.jsonl",
+  "corpus_root": "D:\\code\\LocalMind\\examples\\corpus",
+  "collection": "localmind_chunks_v2",
+  "questions": 40,
+  "answerable": 30,
+  "unanswerable": 10,
+  "top_k": 5,
+  "retrieval_ms": {
+    "p50": 319.87,
+    "p95": 12871.8,
+    "mean": 1898.94
+  },
+  "track_order": [
+    "cloud",
+    "local"
+  ],
+  "tracks": {
+    "cloud": {
+      "track": "cloud",
+      "questions": 40,
+      "generated": 35,
+      "gate_refusals": 5,
+      "generation_refusals": 5,
+      "refused_unanswerable": 10,
+      "unanswerable": 10,
+      "false_refusals": 0,
+      "false_answers": 0,
+      "answerable": 30,
+      "citation_precision": 0.8561111111111112,
+      "citation_recall": 0.9333333333333333,
+      "ttft_ms": {
+        "p50": 874.47,
+        "p95": 1173.67,
+        "mean": 906.81
+      },
+      "total_ms": {
+        "p50": 1721.89,
+        "p95": 2602.08,
+        "mean": 1716.81
+      },
+      "retries": 0,
+      "errors": [],
+      "records": [
+        {
+          "id": "q01",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "RRF 公式中的 k 通常取 60 [1]。\n\n公式为 score(d) = Σ 1 / (k + rank_i(d))，其中 rank_i(d) 是文档在第 i 路结果中的名次 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 1005.9,
+          "total_ms": 1303.09,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q02",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "新版本推荐用 **query_points** 替代 search 接口 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 997.79,
+          "total_ms": 1195.83,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q03",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "bge-m3 输出 1024 维稠密向量 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 730.24,
+          "total_ms": 884.85,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q04",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Q4_K_M 是 4 位量化 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 718.07,
+          "total_ms": 850.62,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q05",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "开启 IDF 修饰符后，写入稀疏向量时只需要提供词频，查询时也提供词频，Qdrant 会把 IDF 应用到打分中 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 693.86,
+          "total_ms": 868.63,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q06",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "经过 **sigmoid** 函数后，bge-reranker-v2-m3 输出的相关性分数可以理解为 0 到 1 的相关概率 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 710.21,
+          "total_ms": 928.2,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q07",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Ollama 常用的聊天接口是 `/api/chat`，嵌入接口是 `/api/embed` [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 1056.29,
+          "total_ms": 1206.01,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q08",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "bge-m3 在本地运行时显存占用约 0.7GB，单条文本嵌入延迟在十几毫秒量级，适合实时检索 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 653.31,
+          "total_ms": 893.48,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q09",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Qdrant 的 Cosine 距离内部会做归一化，因此存入的向量长度不影响排序 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 677.7,
+          "total_ms": 858.67,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q10",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "第三步是**索引**：用嵌入模型把片段转成向量，写入向量库 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 747.89,
+          "total_ms": 916.03,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q11",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "**核心原因：外部索引更适合“资料经常变化、必须可追溯”的场景。**\n\n- 微调会改变模型参数，适合学习风格、格式和领域语感，但难以保证事实准确，资料更新后还要重新训练 [1]。\n- RAG 不修改模型参数，知识放在外部索引里，每次回答前动态检索片段作为证据，资料更新只需重建索引，不需要重新训练 [1][2]。\n- RAG 还能给出处，满足可追溯的要求 [1]。\n\n**代价**：系统多了一条检索链路，延迟和工程复杂度都更高 [1]。\n\n补充一点：如果采用混合检索，还需要维护两",
+          "cited": [
+            1,
+            2,
+            3
+          ],
+          "ttft_ms": 947.18,
+          "total_ms": 1927.49,
+          "citation_precision": 0.6666666666666666,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q12",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "靠**向量检索（嵌入模型）**：嵌入模型把文本映射成固定维度的向量，语义相近的文本向量方向也相近，检索时比较问题向量与文档向量的余弦相似度，就能找到语义相关的片段 [3]。RAG 标准流程中的检索步骤也是把问题转成向量、找出最相似的若干片段 [5]。\n\n在评测上，这类情况对应“语义改写”题——问题与原文用词不同，专门考察向量检索 [1]。",
+          "cited": [
+            3,
+            5,
+            1
+          ],
+          "ttft_ms": 1173.67,
+          "total_ms": 1564.66,
+          "citation_precision": 0.6666666666666666,
+          "citation_recall": 0.0,
+          "cited_strict": 0
+        },
+        {
+          "id": "q13",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "余弦相似度关注两个向量的夹角，不关注向量的长度；取值范围是负一到一，越接近一表示越相似 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 1053.59,
+          "total_ms": 1358.04,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q14",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中给出的降级方向是：把重排放到 CPU、改成按需加载、或者减少候选数量 [1]；另一处也提到重排改 CPU、嵌入按需加载、或换更小的生成模型 [2]。\n\n关于顺序，资料只强调降级顺序应由延迟和质量的取舍决定，而不是“哪个先报错就关哪个” [2]，并未给出一个固定的先后排列。因此“具体先做哪一步”在资料中未找到足够依据，缺少的是明确的优先级排序规则。",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 1613.74,
+          "total_ms": 2309.75,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q15",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "**核心原因：检索是整条链路的上限，生成阶段只能使用检索到的片段。**\n\n- 检索的基本单位是分块，而分块是检索质量的上限；检索没召回，后面的重排和生成都无法补救 [2]。\n- 在 RAG 标准流程中，检索召回不足时，再强的生成模型也无法补救 [3]。\n- 检索没召回正确片段时，模型只能凭空回答，这正是 RAG 的典型失败模式之一 [1]。\n\n**补充：为什么“模型强”补不上这个缺口**\n\n- 向量检索采用双塔结构，问题和文档在编码阶段没有互相看见，因此细粒度的相关性判断较弱",
+          "cited": [
+            2,
+            3,
+            1,
+            4
+          ],
+          "ttft_ms": 1022.9,
+          "total_ms": 2473.6,
+          "citation_precision": 0.75,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q16",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "保留标题主要有三方面好处：\n\n1. **让分块自带主题与上下文**：按标题切分时，每个标题开启一个新节，每个分块天然带有主题，引用时可以显示“某文件 > 某小节” [2]。对中英混合的技术笔记，分块时保留标题能让片段自带上下文 [1]。\n\n2. **提升召回**：把标题拼进嵌入文本，可以帮助模型区分相似但主题不同的片段 [2]；标题参与嵌入通常能明显提升召回 [1]。\n\n3. **便于引用定位**：引用时可以显示“某文件 > 某小节”这样的层级信息 [2]。\n\n需要注意的代价",
+          "cited": [
+            2,
+            1,
+            4
+          ],
+          "ttft_ms": 1000.74,
+          "total_ms": 1997.96,
+          "citation_precision": 0.6666666666666666,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q17",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "API 密钥的管理要求如下：\n\n- **只从环境变量读取**，不写入代码、不提交到仓库、不出现在日志里 [1]。\n- **配置文件只提供示例模板**，真实配置放在被忽略的本地文件里；这样换机器时知道需要哪些变量，又不会泄露密钥 [1]。\n\n资料中未找到关于密钥轮换、权限最小化或加密存储等其他管理措施的说明。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 1132.11,
+          "total_ms": 1737.13,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q18",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中给出的验证方式是：**断网运行，并检查日志或抓包**，而不是“相信代码”[2]。\n\n补充两点相关背景：\n- 本地模式的设计目标是完全不产生外部请求[2]；在本地模式下，文档读取、分块、嵌入、索引、检索全部在本机完成，生成阶段也可做到数据零出站[3]。\n- 本地推理的权重和输入数据都在本机，断网也能工作，因此对隐私敏感场景是能证明“数据没有出站”的方式[1]。\n\n资料中未找到更具体的操作步骤（如抓包工具、日志字段、检查清单等）。",
+          "cited": [
+            2,
+            3,
+            1
+          ],
+          "ttft_ms": 924.84,
+          "total_ms": 1789.59,
+          "citation_precision": 0.6666666666666666,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q19",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "不能直接套用别的模型调好的相似度阈值，原因有两点：\n\n1. **不同模型的分数量纲差异很大。** 例如 bge-m3 对完全不相关的两段中文也可能给出 0.3 以上的分数，所以阈值必须针对具体模型和语料校准 [1]。拿一个通用阈值套所有模型是常见误区，正确做法是构造“相关问题 + 无关问题”的小评测集，观察分数分布，再选一个能分开两者的值 [1]。\n\n2. **同一模型内部，分数分布也要看具体样本。** 以重排模型为例，明确相关的样本得分接近 1，明确无关的接近 0，但部分相",
+          "cited": [
+            1,
+            5,
+            3,
+            2
+          ],
+          "ttft_ms": 537.42,
+          "total_ms": 1697.57,
+          "citation_precision": 0.75,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q20",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料更新后不需要重新训练模型，原因如下：\n\n- RAG 不修改模型参数，只在每次回答前动态补充证据，因此资料更新后不需要重新训练 [1]。\n- RAG 把知识放在外部索引里，更新资料只需重建索引，并且可以给出处 [2]。\n\n补充对比：微调会改变模型参数，资料更新时需要重新训练 [2]。",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 696.73,
+          "total_ms": 1179.66,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q21",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "一条完整的检索链路可以拆成以下几个环节：\n\n**1. 分块（检索的基本单位）**\n检索的基本单位是分块而非整篇文档；分块太粗会让一个向量混入多个主题、语义被稀释，太细则片段缺少上下文、模型难以理解。分块是检索质量的上限，检索没召回，后面的重排和生成都无法补救 [4]。在标准流程中，分块属于五步之一，分块过粗会稀释语义，过细会丢失上下文 [3]。\n\n**2. 召回（向量检索）**\n向量检索是双塔结构，问题和文档分别编码后只比较两个向量，速度快，但两者在编码阶段没有互相看见，细粒",
+          "cited": [
+            4,
+            3,
+            2,
+            1,
+            5
+          ],
+          "ttft_ms": 849.64,
+          "total_ms": 3267.08,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q22",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "中文语料上做 BM25，主要注意以下几点：\n\n1. **分词质量是成败关键**。BM25 依赖词项匹配，中文没有天然空格，如果分词器把整句当成一个词，BM25 就完全失效 [1]。\n\n2. **用稀疏向量落地时，别忘开启 IDF 修饰符**。在 Qdrant 中用稀疏向量承载 BM25 时，若忘记开启服务端 IDF 修饰符，打分就退化成简单词频点积，罕见词的优势消失 [3]。\n\n3. **明确 BM25 的定位，与稠密检索互补**。稀疏检索擅长精确匹配专有名词、编号、错误码和",
+          "cited": [
+            1,
+            3,
+            2,
+            4,
+            5
+          ],
+          "ttft_ms": 856.98,
+          "total_ms": 2210.78,
+          "citation_precision": 0.2,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q23",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "**两路数据怎么产生**\n\n- 稠密向量：由嵌入模型生成，例如 bge-m3 输出 1024 维稠密向量，支持中文、英文等多种语言 [4]。稠密检索用余弦相似度衡量语义接近程度 [1]。\n- 稀疏向量：基于词项匹配，典型代表是 BM25，按逆文档频率结合词频和文档长度归一化打分 [1]。bge-m3 本身也支持稀疏权重，但通过 Ollama 调用时通常只用稠密向量，稀疏部分可以用独立的分词加 BM25 方案补齐 [4]。\n\n**怎么存在向量库里**\n\n- Qdrant 用集合",
+          "cited": [
+            4,
+            1,
+            2,
+            5,
+            3
+          ],
+          "ttft_ms": 926.42,
+          "total_ms": 2602.08,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 3
+        },
+        {
+          "id": "q24",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "分块大小会从检索和生成两端同时影响质量：\n\n**对检索的影响**\n- 检索的基本单位是分块，不是整篇文档；分块太粗，一个向量里混入多个主题，语义被稀释；分块太细，片段缺少上下文 [2]。\n- 分块是检索质量的上限：检索没召回，后面的重排和生成都无法补救 [2]。\n\n**对生成的影响**\n- 分块过粗会稀释语义，过细会丢失上下文；检索召回不足时，再强的生成模型也无法补救 [1]。\n- 分块太细时片段缺少上下文，模型难以理解 [2]。\n- 固定窗口切分可能从句子或章节中间切断，引",
+          "cited": [
+            2,
+            1,
+            4,
+            5,
+            3
+          ],
+          "ttft_ms": 744.3,
+          "total_ms": 2249.75,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q25",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "为了让引用能被核对，数据层需要保存以下信息：\n\n**1. 定位信息**\n- 文件路径、所属章节、起止行号，以及原文片段——有用的引用至少要能回答“来自哪个文件、哪一节、哪几行、原文是什么” [2]\n- 分块时记录起止行号，前端才能显示“第 15 到 22 行”，让用户快速打开原文核对 [1]\n\n**2. 稳定 ID**\n- 每个分块需要一个稳定 ID，用于在数据库、向量库和前端之间关联；常见做法是把文件路径、分块序号和内容哈希拼起来再取哈希 [3]\n- 这样内容不变时 ID ",
+          "cited": [
+            2,
+            1,
+            3,
+            5
+          ],
+          "ttft_ms": 738.96,
+          "total_ms": 2038.51,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q26",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "在 8GB 显存的机器上，三者同时驻留会很紧张，需要做取舍和降级。\n\n**现状与风险**\n- 生成、嵌入、重排三个模型同时驻留，显存占用会接近上限；实测合计可能达到 7.5GB 以上，只剩几百 MB 余量 [2]。\n- 此时长上下文、更大的批处理或并发请求都可能导致显存不足 [2]。\n\n**可行的降级方向**\n- 重排改到 CPU 运行、嵌入改为按需加载，或者换更小的生成模型 [2]。\n- 重排方面还有一条路：减少候选数量 [1]。\n- 降级顺序应由延迟和质量的取舍决定，而不",
+          "cited": [
+            2,
+            1,
+            3
+          ],
+          "ttft_ms": 773.85,
+          "total_ms": 2299.87,
+          "citation_precision": 0.6666666666666666,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q27",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "**核心指标**\n\n- **Recall@5**：正确片段是否出现在前 5 个检索结果中，衡量检索能力，不涉及生成 [1]。\n- **引用准确率**：回答中每个引用编号是否真的支持对应陈述，可人工抽查或规则校验，关键是定义清楚 [1]。\n- **拒答正确率**：无答案题是否正确拒答，有答案题是否没有误拒 [1]。\n- **首 token 延迟**：从请求发出到第一个 token 的时间，影响交互体验 [1]。\n\n**指标之间的关系**\n\n- Recall@5 高但引用准确率低",
+          "cited": [
+            1,
+            2,
+            5,
+            3,
+            4
+          ],
+          "ttft_ms": 1164.55,
+          "total_ms": 2839.65,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q28",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "除了保证可信，资料中提到的实际好处主要是**节省一次云端调用**：当重排最高分低于阈值时，不调用生成模型，直接返回“资料中未找到足够依据”，既避免无证据编造，也省下一次云端调用 [2]。\n\n另外，从评测角度看，拒答阈值调高会减少编造，但会增加误拒，因此两类错误都要统计 [3]——这属于需要权衡的成本，而非额外收益。",
+          "cited": [
+            2,
+            3
+          ],
+          "ttft_ms": 770.71,
+          "total_ms": 1442.21,
+          "citation_precision": 0.5,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q29",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "要让原始文档不出本机，需要以下几类机制配合：\n\n**1. 本地优先的架构边界**\n原始数据默认留在本机，联网是可选项且可控；文档读取、分块、嵌入、索引、检索全部在本机完成，只有生成阶段可选云端或本地，本地模式数据零出站 [1]。\n\n**2. 可验证的隐私机制**\n包括最小出站、发送前预览、单次关闭、来源黑名单、本地零出站、日志可审计 [4]。\n\n**3. 读取范围的显式化**\n不扫描整个硬盘，只遍历用户显式配置的允许目录；扫描日志记录读了哪些文件、跳过了哪些文件、失败原因，供",
+          "cited": [
+            1,
+            4,
+            5,
+            2
+          ],
+          "ttft_ms": 874.47,
+          "total_ms": 2207.33,
+          "citation_precision": 0.75,
+          "citation_recall": 0.0,
+          "cited_strict": 0
+        },
+        {
+          "id": "q30",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "**为什么原始文档必须备份、向量索引可以重建**\n\n- 向量索引可以从原始文档重新生成，所以向量数据不是必须备份的内容；但原始文档和元数据数据库必须备份 [1]。\n- 重建索引的耗时取决于文件数量和嵌入速度 [1]。\n- 另外，向量库的数据目录要挂载到宿主机，否则容器删除后索引会丢失 [1]——这是运行层面的风险，与“是否需要备份”是两回事。\n\n**重建时如何保证顺序和 ID 不重复**\n\n- 每个分块需要一个稳定 ID，用于在数据库、向量库和前端之间关联；常见做法是把文件路",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 900.51,
+          "total_ms": 2094.38,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q31",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q32",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q33",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n现有资料只介绍了 bge-m3 的发布方、多语言支持、1024 维稠密向量、8192 token 上限、显存占用和延迟等信息 [1]，没有涉及训练数据规模。缺少的信息类型是：模型的训练数据条数或语料规模。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 1045.18,
+          "total_ms": 1559.28
+        },
+        {
+          "id": "q34",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q35",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q36",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n现有资料只涉及 Ollama 的 HTTP 接口用法（/api/chat、/api/embed）、流式输出、思维链开关等内容 [1]，没有提到它支持哪些操作系统版本。缺少的信息是：Ollama 的系统要求或 Windows 兼容版本说明。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 987.04,
+          "total_ms": 1499.04
+        },
+        {
+          "id": "q37",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n现有资料只涉及量化后的推理显存占用（如 4B 模型 Q4 量化约 3GB [1]）、8GB 显存笔记本上的推理性能基线 [2]，以及生成/嵌入/重排模型共存时的显存取舍 [3][4]，没有关于 LoRA 微调显存需求的任何内容。\n\n要回答这个问题，至少需要以下信息：\n- LoRA 微调时的显存构成（基础模型权重、优化器状态、激活值等）\n- 具体训练配置（batch size、序列长度、是否使用梯度检查点、LoRA rank 等）\n- 目标硬件与精度设",
+          "cited": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "ttft_ms": 872.81,
+          "total_ms": 1977.21
+        },
+        {
+          "id": "q38",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n现有资料只涉及嵌入模型的多语言支持（bge-m3 支持中文、英文等 [1]）、重排模型支持中英文 [2]，以及本地优先的隐私边界 [4]，但没有任何关于扫描件 OCR 的内容，也没有说明项目是否具备 OCR 能力、使用哪个 OCR 引擎、支持哪些语言。\n\n要回答这个问题，需要补充：项目的 OCR 模块文档、所用 OCR 引擎及其语言包列表。",
+          "cited": [
+            1,
+            2,
+            4
+          ],
+          "ttft_ms": 1340.96,
+          "total_ms": 2138.4
+        },
+        {
+          "id": "q39",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n现有资料只涉及以下相关内容，但没有说明索引如何跨机器同步：\n\n- 向量库以容器方式运行，数据目录需挂载到宿主机，否则容器删除后索引会丢失 [1]。\n- 索引可以重建，向量数据不是必须备份的内容；但原始文档和元数据数据库必须备份，重建耗时取决于文件数量和嵌入速度 [1]。\n\n缺少的信息类型：跨机器迁移/同步索引的具体方法（例如是否复制向量库数据目录、是否需要重新嵌入、元数据数据库如何迁移等）。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 797.68,
+          "total_ms": 1721.89
+        },
+        {
+          "id": "q40",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        }
+      ]
+    },
+    "local": {
+      "track": "local",
+      "questions": 40,
+      "generated": 35,
+      "gate_refusals": 5,
+      "generation_refusals": 5,
+      "refused_unanswerable": 10,
+      "unanswerable": 10,
+      "false_refusals": 0,
+      "false_answers": 0,
+      "answerable": 30,
+      "citation_precision": 0.8788888888888889,
+      "citation_recall": 0.9333333333333333,
+      "ttft_ms": {
+        "p50": 508.48,
+        "p95": 573.89,
+        "mean": 662.98
+      },
+      "total_ms": {
+        "p50": 1885.63,
+        "p95": 6045.18,
+        "mean": 2344.64
+      },
+      "retries": 0,
+      "errors": [],
+      "records": [
+        {
+          "id": "q01",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "在 RRF（Reciprocal Rank Fusion）公式中，k 通常取 **60** [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 5744.93,
+          "total_ms": 6045.18,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q02",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Qdrant 新版本推荐使用 **query_points** 接口来替代早期的 search 接口 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 490.71,
+          "total_ms": 743.68,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q03",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "bge-m3 输出 1024 维稠密向量 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 520.92,
+          "total_ms": 752.57,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q04",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Q4_K_M 是 4 位量化 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 527.48,
+          "total_ms": 702.3,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q05",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "开启 IDF 修饰符后，写入稀疏向量时只需要提供**词频**。\n\n根据资料，当集合配置了服务端 IDF 修饰符时，Qdrant 会在统计意义上自动计算逆文档频率。此时写入操作仅需输入词频，查询时也提供词频，Qdrant 会自动将 IDF 应用到打分中 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 569.63,
+          "total_ms": 1445.95,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q06",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "bge-reranker-v2-m3 输出的相关性分数经过 **sigmoid** 函数后，可以理解为 0 到 1 的相关概率 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 512.56,
+          "total_ms": 937.3,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q07",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Ollama 常用的聊天接口是 `/api/chat`，嵌入接口是 `/api/embed` [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 500.8,
+          "total_ms": 787.84,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q08",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "根据资料，bge-m3 在本地运行时显存占用约 **0.7GB** [1]。\n\n需要注意的是，如果生成模型、嵌入模型和重排模型同时驻留，三者合计的显存占用可能达到 **7.5GB 以上** [2]。",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 549.96,
+          "total_ms": 1290.06,
+          "citation_precision": 0.5,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q09",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "Qdrant 的 Cosine 距离内部会对向量进行归一化处理 [1]。由于向量已经归一化，余弦相似度和点积在数学上是等价的，因此存入向量的原始长度不会影响排序结果 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 492.42,
+          "total_ms": 1107.83,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q10",
+          "category": "exact",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "最小 RAG 系统五步流程中的第三步是**索引**。\n\n具体操作是用嵌入模型把分块后的片段转成向量，并写入向量库 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 508.48,
+          "total_ms": 948.8,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q11",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "将知识放在外部索引（如 RAG）而非直接训练进模型参数，主要基于以下原因：\n\n1.  **事实准确性与幻觉**：语言模型的参数里没有私有资料，且可能编造不存在的事实。RAG 通过检索片段作为上下文，能确保答案基于真实证据 [2]。\n2.  **资料更新的便捷性**：微调改变模型参数，若资料更新需重新训练；而 RAG 只需重建索引，无需重新训练模型 [1][2]。\n3.  **适用场景需求**：对于个人知识库这类“资料经常变化、必须可追溯”的场景，RAG 能更好地保证事实准确和",
+          "cited": [
+            2,
+            1
+          ],
+          "ttft_ms": 500.18,
+          "total_ms": 2550.44,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q12",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "当用户提问的用词与原文不同时，可以通过**语义改写**类题目来考察系统的**向量检索**能力 [1]。具体方法是利用嵌入模型将文本映射为固定维度的向量，使语义相近的文本其向量方向也相近，从而通过比较问题向量与文档向量的余弦相似度找到相关内容 [3]。",
+          "cited": [
+            1,
+            3
+          ],
+          "ttft_ms": 506.74,
+          "total_ms": 1352.79,
+          "citation_precision": 1.0,
+          "citation_recall": 0.0,
+          "cited_strict": 0
+        },
+        {
+          "id": "q13",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "余弦相似度关注两个向量的夹角，不关注长度 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 559.06,
+          "total_ms": 751.52,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q14",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "根据资料，当重排模型因显存或性能原因无法运行时，可行的降级顺序如下：\n\n1.  **将重排模型迁移到 CPU**运行 [1][2]。\n2.  **改为按需加载**重排模型 [1][2]。\n3.  **减少候选数量**（例如从 20-50 个降至更少）[1][4]。\n\n资料强调，无论选择哪种降级方式，都应当先进行测量再决定，且降级顺序应由延迟和质量的取舍来决定，而非简单地根据报错顺序关闭模型 [1][2]。",
+          "cited": [
+            1,
+            2,
+            4
+          ],
+          "ttft_ms": 504.03,
+          "total_ms": 2016.3,
+          "citation_precision": 0.6666666666666666,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q15",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "当检索未能召回正确的片段时，后续的重排和生成环节无法弥补这一缺陷，原因如下：\n\n1.  **分块是质量上限**：检索的基本单位是分块。如果分块太粗会导致语义稀释，太细则丢失上下文 [2]。更重要的是，“分块是检索质量的上限”，一旦检索没召回，后面的重排和生成都无法补救 [2]。\n2.  **生成依赖输入**：在最小 RAG 流程中，生成步骤是将问题和片段一起交给语言模型 [3]。如果检索阶段未能提供包含正确答案的片段，模型只能基于问题“凭空回答”或忽略上下文凭记忆作答 [1]",
+          "cited": [
+            2,
+            3,
+            1
+          ],
+          "ttft_ms": 546.53,
+          "total_ms": 2998.45,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q16",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "在笔记分块时保留标题有以下好处：\n\n1. **提升上下文完整性**：让片段自带上下文，有助于理解内容 [1]。\n2. **辅助模型区分相似主题**：标题可以拼进嵌入文本中，帮助模型区分相似但主题不同的片段 [2]。\n3. **优化引用展示**：分块天然带有主题，引用时可以显示\"某文件 > 某小节\"，使来源更清晰 [2]。\n\n这些优势使得在稠密检索或稀疏检索场景下都能获得更好的召回效果 [1]。",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 484.5,
+          "total_ms": 1885.63,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q17",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "API 密钥应仅从环境变量读取，严禁写入代码、提交至仓库或出现在日志中 [1]。同时，真实配置需存放于被忽略的本地文件中，以便在更换机器时明确所需变量，且避免泄露密钥 [1]。",
+          "cited": [
+            1
+          ],
+          "ttft_ms": 463.0,
+          "total_ms": 1106.56,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q18",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "要证明本地模式真的没有联网，核心验证方式是**断网运行并检查日志或抓包** [2]。\n\n具体依据如下：\n*   **验证逻辑**：本地模式的定义是“完全不产生外部请求”，因此不能仅靠“相信代码”，必须通过物理隔离（断网）来验证 [2][3]。\n*   **操作手段**：可以通过检查系统日志或进行网络抓包（Packet Sniffing）来确认是否有数据发出 [2]。\n*   **对比云端**：相比之下，云端模式不应上传整份文档，而是只发送与问题相关的片段，且发送前需让用户确认",
+          "cited": [
+            2,
+            3
+          ],
+          "ttft_ms": 489.75,
+          "total_ms": 2420.99,
+          "citation_precision": 0.5,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q19",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "不同模型的分数量纲差异很大，通用阈值无法准确反映相关性 [1]。例如，bge-m3 对完全不相关的中文内容也可能给出 0.3 以上的分数 [1]。此外，重排模型（如 bge-reranker-v2-m3）的得分受输入对类型影响，明确相关样本接近 1，而部分相关样本可能仅在 0.1 到 0.2 之间 [5]。因此，必须针对具体模型和语料构造评测集来校准阈值，避免误拒或漏拒 [1][5]。",
+          "cited": [
+            1,
+            5
+          ],
+          "ttft_ms": 523.24,
+          "total_ms": 1993.41,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q20",
+          "category": "paraphrase",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "RAG 不修改模型参数，只在每次回答前动态补充证据，因此资料更新后不需要重新训练 [1]。\n\n相比之下，微调会改变模型参数，且资料更新时需要重新训练 [2]。",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 490.46,
+          "total_ms": 1046.06,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q21",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "一条完整的检索链路主要由**召回**、**重排**和**拒答**三个核心环节组成，各自解决的问题如下：\n\n1.  **召回（Retrieval）**\n    *   **作用与问题**：负责从海量文档中快速找出最相似的若干候选片段。它解决的是“检索没召回正确片段”的问题，即避免模型因缺乏资料而凭空回答 [1]。\n    *   **实现方式**：通常采用向量检索（双塔结构），利用嵌入模型将问题和文档转为向量并比较相似度，先取回 20 到 50 个候选 [2]。\n\n2.  **",
+          "cited": [
+            1,
+            2,
+            5,
+            3,
+            4
+          ],
+          "ttft_ms": 546.76,
+          "total_ms": 5069.11,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q22",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "在中文语料上做 BM25 检索，最需要注意**分词质量**。\n\n由于中文没有天然的空格分隔，如果分词器将整句当成一个词，BM25 就会完全失效 [1]。此外，BM25 的评分机制对罕见词有利（词越罕见权重越高），但如果未开启 IDF 修饰符，打分会退化为简单的词频点积，导致罕见词的优势消失 [3]。\n\n**资料中未找到足够依据**：\n资料中未提及中文语料做 BM25 时是否还需要特别注意其他特定因素（如停用词处理、特殊符号清洗等），也未说明具体的分词器推荐或配置参数。",
+          "cited": [
+            1,
+            3
+          ],
+          "ttft_ms": 568.27,
+          "total_ms": 2316.07,
+          "citation_precision": 0.5,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q23",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "### 1. 稠密与稀疏数据的产生方式\n\n*   **稠密向量**：\n    *   通过多语言嵌入模型（如 `bge-m3`）处理文本生成。该模型输出固定维度的向量（例如 1024 维），擅长处理同义改写和概念关联 [1][4]。\n    *   在本地运行时，使用 `bge-m3` 进行嵌入的延迟通常在十几毫秒量级 [4]。\n*   **稀疏向量**：\n    *   基于词项匹配产生，典型代表是 BM25 算法 [1]。\n    *   计算过程涉及给每个词计算逆文档频",
+          "cited": [
+            1,
+            4,
+            2,
+            5,
+            3
+          ],
+          "ttft_ms": 502.66,
+          "total_ms": 7697.68,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 3
+        },
+        {
+          "id": "q24",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "分块大小通过以下机制同时影响检索和生成质量：\n\n1. **对检索质量的影响**  \n   - 分块过粗会导致一个向量中混入多个主题，稀释语义，降低检索召回率 [2]。  \n   - 分块过细则片段缺少上下文，导致模型难以理解完整信息 [2]。  \n   - 检索召回不足时，后续的检索重排和生成都无法补救 [2]。  \n\n2. **对生成质量的影响**  \n   - 生成模型需要结合问题和检索到的片段来作答，若分块无法提供足够上下文或语义清晰的片段，生成的答案质量会下降 [1]",
+          "cited": [
+            2,
+            1,
+            3,
+            5,
+            4
+          ],
+          "ttft_ms": 517.05,
+          "total_ms": 4505.43,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q25",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "为了让引用能被核对，数据层需要保存以下信息：\n\n1.  **文件路径、分块序号和原文片段**：每个结论需追溯到具体文档和位置，包含“来自哪个文件、哪一节、哪几行”以及“原文片段是什么”[2]。\n2.  **起止行号**：分块时记录起止行号，以便前端显示如“第 15 到 22 行”的具体范围 [1]。\n3.  **稳定 ID**：每个分块需要一个稳定 ID（通常由文件路径、分块序号和内容哈希拼合生成），用于在数据库、向量库和前端之间关联内容，确保内容不变时 ID 不变 [3]。",
+          "cited": [
+            2,
+            1,
+            3,
+            5,
+            4
+          ],
+          "ttft_ms": 472.49,
+          "total_ms": 3170.83,
+          "citation_precision": 0.8,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q26",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "在 8GB 显存的笔记本上同时安排嵌入、重排和生成模型面临显存紧张的问题（实测三者合计可能达到 7.5GB 以上）[2]。可行的降级策略如下：\n\n1. **调整驻留位置**：将重排模型从 GPU 移至 CPU 运行，以释放显存 [1][2]。\n2. **按需加载**：对嵌入模型或生成模型采用按需加载机制，避免全量驻留 [1][2]。\n3. **减少候选数量**：降低重排的候选数量（例如从 20-50 个减少）[1][4]。\n4. **更换模型规模**：考虑使用更小的生成模型以",
+          "cited": [
+            2,
+            1,
+            4,
+            3
+          ],
+          "ttft_ms": 468.94,
+          "total_ms": 2919.6,
+          "citation_precision": 0.5,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q27",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "做一套可信的 RAG 评测，核心需关注以下指标与注意事项：\n\n### 一、关键指标\n1. **Recall@5**  \n   - 定义：正确片段是否出现在前 5 个检索结果中 [1]。  \n   - 作用：衡量检索能力，不涉及生成阶段 [1]。  \n2. **引用准确率**  \n   - 定义：回答中的每个引用编号是否真的支持对应陈述 [1]。  \n   - 验证方式：人工抽查或规则校验，需明确定义标准 [1]。  \n3. **拒答正确率**  \n   - 定义：无答案题中系",
+          "cited": [
+            1,
+            2,
+            3,
+            5,
+            4
+          ],
+          "ttft_ms": 529.2,
+          "total_ms": 7484.22,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q28",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "拒答除了保证回答的可信度（避免编造），还有以下实际好处：\n\n1.  **节省云端调用成本**\n    如果最高重排分数低于阈值，说明资料里可能没有相关内容，此时不调用生成模型，直接返回拒答信息。这样做可以节省一次云端调用 [2]。\n\n2.  **减少误拒与漏拒的权衡复杂度**\n    拒答阈值调高会减少编造（漏拒），但会增加误拒；反之则可能增加编造。两个错误都需要统计，不能只看一边，因此需要在校准有答案和无答案的评测题上同时调整 [3]。\n\n3.  **避免生成模型在无证据时",
+          "cited": [
+            2,
+            3
+          ],
+          "ttft_ms": 573.89,
+          "total_ms": 3007.98,
+          "citation_precision": 0.5,
+          "citation_recall": 1.0,
+          "cited_strict": 1
+        },
+        {
+          "id": "q29",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "要让原始文档不出本机，系统需要以下机制共同配合：\n\n1.  **最小出站与发送前预览**：在将数据发送给云端之前进行审查，确保只有必要的检索片段被发出 [4]。\n2.  **单次关闭**：提供断网可用的本地模式，实现数据零出站 [4]。\n3.  **来源黑名单**：建立机制以阻止特定来源的数据流出 [4]。\n4.  **本地零出站**：明确执行本地处理逻辑，确保原始数据不离开设备 [4]。\n5.  **日志可审计**：记录所有操作细节（如读取了哪些文件、跳过了哪些文件及失败原",
+          "cited": [
+            4,
+            5,
+            1
+          ],
+          "ttft_ms": 600.64,
+          "total_ms": 3240.41,
+          "citation_precision": 1.0,
+          "citation_recall": 0.0,
+          "cited_strict": 0
+        },
+        {
+          "id": "q30",
+          "category": "cross_doc",
+          "answerable": true,
+          "refused": false,
+          "refused_by": null,
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "根据资料，原始文档必须备份而向量索引可以重建的原因如下：\n\n1.  **备份必要性**：数据目录需挂载到宿主机，否则容器删除后索引丢失 [1]。虽然索引可重建，但原始文档和元数据数据库是重建的基础，因此必须备份 [1]。\n2.  **重建可行性**：由于索引可以重建，所以向量数据不是必须备份的内容 [1]。\n\n关于重建时顺序和 ID 如何保证不重复，资料中说明如下：\n\n*   **ID 生成机制**：每个分块需要一个稳定 ID，常见做法是将文件路径、分块序号和内容哈希拼起来再",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 486.17,
+          "total_ms": 3088.28,
+          "citation_precision": 1.0,
+          "citation_recall": 1.0,
+          "cited_strict": 2
+        },
+        {
+          "id": "q31",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q32",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q33",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。缺少关于 bge-m3 训练数据具体数量（如样本条数）的信息。",
+          "cited": [],
+          "ttft_ms": 551.5,
+          "total_ms": 860.3
+        },
+        {
+          "id": "q34",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q35",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        },
+        {
+          "id": "q36",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。缺少关于 Ollama 在 Windows 操作系统上具体支持的版本列表或兼容性信息。",
+          "cited": [],
+          "ttft_ms": 469.16,
+          "total_ms": 778.99
+        },
+        {
+          "id": "q37",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n缺少关于\"LoRA 微调”这一特定场景所需的显存信息。现有资料仅提供了量化推理时的显存占用（如 4B 模型 Q4 量化后约 3GB）以及生成、嵌入、重排模型同时驻留时的显存情况，并未提及 LoRA 微调的显存需求。",
+          "cited": [],
+          "ttft_ms": 489.56,
+          "total_ms": 1424.37
+        },
+        {
+          "id": "q38",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到足够依据。\n\n缺少关于该项目对“扫描件 OCR\"功能及其支持语言的具体说明。现有资料仅提及了多语言嵌入模型（如 bge-m3）和重排模型（bge-reranker-v2-m3）支持中文、英文等多种语言，但未涉及图像识别或 OCR 相关技术细节 [1][2]。",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 431.03,
+          "total_ms": 1340.02
+        },
+        {
+          "id": "q39",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "generation",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "answer": "资料中未找到关于“如何把索引同步到另一台电脑”的具体操作步骤或工具说明。\n\n现有资料仅提供了以下相关背景信息：\n1. 向量库通常以容器方式运行，**数据目录需挂载到宿主机**，否则容器删除后索引会丢失 [1]。\n2. 虽然原始文档和元数据数据库必须备份，但**索引本身不是必须备份的内容**，因为可以通过重建索引来恢复（尽管重建时间取决于文件数量和嵌入速度）[1]。\n3. 若需将检索片段发送至云端生成内容，则涉及少量数据的出站传输 [2]。\n\n若要实现跨电脑同步，资料中缺少具体",
+          "cited": [
+            1,
+            2
+          ],
+          "ttft_ms": 511.58,
+          "total_ms": 2275.39
+        },
+        {
+          "id": "q40",
+          "category": "unanswerable",
+          "answerable": false,
+          "refused": true,
+          "refused_by": "gate",
+          "false_refusal": false,
+          "false_answer": false,
+          "error": null,
+          "ttft_ms": null,
+          "total_ms": null,
+          "answer": "",
+          "cited": []
+        }
+      ]
+    }
+  },
+  "memory": [
+    {
+      "id": "memory-1",
+      "name": "跨会话召回事实",
+      "passed": true,
+      "evidence": {
+        "stored": {
+          "id": 19,
+          "kind": "fact",
+          "key": "所在城市",
+          "content": "用户住在杭州。",
+          "occurred_at": null,
+          "created_at": "2026-10-25T07:51:09.971427+00:00",
+          "status": "active",
+          "superseded_by": null,
+          "source_conversation_id": 72,
+          "embedding_ok": true
+        },
+        "recalled": [
+          "fact/所在城市 0.623"
+        ],
+        "answer": "你住在杭州（这是你在 2026-10-25 的对话中提到的）。"
+      }
+    },
+    {
+      "id": "memory-2",
+      "name": "同 key 覆盖旧值",
+      "passed": true,
+      "evidence": {
+        "active": [
+          "目前主要使用 Go 语言编写后端。"
+        ],
+        "history": [
+          "目前主要使用 Go 语言编写后端。 (active)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "目前主要使用 Go 语言编写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "现在主要用 Go 写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "现在主要用 Go 写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)"
+        ],
+        "recalled": [
+          "技术栈偏好 0.791",
+          "性别 0.550",
+          "summary:48 0.522",
+          "summary:49 0.511"
+        ],
+        "answer": "你之前提到过，目前主要使用 **Go** 语言编写后端（2026-10-25 的对话）。"
+      }
+    },
+    {
+      "id": "memory-3",
+      "name": "无关问题不召回记忆",
+      "passed": true,
+      "evidence": {
+        "memories": [],
+        "refused": true,
+        "answer": "资料中未找到足够依据来回答这个问题。你可以补充相关文档，或换个问法再试。"
+      }
+    },
+    {
+      "id": "memory-4",
+      "name": "事件时间与记录时间分开",
+      "passed": true,
+      "evidence": {
+        "stored": {
+          "id": 18,
+          "kind": "fact",
+          "key": "学习Rust时间",
+          "content": "用户于2025年8月开始学习Rust。",
+          "occurred_at": "2025-08-01",
+          "created_at": "2026-10-25T07:41:54.228585+00:00",
+          "status": "active",
+          "superseded_by": null,
+          "source_conversation_id": 70,
+          "embedding_ok": true
+        }
+      }
+    },
+    {
+      "id": "memory-5",
+      "name": "删除后不再召回",
+      "passed": true,
+      "evidence": {
+        "deleted": "用户住在杭州。",
+        "recalled": [
+          "性别"
+        ],
+        "answer": "资料中未找到足够依据，无法判断你住在哪个城市。缺少的信息是：你的居住地或所在城市。\n\n另外，我过去的对话记忆里只记录了你提到自己是男生，没有关于居住城市的信息。"
+      }
+    }
+  ]
+}

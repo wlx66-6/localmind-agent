@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-- **当前阶段**：阶段 5 · 工程化与解析扩展（进行中：Alembic 迁移 + 解析器 + 引用扩展已完成，评测 / Compose / CI / 文档待做）
+- **当前阶段**：阶段 5 · 工程化与解析扩展（**实现完成，待作者验收**）
 - **最近更新**：2026-10-25
 - **仓库**：`git@github.com:wlx66-6/localmind-agent.git`（私有）
 
@@ -268,14 +268,21 @@ checklist.docx → 4 个分块，heading 形如 "知识库交付清单 > 一、�
 只检索提问"备份要备份哪些东西？" → [1] localmind-runbook.pdf page=1-1 ord=0 score=0.942
 ```
 
-未做（下次继续，按顺序）：
+#### 阶段 5 进展（续，2026-10-25 第二轮）
 
-- [ ] `--force` 重建资料源 1：旧 47 个分块的 payload 里没有 `ordinal` 字段（不影响引用显示，但重建后数据一致）。
-- [ ] `scripts/metrics_report.py`：SQLite → Markdown，双轨首 token、拒答、出站、记忆抽取状态。
-- [ ] 双轨评测：同一 40 题跑云端 + 本地，另加 5 道记忆场景题，产出对比报告 `docs/eval/stage5-report.*`。
-- [ ] Docker Compose：backend + frontend + Qdrant（CPU torch），Ollama 留宿主机；README 两步启动。
-- [ ] GitHub Actions：后端 ruff/mypy/pytest + 前端 tsc/vite build。
-- [ ] ADR-0012（解析与引用扩展，含"PDF 每页强制分块"取舍）、ADR-0013（容器化/CI/迁移策略）、阶段 5 验收记录、README 更新、简历素材。
+- [x] `--force` 重建资料源 1（10 文档 / 47 分块），payload 现在带 `ordinal`。
+- [x] **离线检索评测回归**：重构解析器后重跑 40 题，三种模式 Recall@5 与阶段 2 一致（82.8% / 91.1% / 87.2%）；hybrid MRR 从 0.806 变为 0.772 —— 两个索引版本之间的 ANN 结果是近似确定的，重建会带来小幅排序漂移，已写进 ADR-0009 的后续说明待补。
+- [x] **评测索引守卫**：`eval_retrieval.py` / `eval_stage5.py` 都会检查 SQLite 里是否有评测语料之外的文档，有就直接退出（可用 `--allow-extra-documents` 覆盖）。起因：把 `examples/formats` 索引进同一集合后，Recall@5 会静默不可比。
+- [x] **`scripts/metrics_report.py`**：从 `messages.metrics_json` 汇总双轨首 token / 总耗时 / 重排耗时、两层拒答、实际出站与"未出站片段"、记忆抽取状态与耗时、文档与分块规模，输出 Markdown（可 `--out`、`--days`）。
+  实测发现并修正一处口径错误：出站回执在本地轨道与「仅检索」轮次里也带命中片段，必须按 `egress.enabled` 过滤才算"实际出站"。修正后本地轨道实际出站 = 0，未出站片段 115。
+- [x] **`scripts/eval_stage5.py`**：同一 40 题、同一次检索，分别交给云端与本地生成；另含 5 个记忆场景（跨会话召回、同 key 覆盖、无关不召回、事件时间、删除后失效），记忆部分走 HTTP 调真实后端。失败重试一次并计数（Ollama 首调偶发 CUDA 初始化失败）。
+- [x] **实测发现并修正**：本地 4B 模型把拒答标记说成「资料中未找到关于…的具体步骤」，少了「足够依据」，`is_refusal` 认不出、前端也不显示"资料不足"。修复为匹配更短的前缀「资料中未找到」，新增 6 个单测。
+- [x] ADR-0012（文档格式与引用定位）、ADR-0013（迁移策略）、ADR-0014（容器化与 CI）。
+- [x] **Docker Compose**：`docker-compose.yml` + `backend/Dockerfile`（CPU torch）+ `frontend/Dockerfile`/`nginx.conf`。
+  实测：镜像 565 MB / 21 MB；三容器起来后后端自动把新库迁移到 `0002`；`NOTES_DIR` 只读挂载资料、扫 10 篇 → 47 分块；nginx 反代 `/api` 且 SSE 逐 token 到达。
+  代价：容器内 CPU 重排稳态 2.2 s，云端首 token 3.1 s，**不满足 2 s 验收线**，已在 README/ADR 中如实标注。
+- [x] **GitHub Actions**：`.github/workflows/ci.yml`（backend ruff/mypy/pytest + frontend tsc/vite build；`HF_HUB_OFFLINE=1` 禁止测试下载模型）。
+- [x] **文档**：ADR-0012 / 0013 / 0014、ADR-0009 补「评测可复现边界」、`docs/spikes/stage5-acceptance.md`、`docs/resume-material.md`、README（格式表、compose、CI、评测、指标、迁移）、`.env.example`。
 
 已知问题/待确认：
 
@@ -341,3 +348,4 @@ checklist.docx → 4 个分块，heading 形如 "知识库交付清单 > 一、�
 - **2026-10-25**：阶段 4 实现完成。记忆抽取/摘要/召回/覆盖、出站回执计数、记忆面板与 API 落地；实测修掉两个真实缺陷（kind 漂移导致同 key 记忆分叉、摘要同边界写两次）；测试 92 个通过，lint/类型/前端构建全绿。等待作者验收。
 - **2026-10-25**：阶段 4 验收通过并推送。作者走查后确认无问题。下一阶段：阶段 5 · 工程化与解析扩展（待确认目标与范围后开工）。
 - **2026-10-25**：阶段 5 技术选择确认（7 项）。完成第 1～4 步：Alembic 基线 + 阶段 5 迁移（幂等收敛，旧库无损升级到 0002）、PDF/docx/代码解析器、按页分块与页码引用、前端「第 N 页 · 第 K 块」、演示 PDF/docx 生成脚本。测试 109 个通过，lint/类型/前端构建全绿。下一步：指标脚本 → 双轨评测 → Compose + CI → 文档。
+- **2026-10-25**：阶段 5 实现完成。`metrics_report.py`（按 `egress.enabled` 修口径）、`eval_stage5.py`（双轨 40 题 + 5 个记忆场景，失败重试一次），实测修掉"本地 4B 拒答措辞漂移导致误判"；评测加索引范围守卫；Docker Compose 三容器通过实测（CPU 重排 2.2 s、云端首 token 3.1 s，未达 2 s 线，已如实记录）；CI 工作流、ADR-0012/0013/0014、阶段 5 验收记录、简历素材完成。测试 115 个通过。**等待作者验收。**

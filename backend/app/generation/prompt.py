@@ -21,6 +21,11 @@ SYSTEM_PROMPT = """你是 LocalMind，一个只依据用户本地资料与历史
 
 REFUSAL_MARKER = "资料中未找到足够依据"
 REFUSAL_TEXT = f"{REFUSAL_MARKER}来回答这个问题。你可以补充相关文档，或换个问法再试。"
+# The 4B local model sometimes drops the tail of the marker ("资料中未找到关于
+# 如何同步索引的具体步骤…"), which is still a refusal. Matching the shorter
+# prefix keeps the UI and the metrics honest without accepting unrelated
+# answers: only the first characters are inspected.
+REFUSAL_PREFIX = "资料中未找到"
 
 
 def is_refusal(answer: str) -> bool:
@@ -29,7 +34,7 @@ def is_refusal(answer: str) -> bool:
     The model paraphrases after the marker (e.g. "资料中未找到足够依据。现有资料只…"),
     so match the shared prefix instead of the full canned sentence.
     """
-    return answer.lstrip().startswith(REFUSAL_MARKER)
+    return answer.lstrip().startswith(REFUSAL_PREFIX)
 
 
 def format_context(hits: list[RetrievalHit]) -> str:

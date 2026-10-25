@@ -1,0 +1,16 @@
+# Build context for the backend image.
+.git
+.gitignore
+.venv
+data
+docs
+eval
+examples
+frontend
+node_modules
+**/__pycache__
+**/*.pyc
+.env
+.env.*
+!.env.example
+*.md

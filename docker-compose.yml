@@ -1,0 +1,74 @@
+# LocalMind in three containers: backend, frontend, Qdrant.
+#
+# Ollama stays on the host on purpose: pulling multi-GB models into an image
+# makes the image unshippable, and the local track is supposed to talk to the
+# same model the host venv uses.
+#
+# Every published port is bound to 127.0.0.1, so nothing is reachable from the
+# LAN. The containers themselves listen on 0.0.0.0 inside the compose network.
+#
+# Usage (see README for prerequisites):
+#   cp .env.example .env       # fill DEEPSEEK_API_KEY if you want the cloud track
+#   docker compose up --build
+#   open http://127.0.0.1:5173
+
+name: localmind
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.20.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - qdrant
+    # .env is the same file the host venv reads; `environment` below wins over
+    # it, so container-specific values (service DNS, paths) cannot be
+    # accidentally overridden by a local .env written for the host setup.
+    env_file:
+      - .env
+    environment:
+      QDRANT_URL: http://qdrant:6333
+      # Docker Desktop maps this to the host; Ollama must accept connections
+      # from the docker bridge for embeddings/local generation to work. The
+      # app degrades to "retrieval unavailable" otherwise, and the health
+      # endpoint says so.
+      OLLAMA_HOST: http://host.docker.internal:11434
+      SQLITE_PATH: /data/localmind.db
+      HOST: 0.0.0.0
+      # Reranker weights are mounted read-only from the host cache instead of
+      # being baked into the image (2.3 GB) or downloaded at runtime.
+      HF_HOME: /hf
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - localmind_data:/data
+      - ${HF_CACHE:-./data/hf}:/hf:ro
+      # Your documents stay on the host: this is the only place the container
+      # can read them, it is read-only, and the path is chosen by you. Add
+      # "/notes" (or a subdirectory) as a source in the UI.
+      - ${NOTES_DIR:-./examples}:/notes:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "127.0.0.1:5173:80"
+
+volumes:
+  qdrant_storage:
+  localmind_data:
