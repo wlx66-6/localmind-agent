@@ -240,7 +240,7 @@ docker run --rm -v localmind_qdrant_storage:/data -v %cd%:/backup alpine \
 - **切换轨道**：右上角「云端 / 本地 · 零出站」。切换在当前会话内立即生效，服务端按会话记住；本地轨道全程只连 `127.0.0.1`。
 - **出站回执**：右侧引用栏顶部显示本轮实际处理了什么——云端模式给出「已发送 N 段 / M 个文件 / K 字符」，本地模式给出「零出站」，勾选「仅检索」时给出「本次未上传」。
 - **按资料源禁止出站**：左侧每个资料源都有一个「允许片段出站」开关。关掉后，云端模式检索到该目录的片段会在服务端被剔除（引用编号重新连续），本地模式不受影响。被拦下的数量会写进回执与日志。
-- **长期记忆**：每轮回答后，后台从你这句话里抽取事实与偏好（`技术栈偏好`、`所在城市` 这类稳定 key）；下一轮无论换不换会话都能召回。回答头部出现「记忆 N」时可点开右侧栏查看用到了哪几条、什么日期、相似度多少。
+- **长期记忆**：每轮回答后，后台从你这句话里抽取事实与偏好（`技术栈偏好`、`所在城市` 这类稳定 key）；下一轮无论换不换会话都能召回。一句里问两件事（"我住哪、用什么语言"）时会按子句各自召回再合并，不会只答一半。回答头部出现「记忆 N」时可点开右侧栏查看用到了哪几条、什么日期、相似度多少。
 - **记忆面板**（左侧下方）：列出当前有效的记忆，勾选「显示已被替换的旧值」可回看历史；删除后该条不再参与召回。面板在每轮回答结束约 4 秒后自动刷新一次，也可以手动「刷新」。
 - 修改文件后重新「扫描」：按文件哈希跳过未变化文件，删除已移除文件的向量。
 
@@ -291,7 +291,40 @@ Schema 由 Alembic 管理，后端启动时自动执行 `upgrade head`。手动�
 
 每题只检索一次，同一组片段分别交给两条轨道生成，因此差值只来自生成层。报告写入 `docs/eval/stage5-report.{json,md}`：双轨对比表、逐题对照、5 个记忆场景（跨会话召回、同 key 覆盖、无关不召回、事件时间、删除后失效）。
 
-记忆场景会写入真实记忆（面板里可删），因为它测的就是后台抽取这条链路。
+记忆场景会写入真实记忆（面板里可删），因为它测的就是后台抽取这条链路。只跑记忆场景（不跑 40 题生成）用：
+
+```bash
+.venv/Scripts/python.exe scripts/eval_stage5.py --only-memory
+# 报告写入 docs/eval/memory-report.{json,md}
+```
+
+### PDF 控制实验：同一内容，两种格式
+
+```bash
+.venv/Scripts/python.exe scripts/pdf_control.py build    # 生成 examples/pdf-corpus 与两份题集
+```
+
+之后用两套**隔离的**索引各跑一次（不碰演示索引）：
+
+```bash
+# markdown
+SQLITE_PATH=data/eval/md.db QDRANT_COLLECTION=localmind_eval_md \
+  .venv/Scripts/python.exe scripts/ingest_cli.py add examples/corpus
+SQLITE_PATH=data/eval/md.db QDRANT_COLLECTION=localmind_eval_md \
+  .venv/Scripts/python.exe scripts/ingest_cli.py scan 1
+SQLITE_PATH=data/eval/md.db QDRANT_COLLECTION=localmind_eval_md \
+  .venv/Scripts/python.exe scripts/eval_retrieval.py \
+  --questions eval/stage6/md-questions.jsonl --corpus-root examples/corpus \
+  --out docs/eval/pdf-control-md --modes hybrid_rerank
+
+# PDF（把 md 换成 pdf：集合 localmind_eval_pdf、库 data/eval/pdf.db、
+#      --questions eval/stage6/pdf-questions.jsonl、--corpus-root examples/pdf-corpus、
+#      --out docs/eval/pdf-control-pdf）
+
+.venv/Scripts/python.exe scripts/pdf_control.py compare   # 写 docs/eval/pdf-control-report.md
+```
+
+结论与"为什么不改成跨页分块"记录在 [ADR-0012](docs/adr/0012-document-formats-and-citations.md)。
 
 ### 运行指标
 
@@ -366,7 +399,9 @@ PROGRESS.md       阶段进度与待办
 - 双模型同时驻留时 GPU 会争用：本地模型在显存里时，云端轨道的 CUDA 重排从 ~0.29s 升到 ~0.75s（首 token 仍 < 2s）。Ollama 空闲卸载后恢复。实测数据见 `docs/spikes/stage3-acceptance.md`。
 - 「禁止出站」按资料源生效；如果命中片段全部来自被禁止的目录，云端轨道会明确说明"内容被策略拦下"，而不是谎称"资料里没有"。
 - 记忆抽取质量依赖模型：本地 4B 模型偶尔输出不合规 JSON，`parse_drafts` 会逐条丢弃而不是整体失败，代价是那一轮可能漏记。
-- 记忆召回是单条消息一次向量查询，一句话里问两件事时可能只召回其中一件（实测"我住哪、用什么语言"只召回城市，0.54；单独问技术栈是 0.80）。记忆只按语义相似度召回，不做按 key 的精确查找。
+- 记忆召回按标点与连词拆子句（最多 3 条），因此**没有标点的复合问题**（"我住哪用什么语言"）仍走单次查询，可能只召回一件；单独成句的问法不受影响。记忆只做语义召回，没有按 key 的精确查找（实测 key 相似度的正反例间距只有 0.03，见 [ADR-0015](docs/adr/0015-memory-clause-recall.md)）。
+- 删除一条记忆只删除那一行：会话摘要里如果曾经提到同样的信息，不会跟着改写，所以回答仍可能说出被删的事实。修它需要"删除时按字符串改写摘要"这类脆弱逻辑，暂不做。
+- 记忆合并子句后召回条数变多，阈值 0.5 下会带进弱相关条目（问语言时也会召回"性别"），按分数排在后面，可在面板里核对。
 - 记忆没有自动过期与批量清理，面板只能逐条删除；说得太多会积累噪音。
 - 轨迹里的时间戳（资料源最近扫描时间等）仍按 UTC 存储、按本地时区解释显示，存在最多 8 小时的偏移；记忆相关日期已修正，其余未处理。
 - 数据库与向量库需要分别备份：`data/localmind.db` 与 Qdrant volume。

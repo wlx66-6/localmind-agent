@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-10-25T11:05:23+00:00",
+  "scenarios": [
+    {
+      "id": "memory-1",
+      "name": "跨会话召回事实",
+      "passed": true,
+      "evidence": {
+        "stored": {
+          "id": 29,
+          "kind": "fact",
+          "key": "所在城市",
+          "content": "用户住在杭州。",
+          "occurred_at": null,
+          "created_at": "2026-10-25T11:05:26.636778+00:00",
+          "status": "active",
+          "superseded_by": null,
+          "source_conversation_id": 96,
+          "embedding_ok": true
+        },
+        "recalled": [
+          "fact/所在城市 0.620"
+        ],
+        "answer": "你住在杭州（这是你在 2026-10-25 的对话中提到的）。"
+      }
+    },
+    {
+      "id": "memory-2",
+      "name": "同 key 覆盖旧值",
+      "passed": true,
+      "evidence": {
+        "active": [
+          "目前主要使用 Go 语言编写后端代码。"
+        ],
+        "history": [
+          "目前主要使用 Go 语言编写后端代码。 (active)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "目前主要使用 Go 语言编写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "用户平时主要用 Go 写后端。 (superseded)",
+          "目前主要使用 Go 语言编写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "目前主要使用 Go 语言编写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "现在主要用 Go 写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)",
+          "现在主要用 Go 写后端。 (superseded)",
+          "用户平时主要用 Python 写后端。 (superseded)"
+        ],
+        "recalled": [
+          "技术栈偏好 0.782",
+          "性别 0.554",
+          "summary:48 0.527",
+          "summary:49 0.516"
+        ],
+        "answer": "你之前提到过，目前主要使用 **Go** 语言编写后端代码（2026-10-25 的对话）。"
+      }
+    },
+    {
+      "id": "memory-3",
+      "name": "一句问两个属性",
+      "passed": true,
+      "evidence": {
+        "recalled": [
+          "技术栈偏好 0.649",
+          "性别 0.572",
+          "所在城市 0.555",
+          "summary:48 0.528",
+          "回答风格偏好 0.515"
+        ],
+        "answer": "记得：\n\n- 你住在杭州（2026-10-25 的对话中提到）。\n- 你主要用 Go 语言写后端（2026-10-25 的对话中提到）。"
+      }
+    },
+    {
+      "id": "memory-4",
+      "name": "换个说法问同一属性",
+      "passed": true,
+      "evidence": {
+        "recalled": [
+          "技术栈偏好 0.772",
+          "性别 0.535",
+          "summary:48 0.527",
+          "summary:49 0.509"
+        ],
+        "answer": "你之前提到过，你平时主要用 Go 语言写后端代码（2026-10-25 的对话）。"
+      }
+    },
+    {
+      "id": "memory-5",
+      "name": "无关问题不召回记忆",
+      "passed": true,
+      "evidence": {
+        "memories": [],
+        "refused": true,
+        "answer": "资料中未找到足够依据来回答这个问题。你可以补充相关文档，或换个问法再试。"
+      }
+    },
+    {
+      "id": "memory-6",
+      "name": "事件时间与记录时间分开",
+      "passed": true,
+      "evidence": {
+        "stored": {
+          "id": 28,
+          "kind": "fact",
+          "key": "学习Rust时间",
+          "content": "用户于2025年8月开始学习Rust。",
+          "occurred_at": "2025-08-01",
+          "created_at": "2026-10-25T11:04:32.558511+00:00",
+          "status": "active",
+          "superseded_by": null,
+          "source_conversation_id": 94,
+          "embedding_ok": true
+        }
+      }
+    },
+    {
+      "id": "memory-7",
+      "name": "删除该条后不再被召回",
+      "passed": true,
+      "evidence": {
+        "deleted": "用户住在杭州。",
+        "recalled": [
+          "性别",
+          "summary:56"
+        ],
+        "answer": "你之前提到过你住在杭州（2026-10-25 的对话）。这属于个人记忆，资料中没有相关信息。",
+        "summary_still_mentions_city": true
+      }
+    }
+  ]
+}

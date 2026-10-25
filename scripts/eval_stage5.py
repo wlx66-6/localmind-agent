@@ -354,12 +354,51 @@ def run_memory_scenarios() -> list[dict[str, Any]]:
         }
     )
 
-    # 3. An unrelated question must not drag memories into the prompt.
+    # 3. One message asking for two attributes must recall both.
+    #    Before clause splitting this returned only the city: the averaged
+    #    query scored the correct second attribute too low (0.448 vs 0.5).
+    two = chat("你还记得我住哪、用什么语言吗？")
+    two_keys = [memory["key"] for memory in two["citations"].get("memories", [])]
+    scenarios.append(
+        {
+            "id": "memory-3",
+            "name": "一句问两个属性",
+            "passed": {"所在城市", "技术栈偏好"} <= set(two_keys)
+            and "杭州" in two["answer"]
+            and "Go" in two["answer"],
+            "evidence": {
+                "recalled": [
+                    f"{m['key']} {m['score']:.3f}" for m in two["citations"].get("memories", [])
+                ],
+                "answer": two["answer"][:160],
+            },
+        }
+    )
+
+    # 4. A paraphrase of the same attribute must still recall it.
+    paraphrase = chat("我平时写后端都用什么语言呀？")
+    para_keys = [memory["key"] for memory in paraphrase["citations"].get("memories", [])]
+    scenarios.append(
+        {
+            "id": "memory-4",
+            "name": "换个说法问同一属性",
+            "passed": "技术栈偏好" in para_keys and "Go" in paraphrase["answer"],
+            "evidence": {
+                "recalled": [
+                    f"{m['key']} {m['score']:.3f}"
+                    for m in paraphrase["citations"].get("memories", [])
+                ],
+                "answer": paraphrase["answer"][:160],
+            },
+        }
+    )
+
+    # 5. An unrelated question must not drag memories into the prompt.
     unrelated = chat("我们公司明年的预算是多少？")
     refused_answer = is_refusal(unrelated["answer"]) or bool(unrelated["citations"].get("refused"))
     scenarios.append(
         {
-            "id": "memory-3",
+            "id": "memory-5",
             "name": "无关问题不召回记忆",
             "passed": not unrelated["citations"].get("memories") and refused_answer,
             "evidence": {
@@ -370,12 +409,12 @@ def run_memory_scenarios() -> list[dict[str, Any]]:
         }
     )
 
-    # 4. Event date is kept separate from the recording date.
+    # 6. Event date is kept separate from the recording date.
     chat("去年八月我开始学 Rust。")
     rust = wait_for_memory_content("Rust")
     scenarios.append(
         {
-            "id": "memory-4",
+            "id": "memory-6",
             "name": "事件时间与记录时间分开",
             # "去年八月" relative to today must resolve to 2025-08, while
             # created_at today stays 2026-10.
@@ -384,16 +423,20 @@ def run_memory_scenarios() -> list[dict[str, Any]]:
         }
     )
 
-    # 5. Deleting a memory removes it from recall.
+    # 7. Deleting a memory removes that row; a conversation summary that once
+    #    mentioned the same fact is a separate row and is NOT rewritten — this
+    #    is checked and reported rather than assumed away.
     target = next((m for m in get_json("/api/memories") if m["key"] == "所在城市"), None)
     deleted = delete(f"/api/memories/{target['id']}") if target else None
     after = chat("我住在哪个城市？")
+    remaining = [m for m in get_json("/api/memories") if m["key"] == "所在城市"]
     scenarios.append(
         {
-            "id": "memory-5",
-            "name": "删除后不再召回",
+            "id": "memory-7",
+            "name": "删除该条后不再被召回",
             "passed": target is not None
             and deleted == 204
+            and not remaining
             and not any(
                 memory["key"] == "所在城市" for memory in after["citations"].get("memories", [])
             ),
@@ -401,6 +444,15 @@ def run_memory_scenarios() -> list[dict[str, Any]]:
                 "deleted": target["content"] if target else None,
                 "recalled": [m["key"] for m in after["citations"].get("memories", [])],
                 "answer": after["answer"][:160],
+                "summary_still_mentions_city": "杭州"
+                in json.dumps(
+                    [
+                        m
+                        for m in get_json("/api/memories?include_superseded=true")
+                        if m["kind"] == "summary"
+                    ],
+                    ensure_ascii=False,
+                ),
             },
         }
     )
@@ -511,6 +563,39 @@ def render_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def render_memory_report(report: dict[str, Any]) -> str:
+    scenarios = report["scenarios"]
+    passed = sum(1 for item in scenarios if item["passed"])
+    lines = [
+        "# 记忆场景评测",
+        "",
+        f"- 生成时间：{report['generated_at']}",
+        f"- 结果：**{passed}/{len(scenarios)}** 通过（走真实后端 HTTP，抽取是后台任务）",
+        "",
+        "| 场景 | 结果 | 证据 |",
+        "| --- | --- | --- |",
+    ]
+    for scenario in scenarios:
+        evidence = json.dumps(scenario["evidence"], ensure_ascii=False)
+        if len(evidence) > 320:
+            evidence = evidence[:320] + "…"
+        lines.append(
+            f"| {scenario['id']} {scenario['name']} | "
+            f"{'通过' if scenario['passed'] else '未通过'} | `{evidence}` |"
+        )
+    lines += [
+        "",
+        "说明：memory-3 是阶段 6 加入的回归场景——一句话问两个属性时，"
+        "单条向量查询会把两个意图平均掉，改前实测只召回 1 条"
+        "（正确答案 0.448 低于 0.5 阈值），改后按子句分别召回并合并。",
+        "",
+        "memory-7 的 `summary_still_mentions_city` 记录的是已知语义缺口：删除一条记忆只删那一行，"
+        "会话摘要里如果曾提到同样的信息不会被改写。因此回答仍可能说出被删的事实——"
+        '这一点写在 README 的已知限制里，不做"删除时连带改写摘要"这种脆弱的字符串匹配。',
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def _verdict(record: dict[str, Any]) -> str:
     if record["error"]:
         return f"出错：{record['error'][:40]}"
@@ -541,6 +626,26 @@ def _pct(value: float) -> str:
 
 async def run(args: argparse.Namespace) -> int:
     settings = get_settings()
+
+    if args.only_memory:
+        # Memory-only runs need the backend and nothing else: no corpus, no
+        # local models in this process, so the full 40-question generation is
+        # skipped entirely.
+        report = {
+            "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
+            "scenarios": run_memory_scenarios(),
+        }
+        out_dir = Path(args.out)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "memory-report.json").write_text(
+            json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        (out_dir / "memory-report.md").write_text(render_memory_report(report), encoding="utf-8")
+        passed = sum(1 for item in report["scenarios"] if item["passed"])
+        print(f"memory scenarios: {passed}/{len(report['scenarios'])} passed")
+        print(f"wrote {out_dir / 'memory-report.md'}")
+        return 0
+
     questions = ev.load_questions(Path(args.questions))
     if args.limit:
         questions = questions[: args.limit]
@@ -689,6 +794,11 @@ def main() -> int:
     parser.add_argument("--out", default=str(BASE_DIR / "docs/eval"))
     parser.add_argument("--limit", type=int, default=0, help="only the first N questions")
     parser.add_argument("--skip-memory", action="store_true")
+    parser.add_argument(
+        "--only-memory",
+        action="store_true",
+        help="run only the memory scenarios against the backend (no corpus, no models)",
+    )
     parser.add_argument(
         "--no-retry",
         action="store_true",

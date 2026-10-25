@@ -1,0 +1,1109 @@
+{
+  "generated_at": "2026-10-25T11:09:34+00:00",
+  "collection": "localmind_eval_md",
+  "corpus_root": "examples\\corpus",
+  "top_k": 5,
+  "questions": 10,
+  "answerable": 8,
+  "unanswerable": 2,
+  "thresholds": {
+    "vector": 0.5,
+    "hybrid": 0.5,
+    "hybrid_rerank": 0.01
+  },
+  "modes": {
+    "hybrid_rerank": {
+      "mode": "hybrid_rerank",
+      "questions": 10,
+      "answerable": 8,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "mrr_at_k": 0.9,
+      "refusal_accuracy_unanswerable": 1.0,
+      "false_refusal_rate": 0.0,
+      "latency_ms": {
+        "p50": 322.44,
+        "p95": 568.84,
+        "mean": 340.94
+      },
+      "per_question": [
+        {
+          "id": "pdf01",
+          "category": "exact",
+          "question": "为什么说分块决定了检索质量的上限？",
+          "answerable": true,
+          "top_score": 0.9939402341842651,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 分块为什么重要",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.73356867,
+              "rerank_score": 0.9939402341842651,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "rag-basics.md",
+              "heading": "RAG 基础 > 标准流程",
+              "lines": [
+                11,
+                19
+              ],
+              "dense_rank": 12,
+              "sparse_rank": 4,
+              "fused_rank": 6,
+              "dense_score": 0.5357646,
+              "rerank_score": 0.13568419218063354,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 中文的特殊问题",
+              "lines": [
+                33,
+                35
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 9,
+              "fused_rank": 4,
+              "dense_score": 0.59612656,
+              "rerank_score": 0.07948736101388931,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "hybrid-retrieval.md",
+              "heading": "混合检索 > 工程取舍",
+              "lines": [
+                29,
+                31
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 5,
+              "fused_rank": 3,
+              "dense_score": 0.5876421,
+              "rerank_score": 0.038601700216531754,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 固定窗口",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 18,
+              "fused_rank": 7,
+              "dense_score": 0.5991782,
+              "rerank_score": 0.022912081331014633,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 66.65,
+            "dense_ms": 11.09,
+            "sparse_ms": 5.05,
+            "rerank_ms": 485.85,
+            "total_ms": 568.71
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf02",
+          "category": "exact",
+          "question": "bge-m3 输出多少维的稠密向量？",
+          "answerable": true,
+          "top_score": 0.9997445940971375,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > bge-m3",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.7335168,
+              "rerank_score": 0.9997445940971375,
+              "gold": false
+            },
+            {
+              "rank": 2,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 余弦相似度的直觉",
+              "lines": [
+                19,
+                23
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 6,
+              "fused_rank": 3,
+              "dense_score": 0.4934858,
+              "rerank_score": 0.17292113602161407,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "rerank.md",
+              "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+              "lines": [
+                13,
+                15
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 3,
+              "fused_rank": 2,
+              "dense_score": 0.58950436,
+              "rerank_score": 0.13225731253623962,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "hybrid-retrieval.md",
+              "heading": "混合检索 > 稠密检索与稀疏检索",
+              "lines": [
+                5,
+                9
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 5,
+              "fused_rank": 4,
+              "dense_score": 0.46675235,
+              "rerank_score": 0.022010438144207,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 嵌入模型做什么",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 11,
+              "sparse_rank": 4,
+              "fused_rank": 6,
+              "dense_score": 0.42328098,
+              "rerank_score": 0.004954792093485594,
+              "gold": true
+            }
+          ],
+          "timings": {
+            "embed_ms": 15.7,
+            "dense_ms": 6.2,
+            "sparse_ms": 5.05,
+            "rerank_ms": 303.81,
+            "total_ms": 330.82
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 0.2,
+          "first_rank": 5
+        },
+        {
+          "id": "pdf03",
+          "category": "exact",
+          "question": "Qdrant 的命名向量可以用来做什么？",
+          "answerable": true,
+          "top_score": 0.9965928196907043,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "qdrant-notes.md",
+              "heading": "Qdrant 使用笔记 > 集合与向量",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.75458837,
+              "rerank_score": 0.9965928196907043,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "qdrant-notes.md",
+              "heading": "Qdrant 使用笔记 > 稀疏向量与 IDF",
+              "lines": [
+                17,
+                21
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.66374993,
+              "rerank_score": 0.8062702417373657,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "qdrant-notes.md",
+              "heading": "Qdrant 使用笔记 > Payload 与过滤",
+              "lines": [
+                11,
+                13
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 3,
+              "fused_rank": 3,
+              "dense_score": 0.6356658,
+              "rerank_score": 0.684429943561554,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "qdrant-notes.md",
+              "heading": "Qdrant 使用笔记 > 运维注意",
+              "lines": [
+                31,
+                33
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 7,
+              "fused_rank": 5,
+              "dense_score": 0.64526826,
+              "rerank_score": 0.4998967945575714,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 归一化与距离",
+              "lines": [
+                27,
+                29
+              ],
+              "dense_rank": 5,
+              "sparse_rank": 4,
+              "fused_rank": 4,
+              "dense_score": 0.60086,
+              "rerank_score": 0.129782035946846,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 14.62,
+            "dense_ms": 7.19,
+            "sparse_ms": 6.4,
+            "rerank_ms": 294.62,
+            "total_ms": 322.89
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf04",
+          "category": "paraphrase",
+          "question": "为什么不直接让重排模型处理全部文档？",
+          "answerable": true,
+          "top_score": 0.7630636096000671,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "rerank.md",
+              "heading": "重排模型 > 为什么需要重排",
+              "lines": [
+                5,
+                9
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.67276484,
+              "rerank_score": 0.7630636096000671,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 分块为什么重要",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 6,
+              "sparse_rank": null,
+              "fused_rank": 13,
+              "dense_score": 0.5644957,
+              "rerank_score": 0.3201996684074402,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "rerank.md",
+              "heading": "重排模型 > 重排与拒答",
+              "lines": [
+                25,
+                27
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 3,
+              "fused_rank": 2,
+              "dense_score": 0.6603457,
+              "rerank_score": 0.15851403772830963,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "hybrid-retrieval.md",
+              "heading": "混合检索 > 工程取舍",
+              "lines": [
+                29,
+                31
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 6,
+              "fused_rank": 4,
+              "dense_score": 0.6075073,
+              "rerank_score": 0.05704774335026741,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "rerank.md",
+              "heading": "重排模型 > 延迟与显存",
+              "lines": [
+                19,
+                21
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 2,
+              "fused_rank": 3,
+              "dense_score": 0.6205853,
+              "rerank_score": 0.03938325121998787,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 14.06,
+            "dense_ms": 8.32,
+            "sparse_ms": 5.21,
+            "rerank_ms": 294.13,
+            "total_ms": 321.78
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf05",
+          "category": "paraphrase",
+          "question": "走云端模式时，究竟应该把什么内容发出去？",
+          "answerable": true,
+          "top_score": 0.9802329540252686,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "privacy-local-first.md",
+              "heading": "本地优先与隐私边界 > 出站内容的最小化",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.7331313,
+              "rerank_score": 0.9802329540252686,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "privacy-local-first.md",
+              "heading": "本地优先与隐私边界 > 本地优先的含义",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 5,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.5048201,
+              "rerank_score": 0.026804616674780846,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "rerank.md",
+              "heading": "重排模型 > 重排与拒答",
+              "lines": [
+                25,
+                27
+              ],
+              "dense_rank": null,
+              "sparse_rank": 4,
+              "fused_rank": 13,
+              "dense_score": null,
+              "rerank_score": 0.004776960704475641,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "citation-design.md",
+              "heading": "引用设计 > 编号与映射",
+              "lines": [
+                17,
+                19
+              ],
+              "dense_rank": 11,
+              "sparse_rank": 17,
+              "fused_rank": 7,
+              "dense_score": 0.46000087,
+              "rerank_score": 0.0006616863538511097,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "privacy-local-first.md",
+              "heading": "本地优先与隐私边界 > 读取范围的显式化",
+              "lines": [
+                25,
+                27
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 11,
+              "fused_rank": 4,
+              "dense_score": 0.4873225,
+              "rerank_score": 0.000246840703766793,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 16.06,
+            "dense_ms": 6.91,
+            "sparse_ms": 4.42,
+            "rerank_ms": 246.71,
+            "total_ms": 274.16
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf06",
+          "category": "paraphrase",
+          "question": "4B 的模型做 4 位量化后大概要占多少显存？",
+          "answerable": true,
+          "top_score": 0.9990754127502441,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "local-inference.md",
+              "heading": "本地推理 > 量化",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.79123616,
+              "rerank_score": 0.9990754127502441,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "local-inference.md",
+              "heading": "本地推理 > 性能基线",
+              "lines": [
+                35,
+                37
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.7205429,
+              "rerank_score": 0.9768072962760925,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "local-inference.md",
+              "heading": "本地推理 > 显存共存的取舍",
+              "lines": [
+                27,
+                31
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 3,
+              "fused_rank": 3,
+              "dense_score": 0.6234994,
+              "rerank_score": 0.3013462424278259,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "rerank.md",
+              "heading": "重排模型 > 延迟与显存",
+              "lines": [
+                19,
+                21
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 4,
+              "fused_rank": 4,
+              "dense_score": 0.6090859,
+              "rerank_score": 0.03137027099728584,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > bge-m3",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 15,
+              "fused_rank": 9,
+              "dense_score": 0.52420473,
+              "rerank_score": 0.023298855870962143,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 16.25,
+            "dense_ms": 7.21,
+            "sparse_ms": 6.73,
+            "rerank_ms": 294.12,
+            "total_ms": 324.35
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf07",
+          "category": "cross_page",
+          "question": "固定窗口分块有什么缺点，块大小又该怎么定？",
+          "answerable": true,
+          "top_score": 0.9952564835548401,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 固定窗口",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.7052796,
+              "rerank_score": 0.9952564835548401,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 参数怎么定",
+              "lines": [
+                33,
+                35
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.61504436,
+              "rerank_score": 0.7304534912109375,
+              "gold": true
+            },
+            {
+              "rank": 3,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 分块为什么重要",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 3,
+              "fused_rank": 3,
+              "dense_score": 0.5690799,
+              "rerank_score": 0.03473154082894325,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 标题感知",
+              "lines": [
+                19,
+                23
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 6,
+              "fused_rank": 4,
+              "dense_score": 0.56190807,
+              "rerank_score": 0.026397593319416046,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "citation-design.md",
+              "heading": "引用设计 > 稳定 ID",
+              "lines": [
+                11,
+                13
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 8,
+              "fused_rank": 6,
+              "dense_score": 0.5472545,
+              "rerank_score": 0.017439747229218483,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 15.79,
+            "dense_ms": 5.66,
+            "sparse_ms": 5.86,
+            "rerank_ms": 291.76,
+            "total_ms": 319.12
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf08",
+          "category": "cross_page",
+          "question": "稠密检索是怎么工作的，混合检索的额外成本是什么？",
+          "answerable": true,
+          "top_score": 0.8499479293823242,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "hybrid-retrieval.md",
+              "heading": "混合检索 > 稠密检索与稀疏检索",
+              "lines": [
+                5,
+                9
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.72815996,
+              "rerank_score": 0.8499479293823242,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "hybrid-retrieval.md",
+              "heading": "混合检索 > 工程取舍",
+              "lines": [
+                29,
+                31
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.68839014,
+              "rerank_score": 0.7937635779380798,
+              "gold": true
+            },
+            {
+              "rank": 3,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 中文的特殊问题",
+              "lines": [
+                33,
+                35
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 3,
+              "fused_rank": 3,
+              "dense_score": 0.602479,
+              "rerank_score": 0.12173142284154892,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "qdrant-notes.md",
+              "heading": "Qdrant 使用笔记 > 集合与向量",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 6,
+              "fused_rank": 5,
+              "dense_score": 0.5702648,
+              "rerank_score": 0.08373361825942993,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "qdrant-notes.md",
+              "heading": "Qdrant 使用笔记 > 查询接口",
+              "lines": [
+                25,
+                27
+              ],
+              "dense_rank": 9,
+              "sparse_rank": 19,
+              "fused_rank": 13,
+              "dense_score": 0.52364415,
+              "rerank_score": 0.07310711592435837,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 15.99,
+            "dense_ms": 7.73,
+            "sparse_ms": 8.09,
+            "rerank_ms": 296.07,
+            "total_ms": 327.94
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf09",
+          "category": "unanswerable",
+          "question": "LocalMind 支持哪些语言的扫描件 OCR？",
+          "answerable": false,
+          "top_score": 0.006391109433025122,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "rerank.md",
+              "heading": "重排模型 > bge-reranker-v2-m3 的特点",
+              "lines": [
+                13,
+                15
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 4,
+              "fused_rank": 4,
+              "dense_score": 0.48210326,
+              "rerank_score": 0.006391109433025122,
+              "gold": false
+            },
+            {
+              "rank": 2,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > bge-m3",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 2,
+              "fused_rank": 1,
+              "dense_score": 0.5184578,
+              "rerank_score": 0.004203349351882935,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 中文的特殊问题",
+              "lines": [
+                33,
+                35
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 9,
+              "fused_rank": 5,
+              "dense_score": 0.45958543,
+              "rerank_score": 0.0004387210647109896,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "privacy-local-first.md",
+              "heading": "本地优先与隐私边界 > 读取范围的显式化",
+              "lines": [
+                25,
+                27
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 1,
+              "fused_rank": 2,
+              "dense_score": 0.4412414,
+              "rerank_score": 0.00035612835199572146,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "local-inference.md",
+              "heading": "本地推理 > Ollama 的用法",
+              "lines": [
+                19,
+                23
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 5,
+              "fused_rank": 3,
+              "dense_score": 0.49778652,
+              "rerank_score": 0.00021590165852103382,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 21.9,
+            "dense_ms": 7.58,
+            "sparse_ms": 7.42,
+            "rerank_ms": 284.74,
+            "total_ms": 321.69
+          },
+          "rerank_failed": false
+        },
+        {
+          "id": "pdf10",
+          "category": "unanswerable",
+          "question": "这个项目的 Docker 镜像有多大？",
+          "answerable": false,
+          "top_score": 0.004979358054697514,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "chunking-strategy.md",
+              "heading": "分块策略 > 参数怎么定",
+              "lines": [
+                33,
+                35
+              ],
+              "dense_rank": 5,
+              "sparse_rank": null,
+              "fused_rank": 10,
+              "dense_score": 0.47676116,
+              "rerank_score": 0.004979358054697514,
+              "gold": false
+            },
+            {
+              "rank": 2,
+              "path": "hybrid-retrieval.md",
+              "heading": "混合检索 > 工程取舍",
+              "lines": [
+                29,
+                31
+              ],
+              "dense_rank": 11,
+              "sparse_rank": 3,
+              "fused_rank": 2,
+              "dense_score": 0.45049536,
+              "rerank_score": 0.00046369843767024577,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > 嵌入模型做什么",
+              "lines": [
+                5,
+                7
+              ],
+              "dense_rank": 2,
+              "sparse_rank": null,
+              "fused_rank": 6,
+              "dense_score": 0.48369718,
+              "rerank_score": 0.0001932754530571401,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "local-inference.md",
+              "heading": "本地推理 > 显存共存的取舍",
+              "lines": [
+                27,
+                31
+              ],
+              "dense_rank": 12,
+              "sparse_rank": null,
+              "fused_rank": 16,
+              "dense_score": 0.4470347,
+              "rerank_score": 0.00017529286560602486,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "embeddings-zh.md",
+              "heading": "中文嵌入模型 > bge-m3",
+              "lines": [
+                11,
+                15
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 2,
+              "fused_rank": 1,
+              "dense_score": 0.4777615,
+              "rerank_score": 0.00016172550385817885,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 20.44,
+            "dense_ms": 8.0,
+            "sparse_ms": 4.06,
+            "rerank_ms": 264.22,
+            "total_ms": 296.77
+          },
+          "rerank_failed": false
+        }
+      ]
+    }
+  },
+  "threshold_sweep": {
+    "sweep": [
+      {
+        "threshold": 0.05,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.1,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.15,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.2,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.25,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.3,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.35,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.4,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.45,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.5,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.55,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.6,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.65,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.7,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.75,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.8,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.85,
+        "answer_recall": 0.75,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.875
+      },
+      {
+        "threshold": 0.9,
+        "answer_recall": 0.75,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.875
+      }
+    ],
+    "best": {
+      "threshold": 0.35,
+      "answer_recall": 1.0,
+      "refusal_rate": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    "min_answerable_top_score": 0.7631,
+    "max_unanswerable_top_score": 0.0064,
+    "unanswerables_gate_refused": [
+      "pdf09",
+      "pdf10"
+    ]
+  }
+}

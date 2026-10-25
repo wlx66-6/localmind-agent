@@ -1,0 +1,1109 @@
+{
+  "generated_at": "2026-10-25T11:10:01+00:00",
+  "collection": "localmind_eval_pdf",
+  "corpus_root": "examples\\pdf-corpus",
+  "top_k": 5,
+  "questions": 10,
+  "answerable": 8,
+  "unanswerable": 2,
+  "thresholds": {
+    "vector": 0.5,
+    "hybrid": 0.5,
+    "hybrid_rerank": 0.01
+  },
+  "modes": {
+    "hybrid_rerank": {
+      "mode": "hybrid_rerank",
+      "questions": 10,
+      "answerable": 8,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "refusal_accuracy_unanswerable": 1.0,
+      "false_refusal_rate": 0.0,
+      "latency_ms": {
+        "p50": 691.56,
+        "p95": 949.95,
+        "mean": 719.72
+      },
+      "per_question": [
+        {
+          "id": "pdf01",
+          "category": "exact",
+          "question": "为什么说分块决定了检索质量的上限？",
+          "answerable": true,
+          "top_score": 0.9878601431846619,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.695086,
+              "rerank_score": 0.9878601431846619,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "rag-basics.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                45
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.55751294,
+              "rerank_score": 0.08781087398529053,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "hybrid-retrieval.pdf",
+              "heading": "",
+              "lines": [
+                43,
+                49
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 7,
+              "fused_rank": 4,
+              "dense_score": 0.6049665,
+              "rerank_score": 0.08310246467590332,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                57
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 10,
+              "fused_rank": 6,
+              "dense_score": 0.54520744,
+              "rerank_score": 0.06158052757382393,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "rag-evaluation.pdf",
+              "heading": "",
+              "lines": [
+                43,
+                59
+              ],
+              "dense_rank": 17,
+              "sparse_rank": 3,
+              "fused_rank": 7,
+              "dense_score": 0.4952335,
+              "rerank_score": 0.04860995337367058,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 49.8,
+            "dense_ms": 11.09,
+            "sparse_ms": 7.35,
+            "rerank_ms": 881.56,
+            "total_ms": 949.84
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf02",
+          "category": "exact",
+          "question": "bge-m3 输出多少维的稠密向量？",
+          "answerable": true,
+          "top_score": 0.9946827292442322,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.62491864,
+              "rerank_score": 0.9946827292442322,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "rerank.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 3,
+              "fused_rank": 2,
+              "dense_score": 0.5354716,
+              "rerank_score": 0.24844145774841309,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "hybrid-retrieval.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 4,
+              "fused_rank": 3,
+              "dense_score": 0.4768632,
+              "rerank_score": 0.01192554086446762,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "qdrant-notes.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 2,
+              "fused_rank": 4,
+              "dense_score": 0.4397617,
+              "rerank_score": 0.009008215740323067,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                57
+              ],
+              "dense_rank": 5,
+              "sparse_rank": 7,
+              "fused_rank": 5,
+              "dense_score": 0.44285646,
+              "rerank_score": 0.004498657304793596,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 15.86,
+            "dense_ms": 7.23,
+            "sparse_ms": 5.5,
+            "rerank_ms": 681.43,
+            "total_ms": 710.07
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf03",
+          "category": "exact",
+          "question": "Qdrant 的命名向量可以用来做什么？",
+          "answerable": true,
+          "top_score": 0.9914814233779907,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "qdrant-notes.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.7526249,
+              "rerank_score": 0.9914814233779907,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.55160964,
+              "rerank_score": 0.433655709028244,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "citation-design.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 7,
+              "fused_rank": 5,
+              "dense_score": 0.5005151,
+              "rerank_score": 0.0006107515655457973,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 9,
+              "sparse_rank": 5,
+              "fused_rank": 6,
+              "dense_score": 0.4787203,
+              "rerank_score": 0.0005259070894680917,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "rag-evaluation.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 20,
+              "sparse_rank": 11,
+              "fused_rank": 16,
+              "dense_score": 0.4051094,
+              "rerank_score": 0.00047627088497392833,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 13.92,
+            "dense_ms": 6.91,
+            "sparse_ms": 5.19,
+            "rerank_ms": 663.09,
+            "total_ms": 689.16
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf04",
+          "category": "paraphrase",
+          "question": "为什么不直接让重排模型处理全部文档？",
+          "answerable": true,
+          "top_score": 0.5144832134246826,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "rerank.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.6719669,
+              "rerank_score": 0.5144832134246826,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "rerank.pdf",
+              "heading": "",
+              "lines": [
+                41,
+                43
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 12,
+              "fused_rank": 3,
+              "dense_score": 0.66759837,
+              "rerank_score": 0.2654606103897095,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 6,
+              "sparse_rank": 9,
+              "fused_rank": 6,
+              "dense_score": 0.5533576,
+              "rerank_score": 0.17212355136871338,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "hybrid-retrieval.pdf",
+              "heading": "",
+              "lines": [
+                43,
+                49
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 13,
+              "fused_rank": 7,
+              "dense_score": 0.61196387,
+              "rerank_score": 0.1638200432062149,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "rag-basics.pdf",
+              "heading": "",
+              "lines": [
+                47,
+                57
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 15,
+              "fused_rank": 11,
+              "dense_score": 0.57917744,
+              "rerank_score": 0.0655101016163826,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 14.86,
+            "dense_ms": 6.0,
+            "sparse_ms": 4.76,
+            "rerank_ms": 660.58,
+            "total_ms": 686.25
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf05",
+          "category": "paraphrase",
+          "question": "走云端模式时，究竟应该把什么内容发出去？",
+          "answerable": true,
+          "top_score": 0.8035648465156555,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "privacy-local-first.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.57827353,
+              "rerank_score": 0.8035648465156555,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "rerank.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                47
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 5,
+              "fused_rank": 2,
+              "dense_score": 0.53508615,
+              "rerank_score": 0.004374280106276274,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "qdrant-notes.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                55
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 14,
+              "fused_rank": 8,
+              "dense_score": 0.5284895,
+              "rerank_score": 0.0002704025828279555,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "privacy-local-first.pdf",
+              "heading": "",
+              "lines": [
+                43,
+                49
+              ],
+              "dense_rank": 8,
+              "sparse_rank": null,
+              "fused_rank": 17,
+              "dense_score": 0.4656018,
+              "rerank_score": 0.00026155015802942216,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "rag-evaluation.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 9,
+              "sparse_rank": 6,
+              "fused_rank": 7,
+              "dense_score": 0.46276844,
+              "rerank_score": 0.00021977495634928346,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 15.02,
+            "dense_ms": 6.02,
+            "sparse_ms": 4.91,
+            "rerank_ms": 662.14,
+            "total_ms": 688.14
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf06",
+          "category": "paraphrase",
+          "question": "4B 的模型做 4 位量化后大概要占多少显存？",
+          "answerable": true,
+          "top_score": 0.9951423406600952,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "local-inference.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 1,
+              "fused_rank": 2,
+              "dense_score": 0.68657464,
+              "rerank_score": 0.9951423406600952,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "local-inference.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                61
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 2,
+              "fused_rank": 1,
+              "dense_score": 0.70801926,
+              "rerank_score": 0.9796450138092041,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 3,
+              "sparse_rank": 4,
+              "fused_rank": 3,
+              "dense_score": 0.5534996,
+              "rerank_score": 0.015810079872608185,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "rerank.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 3,
+              "fused_rank": 4,
+              "dense_score": 0.5115974,
+              "rerank_score": 0.004204367287456989,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                41,
+                49
+              ],
+              "dense_rank": 5,
+              "sparse_rank": 9,
+              "fused_rank": 5,
+              "dense_score": 0.5079633,
+              "rerank_score": 0.0034569879062473774,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 19.16,
+            "dense_ms": 6.81,
+            "sparse_ms": 5.69,
+            "rerank_ms": 678.04,
+            "total_ms": 709.74
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf07",
+          "category": "cross_page",
+          "question": "固定窗口分块有什么缺点，块大小又该怎么定？",
+          "answerable": true,
+          "top_score": 0.9574154615402222,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.65029716,
+              "rerank_score": 0.9574154615402222,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                41,
+                49
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.57478637,
+              "rerank_score": 0.5961472392082214,
+              "gold": true
+            },
+            {
+              "rank": 3,
+              "path": "rag-evaluation.pdf",
+              "heading": "",
+              "lines": [
+                43,
+                59
+              ],
+              "dense_rank": 20,
+              "sparse_rank": 4,
+              "fused_rank": 8,
+              "dense_score": 0.4175189,
+              "rerank_score": 0.014999931678175926,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                57
+              ],
+              "dense_rank": 9,
+              "sparse_rank": 11,
+              "fused_rank": 6,
+              "dense_score": 0.48427677,
+              "rerank_score": 0.008155700750648975,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "citation-design.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 7,
+              "sparse_rank": 3,
+              "fused_rank": 3,
+              "dense_score": 0.48944443,
+              "rerank_score": 0.002706755418330431,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 18.16,
+            "dense_ms": 6.38,
+            "sparse_ms": 5.25,
+            "rerank_ms": 679.97,
+            "total_ms": 709.81
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf08",
+          "category": "cross_page",
+          "question": "稠密检索是怎么工作的，混合检索的额外成本是什么？",
+          "answerable": true,
+          "top_score": 0.9118896722793579,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "hybrid-retrieval.pdf",
+              "heading": "",
+              "lines": [
+                43,
+                49
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 2,
+              "fused_rank": 2,
+              "dense_score": 0.71016604,
+              "rerank_score": 0.9118896722793579,
+              "gold": true
+            },
+            {
+              "rank": 2,
+              "path": "hybrid-retrieval.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 1,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.7215652,
+              "rerank_score": 0.879554271697998,
+              "gold": true
+            },
+            {
+              "rank": 3,
+              "path": "qdrant-notes.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 3,
+              "fused_rank": 3,
+              "dense_score": 0.5664874,
+              "rerank_score": 0.25862014293670654,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                57
+              ],
+              "dense_rank": 5,
+              "sparse_rank": 6,
+              "fused_rank": 6,
+              "dense_score": 0.563892,
+              "rerank_score": 0.08191822469234467,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "rag-basics.pdf",
+              "heading": "",
+              "lines": [
+                47,
+                57
+              ],
+              "dense_rank": 7,
+              "sparse_rank": 11,
+              "fused_rank": 8,
+              "dense_score": 0.5358095,
+              "rerank_score": 0.045030415058135986,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 15.63,
+            "dense_ms": 6.48,
+            "sparse_ms": 5.6,
+            "rerank_ms": 665.99,
+            "total_ms": 693.74
+          },
+          "rerank_failed": false,
+          "hit": true,
+          "recall": 1.0,
+          "rrr": 1.0,
+          "first_rank": 1
+        },
+        {
+          "id": "pdf09",
+          "category": "unanswerable",
+          "question": "LocalMind 支持哪些语言的扫描件 OCR？",
+          "answerable": false,
+          "top_score": 0.0017128787003457546,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "privacy-local-first.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 4,
+              "sparse_rank": 1,
+              "fused_rank": 1,
+              "dense_score": 0.43005782,
+              "rerank_score": 0.0017128787003457546,
+              "gold": false
+            },
+            {
+              "rank": 2,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 2,
+              "sparse_rank": 3,
+              "fused_rank": 2,
+              "dense_score": 0.4515011,
+              "rerank_score": 0.0009978723246604204,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "embeddings-zh.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                57
+              ],
+              "dense_rank": 5,
+              "sparse_rank": 7,
+              "fused_rank": 6,
+              "dense_score": 0.4299765,
+              "rerank_score": 0.0005640962044708431,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                39
+              ],
+              "dense_rank": 13,
+              "sparse_rank": null,
+              "fused_rank": 14,
+              "dense_score": 0.36811832,
+              "rerank_score": 0.00027179470635019243,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "hybrid-retrieval.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 3,
+              "sparse_rank": null,
+              "fused_rank": 9,
+              "dense_score": 0.43502718,
+              "rerank_score": 0.00026573752984404564,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 14.06,
+            "dense_ms": 6.53,
+            "sparse_ms": 4.44,
+            "rerank_ms": 655.52,
+            "total_ms": 680.58
+          },
+          "rerank_failed": false
+        },
+        {
+          "id": "pdf10",
+          "category": "unanswerable",
+          "question": "这个项目的 Docker 镜像有多大？",
+          "answerable": false,
+          "top_score": 0.005796098615974188,
+          "hits": [
+            {
+              "rank": 1,
+              "path": "chunking-strategy.pdf",
+              "heading": "",
+              "lines": [
+                41,
+                49
+              ],
+              "dense_rank": 6,
+              "sparse_rank": null,
+              "fused_rank": 11,
+              "dense_score": 0.4688173,
+              "rerank_score": 0.005796098615974188,
+              "gold": false
+            },
+            {
+              "rank": 2,
+              "path": "privacy-local-first.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 20,
+              "sparse_rank": 1,
+              "fused_rank": 6,
+              "dense_score": 0.37528616,
+              "rerank_score": 0.003758067497983575,
+              "gold": false
+            },
+            {
+              "rank": 3,
+              "path": "rag-evaluation.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                41
+              ],
+              "dense_rank": 16,
+              "sparse_rank": null,
+              "fused_rank": 18,
+              "dense_score": 0.41016224,
+              "rerank_score": 0.0005898164818063378,
+              "gold": false
+            },
+            {
+              "rank": 4,
+              "path": "citation-design.pdf",
+              "heading": "",
+              "lines": [
+                1,
+                43
+              ],
+              "dense_rank": 9,
+              "sparse_rank": null,
+              "fused_rank": 12,
+              "dense_score": 0.43471265,
+              "rerank_score": 0.0004326525086071342,
+              "gold": false
+            },
+            {
+              "rank": 5,
+              "path": "local-inference.pdf",
+              "heading": "",
+              "lines": [
+                45,
+                61
+              ],
+              "dense_rank": 2,
+              "sparse_rank": null,
+              "fused_rank": 8,
+              "dense_score": 0.48963645,
+              "rerank_score": 0.00040923981578089297,
+              "gold": false
+            }
+          ],
+          "timings": {
+            "embed_ms": 14.26,
+            "dense_ms": 6.79,
+            "sparse_ms": 3.86,
+            "rerank_ms": 653.8,
+            "total_ms": 678.76
+          },
+          "rerank_failed": false
+        }
+      ]
+    }
+  },
+  "threshold_sweep": {
+    "sweep": [
+      {
+        "threshold": 0.05,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.1,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.15,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.2,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.25,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.3,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.35,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.4,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.45,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.5,
+        "answer_recall": 1.0,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 1.0
+      },
+      {
+        "threshold": 0.55,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.6,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.65,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.7,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.75,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.8,
+        "answer_recall": 0.875,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.9375
+      },
+      {
+        "threshold": 0.85,
+        "answer_recall": 0.75,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.875
+      },
+      {
+        "threshold": 0.9,
+        "answer_recall": 0.75,
+        "refusal_rate": 1.0,
+        "balanced_accuracy": 0.875
+      }
+    ],
+    "best": {
+      "threshold": 0.35,
+      "answer_recall": 1.0,
+      "refusal_rate": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    "min_answerable_top_score": 0.5145,
+    "max_unanswerable_top_score": 0.0058,
+    "unanswerables_gate_refused": [
+      "pdf09",
+      "pdf10"
+    ]
+  }
+}
